@@ -32,4 +32,4 @@ python main.py
 
 ### Ideas for Later
 
-- Add functionality to pull for changes in the qualifying time for a given age group.
+- Add functionality for change tracking, to pull and alert on changes in the qualifying time for a given age group.
