@@ -1,8 +1,8 @@
-### Marathon Qualifying Times
+# Marathon Qualifying Times
 
 Hobby project for marathon qualifying times.
 
-## Setup Instructions
+### Setup Instructions
 
 1. Clone the repo and navigate into it.
 
@@ -29,3 +29,7 @@ pip install -r requirements.txt
 ```bash
 python main.py
 ```
+
+### Ideas for Later
+
+- Add functionality to pull for changes in the qualifying time for a given age group.
