@@ -30,20 +30,54 @@ def insert_racedata(cursor, df_racedata):
     Insert rows from race data DataFrame into RaceData table.
     """
     for _, row in df_racedata.iterrows():
-        cursor.execute(
-            "INSERT INTO dbo.RaceData (RaceYear, Location, QualifyingText, LinkText, LinkURL) VALUES (?, ?, ?, ?, ?)",
-            row.RaceYear, row.Location, row.QualifyingText, row.LinkText, row.LinkURL
-        )
+        # Check if the record already exists
+        cursor.execute("""
+            SELECT COUNT(*) FROM dbo.RaceData WHERE RaceYear = ? AND Location = ?
+        """, row.RaceYear, row.Location)
+
+        exists = cursor.fetchone()[0] > 0
+
+        if exists:
+            # Update existing entry
+            cursor.execute("""
+                UPDATE dbo.RaceData
+                SET QualifyingText = ?, LinkText = ?, LinkURL = ?
+                WHERE RaceYear = ? AND Location = ?
+            """, row.QualifyingText, row.LinkText, row.LinkURL, row.RaceYear, row.Location)
+        else:
+            # Insert new entry
+            cursor.execute("""
+                INSERT INTO dbo.RaceData (RaceYear, Location, QualifyingText, LinkText, LinkURL)
+                VALUES (?, ?, ?, ?, ?)
+            """, row.RaceYear, row.Location, row.QualifyingText, row.LinkText, row.LinkURL)
+
 
 def insert_qualifying_times(cursor, df_times):
     """
     Insert rows from qualifying times DataFrame into QualifyingTimes table.
     """
     for _, row in df_times.iterrows():
-        cursor.execute(
-            "INSERT INTO dbo.QualifyingTimes (AgeGroup, Women, Men, Location) VALUES (?, ?, ?, ?)",
-            row["Age Group"], row.Women, row.Men, row.Location
-        )
+        cursor.execute("""
+            SELECT COUNT(*) FROM dbo.QualifyingTimes
+            WHERE AgeGroup = ? AND Location = ?
+        """, row["Age Group"], row["Location"])
+
+        exists = cursor.fetchone()[0] > 0
+
+        if exists:
+            # Update existing
+            cursor.execute("""
+                UPDATE dbo.QualifyingTimes
+                SET Women = ?, Men = ?
+                WHERE AgeGroup = ? AND Location = ?
+            """, row["Women"], row["Men"], row["Age Group"], row["Location"])
+        else:
+            # Insert new
+            cursor.execute("""
+                INSERT INTO dbo.QualifyingTimes (AgeGroup, Women, Men, Location)
+                VALUES (?, ?, ?, ?)
+            """, row["Age Group"], row["Women"], row["Men"], row["Location"])
+
 
 def query_top_times(cursor, location=None, limit=5):
     """
