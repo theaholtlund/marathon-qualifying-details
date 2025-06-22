@@ -44,3 +44,22 @@ def insert_qualifying_times(cursor, df_times):
             "INSERT INTO dbo.QualifyingTimes (AgeGroup, Women, Men, Location) VALUES (?, ?, ?, ?)",
             row["Age Group"], row.Women, row.Men, row.Location
         )
+
+def query_top_times(cursor, location=None, limit=5):
+    """
+    Query top qualifying times, optionally filtered by location.
+    """
+    if location:
+        cursor.execute("""
+            SELECT TOP (?) AgeGroup, Women, Men, Location 
+            FROM dbo.QualifyingTimes 
+            WHERE Location = ? 
+            ORDER BY AgeGroup
+        """, limit, location)
+    else:
+        cursor.execute("""
+            SELECT TOP (?) AgeGroup, Women, Men, Location 
+            FROM dbo.QualifyingTimes 
+            ORDER BY Location, AgeGroup
+        """, limit)
+    return cursor.fetchall()
