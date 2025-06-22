@@ -24,3 +24,13 @@ def create_tables(cursor):
         Location NVARCHAR(50)
     );
     """)
+
+def insert_racedata(cursor, df_racedata):
+    """
+    Insert rows from race data DataFrame into RaceData table.
+    """
+    for _, row in df_racedata.iterrows():
+        cursor.execute(
+            "INSERT INTO dbo.RaceData (RaceYear, Location, QualifyingText, LinkText, LinkURL) VALUES (?, ?, ?, ?, ?)",
+            row.RaceYear, row.Location, row.QualifyingText, row.LinkText, row.LinkURL
+        )
