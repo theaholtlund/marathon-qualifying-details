@@ -2,7 +2,7 @@
 
 Hobby project for marathon qualifying times.
 
-### Setup Instructions
+### Steps to Configure
 
 1. Create a virtual environment:
 
