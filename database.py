@@ -34,3 +34,13 @@ def insert_racedata(cursor, df_racedata):
             "INSERT INTO dbo.RaceData (RaceYear, Location, QualifyingText, LinkText, LinkURL) VALUES (?, ?, ?, ?, ?)",
             row.RaceYear, row.Location, row.QualifyingText, row.LinkText, row.LinkURL
         )
+
+def insert_qualifying_times(cursor, df_times):
+    """
+    Insert rows from qualifying times DataFrame into QualifyingTimes table.
+    """
+    for _, row in df_times.iterrows():
+        cursor.execute(
+            "INSERT INTO dbo.QualifyingTimes (AgeGroup, Women, Men, Location) VALUES (?, ?, ?, ?)",
+            row["Age Group"], row.Women, row.Men, row.Location
+        )
