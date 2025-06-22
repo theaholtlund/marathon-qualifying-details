@@ -1,4 +1,9 @@
 def create_tables(cursor):
+    """
+    Create tables RaceData and QualifyingTimes if they do not exist.
+    RaceData stores race year, location, qualifying text and reference links.
+    QualifyingTimes stores qualifying times by age group and location.
+    """
     cursor.execute("""
     IF OBJECT_ID('dbo.Metadata', 'U') IS NULL
     CREATE TABLE dbo.Metadata (
