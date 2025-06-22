@@ -15,6 +15,17 @@ def create_tables(cursor):
     );
     """)
 
+    # Add unique constraint for table
+    cursor.execute("""
+    IF NOT EXISTS (
+        SELECT * FROM sys.indexes 
+        WHERE name = 'UQ_RaceData' AND object_id = OBJECT_ID('dbo.RaceData')
+    )
+    ALTER TABLE dbo.RaceData
+    ADD CONSTRAINT UQ_RaceData UNIQUE (RaceYear, Location);
+    """)
+
+    # Create QualifyingTimes table
     cursor.execute("""
     IF OBJECT_ID('dbo.QualifyingTimes', 'U') IS NULL
     CREATE TABLE dbo.QualifyingTimes (
@@ -24,6 +35,17 @@ def create_tables(cursor):
         Location NVARCHAR(50)
     );
     """)
+
+    # Add unique constraint for table
+    cursor.execute("""
+    IF NOT EXISTS (
+        SELECT * FROM sys.indexes 
+        WHERE name = 'UQ_QualTimes' AND object_id = OBJECT_ID('dbo.QualifyingTimes')
+    )
+    ALTER TABLE dbo.QualifyingTimes
+    ADD CONSTRAINT UQ_QualTimes UNIQUE (AgeGroup, Location);
+    """)
+
 
 def insert_racedata(cursor, df_racedata):
     """
