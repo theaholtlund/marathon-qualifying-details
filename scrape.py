@@ -41,3 +41,40 @@ def scrape_london():
     df_times = df_times[["Age Group", "Women", "Men", "Location"]]
 
     return df_racedata, df_times
+
+
+def scrape_boston():
+    url = "https://www.baa.org/races/boston-marathon/qualify"
+    response = requests.get(url, headers=HEADERS)
+    soup = BeautifulSoup(response.content, "html.parser")
+
+    boston_table = soup.find("table")
+    rows = boston_table.find_all("tr")
+
+    boston_data = []
+    for row in rows:
+        cells = row.find_all("td")
+        if len(cells) == 4:
+            boston_data.append({
+                "Age Group": cells[0].get_text(strip=True),
+                "Men": cells[1].get_text(strip=True),
+                "Women": cells[2].get_text(strip=True),
+                "Non-Binary": cells[3].get_text(strip=True)
+            })
+
+    df_times = pd.DataFrame(boston_data)
+    df_times["Location"] = "Boston"
+    df_times = df_times[["Age Group", "Women", "Men", "Location"]]
+
+    race_info = "Qualifier registration will be held within the B.A.A.’s online platform Athletes' Village between September 8–12, 2025"
+    qual_window = "The 2026 Boston Marathon qualifying window began on September 1, 2024, and will close at 5:00 p.m. ET on Friday, September 12"
+
+    df_racedata = pd.DataFrame([{
+        "RaceYear": 2026,
+        "Location": "Boston",
+        "QualifyingText": qual_window,
+        "LinkText": race_info,
+        "LinkURL": ""
+    }])
+
+    return df_racedata, df_times
