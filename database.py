@@ -4,9 +4,10 @@ def create_tables(cursor):
     RaceData stores race year, location, qualifying text and reference links.
     QualifyingTimes stores qualifying times by age group and location.
     """
+    # Create RaceData table
     cursor.execute("""
-    IF OBJECT_ID('dbo.Metadata', 'U') IS NULL
-    CREATE TABLE dbo.Metadata (
+    IF OBJECT_ID('dbo.RaceData', 'U') IS NULL
+    CREATE TABLE dbo.RaceData (
         RaceYear INT,
         Location NVARCHAR(50),
         QualifyingText NVARCHAR(MAX),
