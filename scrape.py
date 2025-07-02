@@ -12,6 +12,9 @@ HEADERS = {
 }
 
 def scrape_london():
+    """
+    Scrape the London Marathon qualifying info and times.
+    """
     url = "https://www.londonmarathonevents.co.uk/london-marathon/good-age-entry"
     response = requests.get(url, headers=HEADERS)
     soup = BeautifulSoup(response.content, "html.parser")
