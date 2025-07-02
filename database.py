@@ -50,7 +50,8 @@ def create_tables(cursor):
 
 def insert_racedata(cursor, df_racedata):
     """
-    Insert rows from race data DataFrame into RaceData table.
+    Insert or update race data into RaceData table.
+    Ensures no duplicate entries for RaceYear and Location.
     """
     for _, row in df_racedata.iterrows():
         # Check if the record already exists
