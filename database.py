@@ -78,7 +78,8 @@ def insert_racedata(cursor, df_racedata):
 
 def insert_qualifying_times(cursor, df_times):
     """
-    Insert rows from qualifying times DataFrame into QualifyingTimes table.
+    Insert or update qualifying times into QualifyingTimes table.
+    Ensures no duplicate entries for AgeGroup and Location.
     """
     for _, row in df_times.iterrows():
         cursor.execute("""
