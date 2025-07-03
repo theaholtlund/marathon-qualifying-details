@@ -22,6 +22,10 @@ def main():
     all_data = pd.concat([london_data, boston_data], ignore_index=True)
     all_times = pd.concat([london_times, boston_times], ignore_index=True)
 
+    insert_racedata(cursor, all_data)
+
+    insert_qualifying_times(cursor, all_times)
+
     conn.commit()
 
     print("\nSample data from RaceData table:")
