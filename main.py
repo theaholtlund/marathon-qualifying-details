@@ -40,6 +40,7 @@ def main():
     for row in cursor.fetchall():
         print(row)
 
+    print("\nTop 5 qualifying times for Boston:")
     rows = query_top_times(cursor, location="Boston", limit=5)
     for row in rows:
         print(row)
