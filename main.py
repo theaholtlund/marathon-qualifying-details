@@ -40,6 +40,10 @@ def main():
     for row in cursor.fetchall():
         print(row)
 
+    rows = query_top_times(cursor, location="Boston", limit=5)
+    for row in rows:
+        print(row)
+
     cursor.close()
     conn.close()
 
