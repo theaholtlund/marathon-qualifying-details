@@ -19,6 +19,7 @@ def main():
     print("Scraping Boston marathon data...")
     boston_data, boston_times = scrape_boston()
 
+    # Combine race data and qualifying times
     all_data = pd.concat([london_data, boston_data], ignore_index=True)
     all_times = pd.concat([london_times, boston_times], ignore_index=True)
 
@@ -40,6 +41,7 @@ def main():
     for row in cursor.fetchall():
         print(row)
 
+    # Query top 5 qualifying times for Boston only
     print("\nTop 5 qualifying times for Boston:")
     rows = query_top_times(cursor, location="Boston", limit=5)
     for row in rows:
