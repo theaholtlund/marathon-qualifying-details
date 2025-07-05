@@ -6,6 +6,10 @@ import pyodbc
 # Load environment variables from env file
 load_dotenv()
 
+# Runner profile
+RUNNER_AGE = int(os.getenv("RUNNER_AGE"))
+RUNNER_GENDER = os.getenv("RUNNER_GENDER")
+
 def get_db_connection():
     """
     Create and return a pyodbc connection using environment variables.
