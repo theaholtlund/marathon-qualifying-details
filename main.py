@@ -1,5 +1,5 @@
 # Import required libraries
-from config import get_db_connection
+from config import get_db_connection, RUNNER_AGE, RUNNER_GENDER
 from database import create_tables, insert_racedata, insert_qualifying_times, query_top_times
 from scrape import scrape_london, scrape_boston
 import pandas as pd
