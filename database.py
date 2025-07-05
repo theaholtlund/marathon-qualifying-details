@@ -114,11 +114,12 @@ def query_top_times(cursor, location=None, limit=5):
             FROM dbo.QualifyingTimes 
             WHERE Location = ? 
             ORDER BY AgeGroup
-        """, limit, location)
+        """, (limit, location))
     else:
         cursor.execute("""
             SELECT TOP (?) AgeGroup, Women, Men, Location 
             FROM dbo.QualifyingTimes 
             ORDER BY Location, AgeGroup
-        """, limit)
+        """, (limit,))
     return cursor.fetchall()
+
