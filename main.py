@@ -4,6 +4,16 @@ from database import create_tables, insert_racedata, insert_qualifying_times, qu
 from scrape import scrape_london, scrape_boston
 import pandas as pd
 
+def get_age_group(age):
+    age_groups = [
+        (18, 34), (35, 39), (40, 44), (45, 49),
+        (50, 54), (55, 59), (60, 64), (65, 69),
+        (70, 74), (75, 79), (80, 84), (85, 89), (90, 120)
+    ]
+    for lower, upper in age_groups:
+        if lower <= age <= upper:
+            return f"{lower}-{upper}"
+
 def main():
     # Connect to database
     conn = get_db_connection()
