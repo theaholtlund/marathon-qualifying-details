@@ -13,6 +13,7 @@ def get_age_group(age):
     for lower, upper in age_groups:
         if lower <= age <= upper:
             return f"{lower}-{upper}"
+    return "Unknown"
 
 def main():
     # Connect to database
