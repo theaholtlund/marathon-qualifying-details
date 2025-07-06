@@ -15,6 +15,7 @@ def get_age_group(age):
             return f"{lower}-{upper}"
     return "Unknown"
 
+
 def main():
     # Connect to database
     conn = get_db_connection()
@@ -56,6 +57,7 @@ def main():
     age_group = get_age_group(RUNNER_AGE)
     display_runner_qualifying_times(cursor, age_group, RUNNER_GENDER)
 
+    # Query top 5 Boston times
     print("\nTop 5 qualifying times for Boston:")
     rows = query_top_times(cursor, location="Boston", limit=5)
     for row in rows:
