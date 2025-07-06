@@ -52,7 +52,10 @@ def main():
     for row in cursor.fetchall():
         print(row)
 
-    # Query top 5 qualifying times for Boston only
+    # Show times for the configured runner
+    age_group = get_age_group(RUNNER_AGE)
+    display_runner_qualifying_times(cursor, age_group, RUNNER_GENDER)
+
     print("\nTop 5 qualifying times for Boston:")
     rows = query_top_times(cursor, location="Boston", limit=5)
     for row in rows:
