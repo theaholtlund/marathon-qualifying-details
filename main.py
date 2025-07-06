@@ -5,6 +5,10 @@ from scrape import scrape_london, scrape_boston
 import pandas as pd
 
 def get_age_group(age):
+    """
+    Map runner's age to a marathon age group string format.
+    Example: age 27 → '18-34'
+    """
     age_groups = [
         (18, 34), (35, 39), (40, 44), (45, 49),
         (50, 54), (55, 59), (60, 64), (65, 69),
