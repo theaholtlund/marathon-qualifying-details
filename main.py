@@ -29,10 +29,8 @@ def main():
     create_tables(cursor)
     conn.commit()
 
-    print("Scraping London marathon data...")
+    print("Scraping webpages for marathon data...")
     london_data, london_times = scrape_london()
-
-    print("Scraping Boston marathon data...")
     boston_data, boston_times = scrape_boston()
 
     # Combine race data and qualifying times
