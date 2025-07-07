@@ -25,7 +25,7 @@ def main():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    print("Creating tables if not exist...")
+    print("Creating tables if they do not exist...")
     create_tables(cursor)
     conn.commit()
 
