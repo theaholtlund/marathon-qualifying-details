@@ -20,6 +20,19 @@ def get_age_group(age):
     return "Unknown"
 
 
+def display_runner_qualifying_times(cursor, age_group, gender):
+    cursor.execute("""
+        SELECT AgeGroup, Women, Men, Location
+        FROM dbo.QualifyingTimes
+        WHERE AgeGroup = ?
+    """, age_group)
+
+    results = cursor.fetchall()
+
+    for row in results:
+        location = row[3]
+        time = row[1] if gender.lower() == "women" else row[2]
+
 def main():
     # Connect to database
     conn = get_db_connection()
