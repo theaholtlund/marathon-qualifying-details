@@ -35,6 +35,7 @@ def display_runner_qualifying_times(cursor, age_group, gender):
     for row in results:
         location = row[3]
         time = row[1] if gender.lower() == "women" else row[2]
+        print(f"{location}: {time}")
 
 def main():
     # Connect to database
