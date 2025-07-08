@@ -59,10 +59,8 @@ def main():
     all_data = pd.concat([london_data, boston_data], ignore_index=True)
     all_times = pd.concat([london_times, boston_times], ignore_index=True)
 
-    print("Inserting race data into database...")
+    print("Inserting race data and qualifying times into database...")
     insert_racedata(cursor, all_data)
-
-    print("Inserting qualifying times into database...")
     insert_qualifying_times(cursor, all_times)
 
     conn.commit()
