@@ -21,6 +21,9 @@ def get_age_group(age):
 
 
 def display_runner_qualifying_times(cursor, age_group, gender):
+    """
+    Display the qualifying time for the configured runner.
+    """
     cursor.execute("""
         SELECT AgeGroup, Women, Men, Location
         FROM dbo.QualifyingTimes
