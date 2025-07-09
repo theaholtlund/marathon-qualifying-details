@@ -45,7 +45,6 @@ def scrape_london():
 
     return df_racedata, df_times
 
-
 def scrape_boston():
     """
     Scrape the Boston Marathon qualifying info and times.

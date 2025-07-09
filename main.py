@@ -81,8 +81,7 @@ def main():
 
     # Query top 5 Boston times
     print("\nTop 5 qualifying times for Boston:")
-    rows = query_top_times(cursor, location="Boston", limit=5)
-    for row in rows:
+    for row in query_top_times(cursor, location="Boston", limit=5):
         print(row)
 
     cursor.close()

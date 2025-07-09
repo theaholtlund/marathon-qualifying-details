@@ -109,4 +109,3 @@ def query_top_times(cursor, location=None, limit=5):
             ORDER BY Location, AgeGroup
         """, (limit,))
     return cursor.fetchall()
-
