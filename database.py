@@ -69,33 +69,27 @@ def insert_racedata(cursor, df):
                 row.RaceYear, row.Location, row.QualifyingText, row.LinkText, row.LinkURL
             )
 
-def insert_qualifying_times(cursor, df_times):
+def insert_qualifying_times(cursor, df):
     """
     Insert or update qualifying times into QualifyingTimes table.
     Ensures no duplicate entries for AgeGroup and Location.
     """
-    for _, row in df_times.iterrows():
-        cursor.execute("""
-            SELECT COUNT(*) FROM dbo.QualifyingTimes
-            WHERE AgeGroup = ? AND Location = ?
-        """, row["Age Group"], row["Location"])
-
-        exists = cursor.fetchone()[0] > 0
-
-        if exists:
-            # Update existing
-            cursor.execute("""
-                UPDATE dbo.QualifyingTimes
-                SET Women = ?, Men = ?
-                WHERE AgeGroup = ? AND Location = ?
-            """, row["Women"], row["Men"], row["Age Group"], row["Location"])
+    for _, row in df.iterrows():
+        cursor.execute(
+            "SELECT COUNT(*) FROM dbo.QualifyingTimes WHERE AgeGroup=? AND Location=?",
+            row["Age Group"], row["Location"]
+        )
+        if cursor.fetchone()[0]:
+            cursor.execute(
+                "UPDATE dbo.QualifyingTimes SET Women=?,Men=? "
+                "WHERE AgeGroup=? AND Location=?",
+                row["Women"], row["Men"], row["Age Group"], row["Location"]
+            )
         else:
-            # Insert new
-            cursor.execute("""
-                INSERT INTO dbo.QualifyingTimes (AgeGroup, Women, Men, Location)
-                VALUES (?, ?, ?, ?)
-            """, row["Age Group"], row["Women"], row["Men"], row["Location"])
-
+            cursor.execute(
+                "INSERT INTO dbo.QualifyingTimes VALUES (?,?,?,?)",
+                row["Age Group"], row["Women"], row["Men"], row["Location"]
+            )
 
 def query_top_times(cursor, location=None, limit=5):
     """
