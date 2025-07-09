@@ -47,34 +47,27 @@ def create_tables(cursor):
     ADD CONSTRAINT UQ_QualTimes UNIQUE (AgeGroup, Location);
     """)
 
-
-def insert_racedata(cursor, df_racedata):
+def insert_racedata(cursor, df):
     """
     Insert or update race data into RaceData table.
     Ensures no duplicate entries for RaceYear and Location.
     """
-    for _, row in df_racedata.iterrows():
-        # Check if the record already exists
-        cursor.execute("""
-            SELECT COUNT(*) FROM dbo.RaceData WHERE RaceYear = ? AND Location = ?
-        """, row.RaceYear, row.Location)
-
-        exists = cursor.fetchone()[0] > 0
-
-        if exists:
-            # Update existing entry
-            cursor.execute("""
-                UPDATE dbo.RaceData
-                SET QualifyingText = ?, LinkText = ?, LinkURL = ?
-                WHERE RaceYear = ? AND Location = ?
-            """, row.QualifyingText, row.LinkText, row.LinkURL, row.RaceYear, row.Location)
+    for _, row in df.iterrows():
+        cursor.execute(
+            "SELECT COUNT(*) FROM dbo.RaceData WHERE RaceYear=? AND Location=?",
+            row.RaceYear, row.Location
+        )
+        if cursor.fetchone()[0]:
+            cursor.execute(
+                "UPDATE dbo.RaceData SET QualifyingText=?,LinkText=?,LinkURL=? "
+                "WHERE RaceYear=? AND Location=?",
+                row.QualifyingText, row.LinkText, row.LinkURL, row.RaceYear, row.Location
+            )
         else:
-            # Insert new entry
-            cursor.execute("""
-                INSERT INTO dbo.RaceData (RaceYear, Location, QualifyingText, LinkText, LinkURL)
-                VALUES (?, ?, ?, ?, ?)
-            """, row.RaceYear, row.Location, row.QualifyingText, row.LinkText, row.LinkURL)
-
+            cursor.execute(
+                "INSERT INTO dbo.RaceData VALUES (?,?,?,?,?)",
+                row.RaceYear, row.Location, row.QualifyingText, row.LinkText, row.LinkURL
+            )
 
 def insert_qualifying_times(cursor, df_times):
     """
