@@ -19,19 +19,19 @@ def scrape_london():
     response = requests.get(url, headers=HEADERS)
     soup = BeautifulSoup(response.content, "html.parser")
 
-    qualifying_period_elem = soup.select_one("div.paragraph--type--inset-text div.col-md-start-7 p:nth-of-type(2)")
-    qualifying_text = qualifying_period_elem.get_text(strip=True) if qualifying_period_elem else "Not found"
+    qualifying_period = soup.select_one("div.paragraph--type--inset-text div.col-md-start-7 p:nth-of-type(2)")
+    qualifying_text = qualifying_period.get_text(strip=True) if qualifying_period else "Not found"
 
-    aims_link_elem = soup.find("a", href=lambda href: href and "aims-worldrunning" in href)
-    aims_link_text = aims_link_elem.get_text(strip=True) if aims_link_elem else "Not found"
-    aims_link_url = aims_link_elem['href'] if aims_link_elem else "Not found"
+    link_elem = soup.find("a", href=lambda href: href and "aims-worldrunning" in href)
+    link_text = link_elem.get_text(strip=True) if link_elem else "Not found"
+    link_url = link_elem['href'] if link_elem else "Not found"
 
     df_racedata = pd.DataFrame([{
         "RaceYear": pd.to_datetime("today").year + 1,
         "Location": "London",
         "QualifyingText": qualifying_text,
-        "LinkText": aims_link_text,
-        "LinkURL": aims_link_url
+        "LinkText": link_text,
+        "LinkURL": link_url
     }])
 
     age_group_div = soup.select_one("body > div.dialog-off-canvas-main-canvas > div > main > section:nth-child(5) > div")
