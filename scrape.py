@@ -27,7 +27,7 @@ def scrape_london():
     aims_link_url = aims_link_elem['href'] if aims_link_elem else "Not found"
 
     df_racedata = pd.DataFrame([{
-        "RaceYear": 2026,
+        "RaceYear": pd.to_datetime("today").year + 1,
         "Location": "London",
         "QualifyingText": qualifying_text,
         "LinkText": aims_link_text,
