@@ -59,12 +59,11 @@ def scrape_boston():
     boston_data = []
     for row in rows:
         cells = row.find_all("td")
-        if len(cells) == 4:
+        if len(cells) >= 3:
             boston_data.append({
                 "Age Group": cells[0].get_text(strip=True),
                 "Men": cells[1].get_text(strip=True),
-                "Women": cells[2].get_text(strip=True),
-                "Non-Binary": cells[3].get_text(strip=True)
+                "Women": cells[2].get_text(strip=True)
             })
 
     df_times = pd.DataFrame(boston_data)
