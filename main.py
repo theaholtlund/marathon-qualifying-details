@@ -1,8 +1,16 @@
 # Import required libraries
-from config import get_db_connection, RUNNER_AGE, RUNNER_GENDER
-from database import create_tables, insert_racedata, insert_qualifying_times, query_top_times
-from scrape import scrape_london, scrape_boston
+import argparse
 import pandas as pd
+from config import get_db_connection, RUNNER_AGE, RUNNER_GENDER
+from database import (
+    create_tables,
+    insert_racedata,
+    insert_qualifying_times,
+    query_top_times,
+    get_runner_qualifying_time,
+)
+from scrape import scrape_london, scrape_boston
+
 
 def get_age_group(age):
     """
