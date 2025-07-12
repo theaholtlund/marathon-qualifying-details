@@ -6,8 +6,7 @@ from database import (
     create_tables,
     insert_racedata,
     insert_qualifying_times,
-    query_top_times,
-    get_runner_qualifying_time,
+    query_top_times
 )
 from scrape import scrape_london, scrape_boston
 
