@@ -1,3 +1,11 @@
+# Import required libraries
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
 def create_tables(cursor):
     """
     Create tables RaceData and QualifyingTimes if they do not exist.
