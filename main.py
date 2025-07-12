@@ -55,7 +55,7 @@ def main():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    print("Creating tables if they do not exist...")
+    print("[*] Creating tables if they do not exist...")
     create_tables(cursor)
     conn.commit()
 
@@ -67,18 +67,17 @@ def main():
     all_data = pd.concat([london_data, boston_data], ignore_index=True)
     all_times = pd.concat([london_times, boston_times], ignore_index=True)
 
-    print("Inserting race data and qualifying times into database...")
+    print("[*] Inserting data into database...")
     insert_racedata(cursor, all_data)
     insert_qualifying_times(cursor, all_times)
-
     conn.commit()
 
-    print("\nSample data from RaceData table:")
+    print("\n[*] Sample data from RaceData table:")
     cursor.execute("SELECT TOP 5 * FROM dbo.RaceData;")
     for row in cursor.fetchall():
         print(row)
 
-    print("\nSample data from QualifyingTimes table:")
+    print("\n[*] Sample data from QualifyingTimes table:")
     cursor.execute("SELECT TOP 5 * FROM dbo.QualifyingTimes;")
     for row in cursor.fetchall():
         print(row)
