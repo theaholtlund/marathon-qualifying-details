@@ -13,8 +13,7 @@ from scrape import scrape_london, scrape_boston
 
 def get_age_group(age):
     """
-    Map runner's age to a marathon age group string format.
-    Example: age 27 → '18-34'
+    Convert an integer age into a standard age group category.
     """
     age_groups = [
         (18, 34), (35, 39), (40, 44), (45, 49),
@@ -29,7 +28,7 @@ def get_age_group(age):
 
 def display_runner_qualifying_times(cursor, age_group, gender):
     """
-    Display the qualifying time for the configured runner.
+    Print qualifying times for the given age group and gender.
     """
     cursor.execute("""
         SELECT AgeGroup, Women, Men, Location
