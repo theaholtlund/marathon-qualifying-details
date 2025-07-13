@@ -16,8 +16,13 @@ def scrape_london():
     Scrape the London Marathon qualifying info and times.
     """
     url = "https://www.londonmarathonevents.co.uk/london-marathon/good-age-entry"
-    response = requests.get(url, headers=HEADERS)
-    soup = BeautifulSoup(response.content, "html.parser")
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=10)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.content, "html.parser")
+    except requests.RequestException as e:
+        logger.error(f"Failed to fetch London Marathon page: {e}")
+        raise
 
     qualifying_period = soup.select_one("div.paragraph--type--inset-text div.col-md-start-7 p:nth-of-type(2)")
     qualifying_text = qualifying_period.get_text(strip=True) if qualifying_period else "Not found"
