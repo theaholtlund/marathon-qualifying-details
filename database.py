@@ -20,7 +20,8 @@ def create_tables(cursor):
         Location NVARCHAR(50),
         QualifyingText NVARCHAR(MAX),
         LinkText NVARCHAR(255),
-        LinkURL NVARCHAR(255)
+        LinkURL NVARCHAR(255),
+        ScrapeDate DATETIME
     );
     """)
 

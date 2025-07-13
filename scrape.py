@@ -2,6 +2,7 @@
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
+from datetime import datetime, timezone
 
 HEADERS = {
     "User-Agent": (
@@ -36,7 +37,8 @@ def scrape_london():
         "Location": "London",
         "QualifyingText": qualifying_text,
         "LinkText": link_text,
-        "LinkURL": link_url
+        "LinkURL": link_url,
+        "ScrapeDate": datetime.now(timezone.utc)
     }])
 
     age_group_div = soup.select_one("body > div.dialog-off-canvas-main-canvas > div > main > section:nth-child(5) > div")
@@ -83,7 +85,8 @@ def scrape_boston():
         "Location": "Boston",
         "QualifyingText": qual_window,
         "LinkText": race_info,
-        "LinkURL": ""
+        "LinkURL": "",
+        "ScrapeDate": datetime.now(timezone.utc)
     }])
 
     return df_racedata, df_times
