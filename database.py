@@ -12,6 +12,7 @@ def create_tables(cursor):
     """
     logger.info("Ensuring RaceData and QualifyingTimes tables exist...")
 
+    # Create RaceData table
     cursor.execute("""
     IF OBJECT_ID('dbo.RaceData', 'U') IS NULL
     CREATE TABLE dbo.RaceData (
@@ -101,7 +102,7 @@ def insert_qualifying_times(cursor, df):
 
 def query_top_times(cursor, location=None, limit=5):
     """
-    Query top qualifying times, optionally filtered by location.
+    Query the top qualifying times.
     """
     if location:
         cursor.execute("""
@@ -116,4 +117,5 @@ def query_top_times(cursor, location=None, limit=5):
             FROM dbo.QualifyingTimes 
             ORDER BY Location, AgeGroup
         """, (limit,))
+    
     return cursor.fetchall()
