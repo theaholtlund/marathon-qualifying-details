@@ -10,7 +10,8 @@ def create_tables(cursor):
     """
     Create the RaceData and QualifyingTimes tables if they do not already exist.
     """
-    # Create RaceData table
+    logger.info("Ensuring RaceData and QualifyingTimes tables exist...")
+
     cursor.execute("""
     IF OBJECT_ID('dbo.RaceData', 'U') IS NULL
     CREATE TABLE dbo.RaceData (
