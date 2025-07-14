@@ -8,9 +8,7 @@ logger = logging.getLogger(__name__)
 
 def create_tables(cursor):
     """
-    Create tables RaceData and QualifyingTimes if they do not exist.
-    RaceData stores race year, location, qualifying text and reference links.
-    QualifyingTimes stores qualifying times by age group and location.
+    Create the RaceData and QualifyingTimes tables if they do not already exist.
     """
     # Create RaceData table
     cursor.execute("""
