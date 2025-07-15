@@ -58,8 +58,7 @@ def create_tables(cursor):
 
 def insert_racedata(cursor, df):
     """
-    Insert or update race data into RaceData table.
-    Ensures no duplicate entries for RaceYear and Location.
+    Insert or update race metadata into the RaceData table.
     """
     for _, row in df.iterrows():
         cursor.execute(
@@ -80,8 +79,7 @@ def insert_racedata(cursor, df):
 
 def insert_qualifying_times(cursor, df):
     """
-    Insert or update qualifying times into QualifyingTimes table.
-    Ensures no duplicate entries for AgeGroup and Location.
+    Insert or update qualifying times into the QualifyingTimes table.
     """
     for _, row in df.iterrows():
         cursor.execute(
