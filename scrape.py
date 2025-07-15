@@ -30,6 +30,7 @@ def scrape_london():
         logger.error(f"Failed to fetch London Marathon page: {e}")
         raise
 
+    logger.info("Parsing London Marathon qualifying text and links...")
     qualifying_period = soup.select_one("div.paragraph--type--inset-text div.col-md-start-7 p:nth-of-type(2)")
     qualifying_text = qualifying_period.get_text(strip=True) if qualifying_period else "Not found"
 
@@ -46,6 +47,7 @@ def scrape_london():
         "ScrapeDate": datetime.now(timezone.utc)
     }])
 
+    logger.info("Parsing age group qualifying times...")
     age_group_div = soup.select_one("body > div.dialog-off-canvas-main-canvas > div > main > section:nth-child(5) > div")
     raw_text = age_group_div.get_text(separator="|", strip=True)
     data_parts = raw_text.split("|")[4:]
@@ -56,6 +58,7 @@ def scrape_london():
     df_times = df_times[["Age Group", "Women", "Men", "Location"]]
 
     return df_racedata, df_times
+
 
 def scrape_boston():
     """
