@@ -56,7 +56,7 @@ def create_tables(cursor):
     ADD CONSTRAINT UQ_QualTimes UNIQUE (AgeGroup, Location);
     """)
 
-def insert_racedata(cursor, df):
+def insert_racedata(cursor, df, verbose=True):
     """
     Insert or update race metadata into the RaceData table.
     """
@@ -77,7 +77,7 @@ def insert_racedata(cursor, df):
                 row.RaceYear, row.Location, row.QualifyingText, row.LinkText, row.LinkURL
             )
 
-def insert_qualifying_times(cursor, df):
+def insert_qualifying_times(cursor, df, verbose=True):
     """
     Insert or update qualifying times into the QualifyingTimes table.
     """
