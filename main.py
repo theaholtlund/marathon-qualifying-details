@@ -48,7 +48,11 @@ def display_runner_qualifying_times(cursor, age_group, gender):
         time = row[1] if gender.lower() == "women" else row[2]
         print(f"{location}: {time}")
 
-def main():
+
+def run_pipeline(runner_age, runner_gender):
+    """
+    Main end-to-end flow from scraping to DB querying.
+    """
     # Connect to database
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -91,6 +95,18 @@ def main():
 
     cursor.close()
     conn.close()
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Marathon Qualifying Time Checker")
+    parser.add_argument("--age", type=int, default=RUNNER_AGE, help="Runner's age")
+    parser.add_argument("--gender", type=str, default=RUNNER_GENDER, help="Runner's gender (Men/Women)")
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+    run_pipeline(args.age, args.gender)
 
 
 if __name__ == "__main__":
