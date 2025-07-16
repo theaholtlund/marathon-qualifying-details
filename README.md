@@ -1,6 +1,6 @@
 # Marathon Qualifying Times
 
-Hobby project for marathon qualifying times.
+Hobby project for marathon qualifying times and details, by age and gender.
 
 ### Steps to Configure
 
