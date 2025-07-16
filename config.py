@@ -6,7 +6,7 @@ import pyodbc
 # Load environment variables from env file
 load_dotenv()
 
-# Runner profile
+# Set runner profile
 RUNNER_AGE = int(os.getenv("RUNNER_AGE"))
 RUNNER_GENDER = os.getenv("RUNNER_GENDER")
 
