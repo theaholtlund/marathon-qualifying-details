@@ -28,9 +28,9 @@ pip install -r requirements.txt
 cp .env.template .env
 ```
 
-5. Open the environment file and fill in the required values as instructed.
+5. Open the file and fill in the required values as instructed.
 
-6. Run the main script file:
+6. Run main script:
 
 ```bash
 python main.py
