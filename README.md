@@ -2,7 +2,7 @@
 
 Hobby project for marathon qualifying times and details, by age and gender.
 
-### Steps to Configure
+### Configuration
 
 1. Create a virtual environment:
 
