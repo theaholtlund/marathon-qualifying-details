@@ -88,9 +88,8 @@ def run_pipeline(runner_age, runner_gender):
     for row in cursor.fetchall():
         print(row)
 
-    # Show times for the configured runner
-    age_group = get_age_group(RUNNER_AGE)
-    display_runner_qualifying_times(cursor, age_group, RUNNER_GENDER)
+    age_group = get_age_group(runner_age)
+    display_runner_qualifying_times(cursor, age_group, runner_gender)
 
     # Query top 5 Boston times
     print("\nTop 5 qualifying times for Boston:")
