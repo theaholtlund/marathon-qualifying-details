@@ -72,6 +72,8 @@ def insert_racedata(cursor, df, verbose=True):
                 row.QualifyingText, row.LinkText, row.LinkURL, row.RaceYear, row.Location
             )
         else:
+            if verbose:
+                logger.info(f"Inserting new RaceData for {row.Location} {row.RaceYear}")
             cursor.execute(
                 "INSERT INTO dbo.RaceData VALUES (?,?,?,?,?)",
                 row.RaceYear, row.Location, row.QualifyingText, row.LinkText, row.LinkURL
