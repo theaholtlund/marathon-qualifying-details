@@ -78,8 +78,8 @@ def insert_racedata(cursor, df, verbose=True):
             if verbose:
                 logger.info(f"Inserting new RaceData for {row.Location} {row.RaceYear}")
             cursor.execute(
-                "INSERT INTO dbo.RaceData VALUES (?,?,?,?,?)",
-                row.RaceYear, row.Location, row.QualifyingText, row.LinkText, row.LinkURL
+                "INSERT INTO dbo.RaceData VALUES (?,?,?,?,?,?)",
+                row.RaceYear, row.Location, row.QualifyingText, row.LinkText, row.LinkURL, row.ScrapeDate
             )
 
 def insert_qualifying_times(cursor, df, verbose=True):
