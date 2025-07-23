@@ -65,7 +65,10 @@ def insert_racedata(cursor, df, verbose=True):
             "SELECT COUNT(*) FROM dbo.RaceData WHERE RaceYear=? AND Location=?",
             row.RaceYear, row.Location
         )
-        if cursor.fetchone()[0]:
+        exists = cursor.fetchone()[0]
+        if exists:
+            if verbose:
+                logger.info(f"Updating existing RaceData for {row.Location} {row.RaceYear}")
             cursor.execute(
                 "UPDATE dbo.RaceData SET QualifyingText=?,LinkText=?,LinkURL=? "
                 "WHERE RaceYear=? AND Location=?",
