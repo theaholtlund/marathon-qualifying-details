@@ -72,7 +72,7 @@ def insert_racedata(cursor, df, verbose=True):
             cursor.execute(
                 "UPDATE dbo.RaceData SET QualifyingText=?,LinkText=?,LinkURL=?,ScrapeDate=? "
                 "WHERE RaceYear=? AND Location=?",
-                row.QualifyingText, row.LinkText, row.LinkURL, row.RaceYear, row.Location
+                row.QualifyingText, row.LinkText, row.LinkURL, row.ScrapeDate, row.RaceYear, row.Location
             )
         else:
             if verbose:
