@@ -102,8 +102,8 @@ def insert_qualifying_times(cursor, df, verbose=True):
             )
         else:
             cursor.execute(
-                "INSERT INTO dbo.QualifyingTimes VALUES (?,?,?,?)",
-                row["Age Group"], row["Women"], row["Men"], row["Location"]
+                "INSERT INTO dbo.QualifyingTimes VALUES (?, ?, ?, ?)",
+                age_group, row["Women"], row["Men"], location
             )
 
 def query_top_times(cursor, location=None, limit=5):
