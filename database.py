@@ -87,9 +87,12 @@ def insert_qualifying_times(cursor, df, verbose=True):
     Insert or update qualifying times into the QualifyingTimes table.
     """
     for _, row in df.iterrows():
+        age_group = row["Age Group"]
+        location = row["Location"]
+
         cursor.execute(
             "SELECT COUNT(*) FROM dbo.QualifyingTimes WHERE AgeGroup=? AND Location=?",
-            row["Age Group"], row["Location"]
+            age_group, location
         )
         if cursor.fetchone()[0]:
             cursor.execute(
