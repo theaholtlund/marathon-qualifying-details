@@ -69,8 +69,13 @@ def scrape_boston():
     Scrape the Boston Marathon qualifying info and times.
     """
     url = "https://www.baa.org/races/boston-marathon/qualify"
-    response = requests.get(url, headers=HEADERS)
-    soup = BeautifulSoup(response.content, "html.parser")
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=10)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.content, "html.parser")
+    except requests.RequestException as e:
+        logger.error(f"Failed to fetch Boston Marathon page: {e}")
+        raise
 
     boston_table = soup.find("table")
     rows = boston_table.find_all("tr")
