@@ -36,10 +36,13 @@ cp .env.template .env
 python main.py
 ```
 
-### Ideas for Later
+### Ideas for Future Enhancements
 
 - Add functionality for change tracking, to pull and alert on changes in the qualifying time for a given age group.
 
 ### Acknowledgements
 
-This project is inspired by the educational notebooks and scraping techniques demonstrated by **databayes** and demoes at SQLBits 2025.
+This project is inspired by the educational notebooks and scraping techniques demonstrated by **databayes** and demoes at SQLBits 2025. References are found below:
+
+- The **BeautifulSoup** repository, which provided foundational guidance on using Beautiful Soup for web scraping: [BeautifulSoup](https://github.com/databayes/BeautifulSoup)
+- The **OpenAI** repository, which demonstrated scraping marathon result data for analysis: [OpenAI](https://github.com/databayes/OpenAI)
