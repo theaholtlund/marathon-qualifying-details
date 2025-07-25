@@ -39,3 +39,7 @@ python main.py
 ### Ideas for Later
 
 - Add functionality for change tracking, to pull and alert on changes in the qualifying time for a given age group.
+
+### Acknowledgements
+
+This project is inspired by the educational notebooks and scraping techniques demonstrated by **databayes** and demoes at SQLBits 2025.
