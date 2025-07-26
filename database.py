@@ -96,9 +96,8 @@ def insert_qualifying_times(cursor, df, verbose=True):
         )
         if cursor.fetchone()[0]:
             cursor.execute(
-                "UPDATE dbo.QualifyingTimes SET Women=?,Men=? "
-                "WHERE AgeGroup=? AND Location=?",
-                row["Women"], row["Men"], row["Age Group"], row["Location"]
+                "UPDATE dbo.QualifyingTimes SET Women=?, Men=? WHERE AgeGroup=? AND Location=?",
+                row["Women"], row["Men"], age_group, location
             )
         else:
             cursor.execute(
