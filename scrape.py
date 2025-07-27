@@ -81,6 +81,9 @@ def scrape_boston():
 
     logger.info("Parsing Boston Marathon qualifying table...")
     boston_table = soup.find("table")
+    if not boston_table:
+        raise ValueError("Boston qualifying table missing")
+
     rows = boston_table.find_all("tr")
 
     boston_data = []
