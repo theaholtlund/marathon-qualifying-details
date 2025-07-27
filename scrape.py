@@ -79,6 +79,7 @@ def scrape_boston():
         logger.error(f"Failed to fetch Boston Marathon page: {e}")
         raise
 
+    logger.info("Parsing Boston Marathon qualifying table...")
     boston_table = soup.find("table")
     rows = boston_table.find_all("tr")
 
