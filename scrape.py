@@ -51,7 +51,6 @@ def scrape_london():
     # Get qualifying details
     logger.info("Parsing age group qualifying times...")
     age_group_div = soup.select_one("body > div.dialog-off-canvas-main-canvas > div > main > section:nth-child(6) > div")
-    print(age_group_div)
     if not age_group_div:
         logger.error("Failed to find age group section in London Marathon page.")
         raise ValueError("Age group section missing")
@@ -69,8 +68,6 @@ def scrape_london():
     df_times = pd.DataFrame(london_age_rows, columns=["Age Group", "Women", "Men"])
     df_times["Location"] = "London"
     df_times = df_times[["Age Group", "Women", "Men", "Location"]]
-
-    print("DF TIMES:", df_times)
 
     return df_racedata, df_times
 
