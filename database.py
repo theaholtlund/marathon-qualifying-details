@@ -94,7 +94,10 @@ def insert_qualifying_times(cursor, df, verbose=True):
             "SELECT COUNT(*) FROM dbo.QualifyingTimes WHERE AgeGroup=? AND Location=?",
             age_group, location
         )
-        if cursor.fetchone()[0]:
+        exists = cursor.fetchone()[0]
+        if exists:
+            if verbose:
+                logger.info(f"Updating QualifyingTimes for {location} - {age_group}")
             cursor.execute(
                 "UPDATE dbo.QualifyingTimes SET Women=?, Men=? WHERE AgeGroup=? AND Location=?",
                 row["Women"], row["Men"], age_group, location
