@@ -67,8 +67,6 @@ def insert_racedata(cursor, df, verbose=True):
         )
         exists = cursor.fetchone()[0]
         if exists:
-            if verbose:
-                logger.info(f"Updating existing RaceData for {row.Location} {row.RaceYear}")
             cursor.execute(
                 "UPDATE dbo.RaceData SET QualifyingText=?,LinkText=?,LinkURL=?,ScrapeDate=? "
                 "WHERE RaceYear=? AND Location=?",
@@ -96,8 +94,6 @@ def insert_qualifying_times(cursor, df, verbose=True):
         )
         exists = cursor.fetchone()[0]
         if exists:
-            if verbose:
-                logger.info(f"Updating QualifyingTimes for {location} - {age_group}")
             cursor.execute(
                 "UPDATE dbo.QualifyingTimes SET Women=?, Men=? WHERE AgeGroup=? AND Location=?",
                 row["Women"], row["Men"], age_group, location
