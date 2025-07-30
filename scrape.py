@@ -36,16 +36,17 @@ def scrape_london():
     qualifying_text = qualifying_period.get_text(strip=True) if qualifying_period else "Not found"
 
     link_elem = soup.find("a", href=lambda href: href and "aims-worldrunning" in href)
-    link_text = link_elem.get_text(strip=True) if link_elem else "Not found"
-    link_url = link_elem['href'] if link_elem else "Not found"
+    link_text, link_url = (
+        (link_elem.get_text(strip=True), link_elem['href']) if link_elem else ("Not found", "Not found")
+    )
 
     df_racedata = pd.DataFrame([{
-        "RaceYear": pd.to_datetime("today").year + 1,
+        "RaceYear": datetime.now().year + 1,
         "Location": "London",
         "QualifyingText": qualifying_text,
         "LinkText": link_text,
         "LinkURL": link_url,
-        "ScrapeDate": datetime.now(timezone.utc)
+        "ScrapeDate": datetime.now(timezone.utc),
     }])
 
     # Get qualifying details
