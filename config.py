@@ -9,6 +9,7 @@ load_dotenv()
 # Set runner profile
 RUNNER_AGE = int(os.getenv("RUNNER_AGE"))
 RUNNER_GENDER = os.getenv("RUNNER_GENDER")
+MARATHON_LOCATION = os.getenv("MARATHON_LOCATION")
 
 def get_db_connection():
     """
