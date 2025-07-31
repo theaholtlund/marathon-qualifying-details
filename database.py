@@ -97,8 +97,6 @@ def insert_qualifying_times(cursor, df, verbose=True):
                 row["Women"], row["Men"], age_group, location
             )
         else:
-            if verbose:
-                logger.info(f"Inserting new QualifyingTimes for {location} - {age_group}")
             cursor.execute(
                 "INSERT INTO dbo.QualifyingTimes VALUES (?, ?, ?, ?)",
                 age_group, row["Women"], row["Men"], location
