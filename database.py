@@ -104,22 +104,19 @@ def insert_qualifying_times(cursor, df, verbose=True):
                 age_group, row["Women"], row["Men"], location
             )
 
-def query_top_times(cursor, location=None, limit=5):
+def query_top_times(cursor, location=None, age_group=None, gender=None, limit=5):
     """
-    Query the top qualifying times.
+    Query qualifying time by location, age group and gender.
     """
-    if location:
-        cursor.execute("""
-            SELECT TOP (?) AgeGroup, Women, Men, Location 
-            FROM dbo.QualifyingTimes 
-            WHERE Location = ? 
-            ORDER BY AgeGroup
-        """, (limit, location))
-    else:
-        cursor.execute("""
-            SELECT TOP (?) AgeGroup, Women, Men, Location 
-            FROM dbo.QualifyingTimes 
-            ORDER BY Location, AgeGroup
-        """, (limit,))
-    
+    if not location or not age_group or not gender:
+        raise ValueError("location, age_group, and gender must be provided")
+
+    column = "Women" if gender.lower() == "women" else "Men"
+    cursor.execute(f"""
+        SELECT TOP (?) AgeGroup, {column}, Location
+        FROM dbo.QualifyingTimes
+        WHERE Location = ? AND AgeGroup = ?
+        ORDER BY AgeGroup
+    """, (limit, location, age_group))
+
     return cursor.fetchall()
