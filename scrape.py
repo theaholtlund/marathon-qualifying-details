@@ -63,8 +63,6 @@ def scrape_london():
 
     df_times = pd.DataFrame(london_age_rows, columns=["Age Group", "Women", "Men"])
     df_times["Location"] = "London"
-    df_times = df_times[["Age Group", "Women", "Men", "Location"]]
-
     return df_racedata, df_times
 
 
