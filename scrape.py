@@ -50,7 +50,7 @@ def scrape_london():
     }])
 
     # Get qualifying details
-    logger.info("Parsing age group qualifying times...")
+    logger.info("Parsing age group qualifying times")
     age_group_div = soup.select_one("body > div.dialog-off-canvas-main-canvas > div > main > section:nth-child(6) > div")
     if not age_group_div:
         logger.error("Failed to find age group section in London Marathon page.")
@@ -79,7 +79,7 @@ def scrape_boston():
         logger.error(f"Failed to fetch Boston Marathon page: {e}")
         raise
 
-    logger.info("Parsing Boston Marathon qualifying table...")
+    logger.info("Parsing Boston Marathon qualifying table")
     boston_table = soup.find("table")
     if not boston_table:
         logger.error("Failed to find Boston qualifying times table.")
