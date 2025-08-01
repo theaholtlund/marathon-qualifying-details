@@ -1,7 +1,7 @@
 # Import required libraries
 import argparse
 import pandas as pd
-from config import get_db_connection, RUNNER_AGE, RUNNER_GENDER
+from config import get_db_connection, RUNNER_AGE, RUNNER_GENDER, MARATHON_LOCATION
 from database import (
     create_tables,
     insert_racedata,
