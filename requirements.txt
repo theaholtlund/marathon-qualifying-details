@@ -1,9 +1,7 @@
-requests
 bs4
 pandas
-notebook
-ipykernel
 pyodbc
+requests
 python-dotenv
 openai
 click
