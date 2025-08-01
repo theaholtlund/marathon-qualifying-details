@@ -42,7 +42,7 @@ def display_runner_qualifying_times(cursor, age_group, gender):
         print(f"No qualifying times found for age group: {age_group}")
         return
     
-    print(f"\nQualifying times for Age Group: {age_group} and Gender: {gender}")
+    print(f"\nQualifying times for age group: {age_group} and gender: {gender}")
     for row in results:
         location = row[3]
         time = row[1] if gender.lower() == "women" else row[2]
