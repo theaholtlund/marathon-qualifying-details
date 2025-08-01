@@ -56,15 +56,10 @@ def scrape_london():
         logger.error("Failed to find age group section in London Marathon page.")
         raise ValueError("Age group section missing")
 
-    rows = age_group_div.select("tbody tr")
-    london_age_rows = []
-    for row in rows:
-        cells = row.select("td")
-        if len(cells) == 3:
-            age_group = cells[0].get_text(strip=True)
-            women = cells[1].get_text(strip=True)
-            men = cells[2].get_text(strip=True)
-            london_age_rows.append([age_group, women, men])
+    london_age_rows = [
+        [td.get_text(strip=True) for td in row.select("td")]
+        for row in age_group_div.select("tbody tr") if len(row.select("td")) == 3
+    ]
 
     df_times = pd.DataFrame(london_age_rows, columns=["Age Group", "Women", "Men"])
     df_times["Location"] = "London"
