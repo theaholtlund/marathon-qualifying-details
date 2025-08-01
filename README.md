@@ -2,6 +2,10 @@
 
 Hobby project for marathon qualifying details, by age, gender and location.
 
+## Prerequisites
+
+- Database in Azure to store data scraped from the project.
+
 ## Configuration
 
 ### 1. Create a virtual environment:
