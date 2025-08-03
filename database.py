@@ -10,7 +10,7 @@ def create_tables(cursor):
     """
     Create the RaceData and QualifyingTimes tables if they do not already exist.
     """
-    logger.info("Ensuring RaceData and QualifyingTimes tables exist...")
+    logger.info("Ensuring race data and qualifying times tables exist...")
 
     # Create RaceData table
     cursor.execute("""

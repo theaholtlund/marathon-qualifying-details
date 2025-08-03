@@ -31,7 +31,7 @@ def scrape_london():
         raise
 
     # Get race data
-    logger.info("Parsing London Marathon qualifying text and links...")
+    logger.info("Parsing London Marathon qualifying text and links")
     qualifying_period = soup.select_one("div.paragraph--type--inset-text div.col-md-start-7 p:nth-of-type(2)")
     qualifying_text = qualifying_period.get_text(strip=True) if qualifying_period else "Not found"
 
