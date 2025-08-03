@@ -5,6 +5,8 @@ Hobby project for marathon qualifying details, by age, gender and location.
 ## Prerequisites
 
 - Database in Azure to store data scraped from the project.
+- Configuration details on the database in Azure.
+- Setup with the correctt firewall configurations for Azure database.
 
 ## Configuration
 
