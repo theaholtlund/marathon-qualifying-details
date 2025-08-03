@@ -13,7 +13,7 @@ from scrape import scrape_london, scrape_boston
 
 def get_age_group(age, location):
     """
-    Convert an integer age into a standard age group category.
+    Get age group label depending on marathon location.
     """
     if location.lower() == "London":
         groups = [
