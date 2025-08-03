@@ -11,18 +11,28 @@ from database import (
 from scrape import scrape_london, scrape_boston
 
 
-def get_age_group(age):
+def get_age_group(age, location):
     """
     Convert an integer age into a standard age group category.
     """
-    age_groups = [
-        (18, 34), (35, 39), (40, 44), (45, 49),
-        (50, 54), (55, 59), (60, 64), (65, 69),
-        (70, 74), (75, 79), (80, 84), (85, 89), (90, 120)
-    ]
-    for lower, upper in age_groups:
-        if lower <= age <= upper:
-            return f"{lower}-{upper}"
+    if location.lower() == "London":
+        groups = [
+            (18, 39), (40, 44), (45, 49), (50, 54),
+            (55, 59), (60, 64), (65, 69), (70, 74),
+            (75, 79), (80, 84), (85, 89), (90, 150)
+        ]
+        for lower, upper in groups:
+            if lower <= age <= upper:
+                return f"{lower}-{upper}" if upper < 90 else "90+"
+    elif location.lower() == "Boston":
+        groups = [
+            (18, 34), (35, 39), (40, 44), (45, 49), (50, 54),
+            (55, 59), (60, 64), (65, 69), (70, 74), (75, 79),
+            (80, 150)
+        ]
+        for lower, upper in groups:
+            if lower <= age <= upper:
+                return "80 and over" if lower == 80 else f"{lower}-{upper}"
     return "Unknown"
 
 
