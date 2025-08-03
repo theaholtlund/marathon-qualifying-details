@@ -24,7 +24,7 @@ def get_age_group(age, location):
         for lower, upper in groups:
             if lower <= age <= upper:
                 return f"{lower}-{upper}" if upper < 90 else "90+"
-    elif location.lower() == "Boston":
+    elif location == "boston":
         groups = [
             (18, 34), (35, 39), (40, 44), (45, 49), (50, 54),
             (55, 59), (60, 64), (65, 69), (70, 74), (75, 79),
