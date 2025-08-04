@@ -13,7 +13,7 @@ Hobby project for marathon qualifying details, by age, gender and location.
 ### 1. Create a virtual environment:
 
 ```bash
-python3 -m venv venv
+python3.11 -m venv venv
 ```
 
 ### 2. Activate virtual environment on macOS:
@@ -39,7 +39,7 @@ cp .env.template .env
 ### 6. Run main script:
 
 ```bash
-python main.py
+python3.11 main.py
 ```
 
 ### Ideas for Future Enhancements
