@@ -3,13 +3,17 @@ import os
 from dotenv import load_dotenv
 import pyodbc
 
-# Load environment variables from env file
+# Load environment variables from environment file
 load_dotenv()
 
 # Set runner profile
 RUNNER_AGE = int(os.getenv("RUNNER_AGE"))
 RUNNER_GENDER = os.getenv("RUNNER_GENDER")
 MARATHON_LOCATION = os.getenv("MARATHON_LOCATION")
+
+def wake_database(cursor):
+    cursor.execute("SELECT 1")
+    cursor.fetchone()
 
 def get_db_connection():
     """
@@ -38,4 +42,6 @@ def get_db_connection():
         f"Connection Timeout={timeout};"
     )
 
-    return pyodbc.connect(conn_str)
+    conn = pyodbc.connect(conn_str)
+    wake_database(conn.cursor())
+    return conn
