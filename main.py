@@ -15,7 +15,8 @@ def get_age_group(age, location):
     """
     Get age group label depending on marathon location.
     """
-    if location.lower() == "London":
+    location = location.lower()
+    if location == "london":
         groups = [
             (18, 39), (40, 44), (45, 49), (50, 54),
             (55, 59), (60, 64), (65, 69), (70, 74),
