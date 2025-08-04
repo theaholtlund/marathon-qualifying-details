@@ -12,6 +12,9 @@ RUNNER_GENDER = os.getenv("RUNNER_GENDER")
 MARATHON_LOCATION = os.getenv("MARATHON_LOCATION")
 
 def wake_database(cursor):
+    """
+    Issue a lightweight query to wake the database if it is paused.
+    """
     try:
         cursor.execute("SELECT 1")
         cursor.fetchone()
@@ -47,5 +50,5 @@ def get_db_connection():
     )
 
     conn = pyodbc.connect(conn_str)
-    wake_database(conn.cursor())
+    wake_database(conn.cursor())  # Wake the serverless Azure database
     return conn
