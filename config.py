@@ -12,8 +12,12 @@ RUNNER_GENDER = os.getenv("RUNNER_GENDER")
 MARATHON_LOCATION = os.getenv("MARATHON_LOCATION")
 
 def wake_database(cursor):
-    cursor.execute("SELECT 1")
-    cursor.fetchone()
+    try:
+        cursor.execute("SELECT 1")
+        cursor.fetchone()
+    except Exception as e:
+        raise RuntimeError(f"Failed to wake the database: {e}")
+
 
 def get_db_connection():
     """
