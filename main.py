@@ -68,33 +68,33 @@ def run_pipeline(runner_age, runner_gender):
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    print("[*] Creating tables if they do not exist...")
+    print("* Creating tables if they do not exist")
     create_tables(cursor)
     conn.commit()
 
-    print("[*] Scraping marathon data...")
+    print("* Scraping marathon data")
     try:
         london_data, london_times = scrape_london()
         boston_data, boston_times = scrape_boston()
     except Exception as e:
-        print(f"[!] Error during scraping: {e}")
+        print(f"! Error during scraping: {e}")
         return
 
     # Combine race data and qualifying times
     all_data = pd.concat([london_data, boston_data], ignore_index=True)
     all_times = pd.concat([london_times, boston_times], ignore_index=True)
 
-    print("[*] Inserting data into database...")
+    print("* Inserting data into database")
     insert_racedata(cursor, all_data)
     insert_qualifying_times(cursor, all_times)
     conn.commit()
 
-    print("\n[*] Sample data from RaceData table:")
+    print("\n* Sample data from race data table:")
     cursor.execute("SELECT TOP 5 * FROM dbo.RaceData;")
     for row in cursor.fetchall():
         print(row)
 
-    print("\n[*] Sample data from QualifyingTimes table:")
+    print("\n* Sample data from qualifying times table:")
     cursor.execute("SELECT TOP 5 * FROM dbo.QualifyingTimes;")
     for row in cursor.fetchall():
         print(row)
