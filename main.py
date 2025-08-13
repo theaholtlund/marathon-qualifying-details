@@ -62,7 +62,7 @@ def display_runner_qualifying_times(cursor, age_group, gender):
 
 def run_pipeline(runner_age, runner_gender):
     """
-    Main end-to-end flow from scraping to DB querying.
+    Main end-to-end flow from scraping to database querying.
     """
     # Connect to database
     conn = get_db_connection()
