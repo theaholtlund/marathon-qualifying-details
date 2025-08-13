@@ -12,7 +12,7 @@ def create_tables(cursor):
     """
     logger.info("Ensuring race data and qualifying times tables exist...")
 
-    # Create RaceData table
+    # Create the race data table
     cursor.execute("""
     IF OBJECT_ID('dbo.RaceData', 'U') IS NULL
     CREATE TABLE dbo.RaceData (
@@ -35,7 +35,7 @@ def create_tables(cursor):
     ADD CONSTRAINT UQ_RaceData UNIQUE (RaceYear, Location);
     """)
 
-    # Create QualifyingTimes table
+    # Create the qualifying times table
     cursor.execute("""
     IF OBJECT_ID('dbo.QualifyingTimes', 'U') IS NULL
     CREATE TABLE dbo.QualifyingTimes (
