@@ -102,9 +102,18 @@ def run_pipeline(runner_age, runner_gender):
     age_group = get_age_group(runner_age)
     display_runner_qualifying_times(cursor, age_group, runner_gender)
 
-    print("\n[*] Top 5 Boston qualifying times by AgeGroup:")
-    for row in query_top_times(cursor, location="Boston", limit=5, gender=runner_gender):
-        print(row)
+    print(f"\n* Qualifying time for {MARATHON_LOCATION}, age group: {age_group}):")
+    try:
+        for row in query_top_times(
+            cursor,
+            location=MARATHON_LOCATION,
+            age_group=age_group,
+            gender=runner_gender,
+            limit=1
+        ):
+            print(row)
+    except ValueError as e:
+        print(f"! Error fetching top times: {e}")
 
     cursor.close()
     conn.close()
