@@ -99,7 +99,7 @@ def run_pipeline(runner_age, runner_gender):
     for row in cursor.fetchall():
         print(row)
 
-    age_group = get_age_group(runner_age)
+    age_group = get_age_group(runner_age, MARATHON_LOCATION)
     display_runner_qualifying_times(cursor, age_group, runner_gender)
 
     print(f"\n* Qualifying time for {MARATHON_LOCATION}, age group: {age_group}):")
