@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 def create_tables(cursor):
     """
-    Create the RaceData and QualifyingTimes tables if they do not already exist.
+    Create the race data and qualifying times tables if they do not already exist.
     """
     logger.info("Ensuring race data and qualifying times tables exist...")
 
@@ -58,7 +58,7 @@ def create_tables(cursor):
 
 def insert_racedata(cursor, df, verbose=True):
     """
-    Insert or update race metadata into the RaceData table.
+    Insert or update race metadata into the race data table.
     """
     for _, row in df.iterrows():
         cursor.execute(
@@ -80,7 +80,7 @@ def insert_racedata(cursor, df, verbose=True):
 
 def insert_qualifying_times(cursor, df, verbose=True):
     """
-    Insert or update qualifying times into the QualifyingTimes table.
+    Insert or update qualifying times into the qualifying times table.
     """
     for _, row in df.iterrows():
         age_group = row["Age Group"]
