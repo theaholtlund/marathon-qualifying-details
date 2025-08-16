@@ -1,13 +1,8 @@
 # Import required libraries
 import argparse
 import pandas as pd
-from config import get_db_connection, RUNNER_AGE, RUNNER_GENDER, MARATHON_LOCATION
-from database import (
-    create_tables,
-    insert_racedata,
-    insert_qualifying_times,
-    query_top_times
-)
+from config import get_db_connection, RUNNER_AGE, RUNNER_GENDER, MARATHON_LOCATION, PERSONAL_BEST
+from database import create_tables, insert_racedata, insert_qualifying_times, query_top_times
 from scrape import scrape_london, scrape_boston
 
 
@@ -102,11 +97,11 @@ def run_pipeline(runner_age, runner_gender):
     age_group = get_age_group(runner_age, MARATHON_LOCATION)
     display_runner_qualifying_times(cursor, age_group, runner_gender)
 
-    print(f"\n* Qualifying time for {MARATHON_LOCATION}, age group: {age_group}):")
+    print(f"\n* Qualifying time for {location}, age group: {age_group}:")
     try:
         for row in query_top_times(
             cursor,
-            location=MARATHON_LOCATION,
+            location=location,
             age_group=age_group,
             gender=runner_gender,
             limit=1
