@@ -12,9 +12,7 @@ RUNNER_GENDER = os.getenv("RUNNER_GENDER")
 MARATHON_LOCATION = os.getenv("MARATHON_LOCATION")
 
 def wake_database(cursor):
-    """
-    Issue a lightweight query to wake the database if it is paused.
-    """
+    """Issue a lightweight query to wake the database if it is paused."""
     try:
         cursor.execute("SELECT 1")
         cursor.fetchone()
@@ -23,9 +21,7 @@ def wake_database(cursor):
 
 
 def get_db_connection():
-    """
-    Create and return a pyodbc connection using environment variables.
-    """
+    """Create and return a pyodbc connection using environment variables."""
     driver = os.getenv("SQL_DRIVER")
     server = os.getenv("SQL_SERVER")
     port = os.getenv("SQL_PORT")
