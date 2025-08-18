@@ -124,8 +124,9 @@ def scrape_boston():
         "Location": "Boston",
         "QualifyingText": qual_window,
         "LinkText": race_info,
-        "LinkURL": "",
-        "ScrapeDate": datetime.now(timezone.utc)
+        "LinkURL": url,
+        "ScrapeDate": datetime.now(timezone.utc),
+        "PageHash": page_hash
     }])
 
     return df_racedata, df_times
