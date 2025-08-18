@@ -108,9 +108,14 @@ def scrape_boston():
             })
 
     df_times = pd.DataFrame(boston_data)
-    df_times["Location"] = "Boston"
-    df_times = df_times[["Age Group", "Women", "Men", "Location"]]
 
+    # Normalise to seconds for reliable comparisons
+    df_times["WomenSeconds"] = df_times["Women"].apply(_parse_time_to_seconds)
+    df_times["MenSeconds"] = df_times["Men"].apply(_parse_time_to_seconds)
+    df_times["Location"] = "Boston"
+    df_times = df_times[["Age Group", "Women", "Men", "Location", "WomenSeconds", "MenSeconds"]]
+
+    # Basic race info text, kept from page headline snippets
     race_info = "Qualifier registration will be held within the B.A.A.’s online platform Athletes' Village between September 8–12, 2025"
     qual_window = "The 2026 Boston Marathon qualifying window began on September 1, 2024, and will close at 5:00 p.m. ET on Friday, September 12"
 
