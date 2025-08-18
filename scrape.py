@@ -76,7 +76,15 @@ def scrape_boston():
     page_hash = hashlib.sha256(response.content).hexdigest()
 
     logger.info("Parsing Boston Marathon qualifying table")
-    boston_table = soup.find("table")
+
+    # Identify the table with age group, men and women headers
+    boston_table = None
+    for tbl in soup.find_all("table"):
+        headers = [th.get_text(strip=True).lower() for th in tbl.find_all("th")]
+        if any("age" in h for h in headers) and (("men" in headers and "women" in headers) or ("women" in headers and "men" in headers)):
+            boston_table = tbl
+            break
+
     if not boston_table:
         logger.error("Failed to find Boston qualifying times table.")
         raise ValueError("Boston qualifying table missing")
