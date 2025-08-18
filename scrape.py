@@ -89,15 +89,22 @@ def scrape_boston():
         logger.error("Failed to find Boston qualifying times table.")
         raise ValueError("Boston qualifying table missing")
 
-    rows = boston_table.find_all("tr")
     boston_data = []
-    for row in rows:
-        cells = row.find_all("td")
+    header_order = [th.get_text(strip=True).lower() for th in boston_table.find_all("th")]
+    men_first = header_order and header_order.index("men") < header_order.index("women") if ("men" in header_order and "women" in header_order) else True
+
+    for row in boston_table.find_all("tr"):
+        cells = [td.get_text(strip=True) for td in row.find_all("td")]
         if len(cells) >= 3:
+            age = cells[0]
+            if men_first:
+                men, women = cells[1], cells[2]
+            else:
+                women, men = cells[1], cells[2]
             boston_data.append({
-                "Age Group": cells[0].get_text(strip=True),
-                "Men": cells[1].get_text(strip=True),
-                "Women": cells[2].get_text(strip=True)
+                "Age Group": age,
+                "Women": women,
+                "Men": men
             })
 
     df_times = pd.DataFrame(boston_data)
