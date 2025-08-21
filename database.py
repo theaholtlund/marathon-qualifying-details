@@ -27,10 +27,8 @@ def time_to_seconds(time_str):
     return None
 
 def create_tables(cursor):
-    """
-    Create the race data and qualifying times tables if they do not already exist.
-    """
-    logger.info("Ensuring race data and qualifying times tables exist...")
+    """Create tables if they do not already exist, and perform lightweight schema migrations."""
+    logger.info("Ensuring race data and qualifying times tables exist.")
 
     # Create the race data table
     cursor.execute("""
