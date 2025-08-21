@@ -10,6 +10,7 @@ load_dotenv()
 RUNNER_AGE = int(os.getenv("RUNNER_AGE"))
 RUNNER_GENDER = os.getenv("RUNNER_GENDER")
 MARATHON_LOCATION = os.getenv("MARATHON_LOCATION")
+PERSONAL_BEST = os.getenv("PERSONAL_BEST")
 
 def wake_database(cursor):
     """Issue a lightweight query to wake the database if it is paused."""
