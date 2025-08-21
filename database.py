@@ -6,6 +6,26 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
+def time_to_seconds(time_str):
+    time_str = time_str.lower().strip()
+
+    # London format is for example "sub 3:38"
+    match = re.match(r"sub (\d+):(\d+)", time_str)
+    if match:
+        hours, minutes = map(int, match.groups())
+        return hours * 3600 + minutes * 60
+
+    # Boston format is for example "3hrs 25min 00sec"
+    match = re.match(r"(?:(\d+)hrs?)?\s*(?:(\d+)min)?\s*(?:(\d+)sec)?", time_str)
+    if match:
+        h, m, s = match.groups()
+        h = int(h) if h else 0
+        m = int(m) if m else 0
+        s = int(s) if s else 0
+        return h * 3600 + m * 60 + s
+
+    return None
+
 def create_tables(cursor):
     """
     Create the race data and qualifying times tables if they do not already exist.
