@@ -7,6 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 def time_to_seconds(time_str):
+    """Convert a time string to seconds. Supports 'sub HH:MM' and 'Hhrs Mmin Ssec' or 'HHhrs MMmin SSsec'."""
     time_str = time_str.lower().strip()
 
     # London format is for example "sub 3:38"
@@ -97,9 +98,7 @@ def insert_racedata(cursor, df, verbose=True):
             )
 
 def insert_qualifying_times(cursor, df, verbose=True):
-    """
-    Insert or update qualifying times into the qualifying times table.
-    """
+    """Insert or update qualifying times into the qualifying times table, including numeric seconds."""
     for _, row in df.iterrows():
         age_group = row["Age Group"]
         location = row["Location"]
@@ -121,9 +120,7 @@ def insert_qualifying_times(cursor, df, verbose=True):
             )
 
 def query_top_times(cursor, location=None, age_group=None, gender=None, limit=5):
-    """
-    Query qualifying time by location, age group and gender.
-    """
+    """Query qualifying time by location, age group and gender. Order by numeric seconds if available."""
     if not location or not age_group or not gender:
         raise ValueError("location, age_group, and gender must be provided")
 
