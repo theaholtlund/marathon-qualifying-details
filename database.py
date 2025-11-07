@@ -27,6 +27,17 @@ def time_to_seconds(time_str):
 
     return None
 
+
+def _add_column_if_missing(cursor, table, column, definition):
+    cursor.execute("""
+        SELECT 1
+        FROM sys.columns
+        WHERE object_id = OBJECT_ID(?) AND name = ?
+    """, (f"dbo.{table}", column))
+    if cursor.fetchone() is None:
+        cursor.execute(f"ALTER TABLE dbo.{table} ADD {column} {definition}")
+
+
 def create_tables(cursor):
     """Create tables if they do not already exist, and perform lightweight schema migrations."""
     logger.info("Ensuring race data and qualifying times tables exist.")
