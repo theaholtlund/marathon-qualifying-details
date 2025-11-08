@@ -18,6 +18,7 @@ HEADERS = {
 }
 
 def _get(url, retries=3, backoff=1.5, timeout=15):
+    """Definition for requests.get with simple retry and backoff."""
     last_e = None
     for attempt in range(1, retries + 1):
         try:
