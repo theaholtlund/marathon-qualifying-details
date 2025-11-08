@@ -7,9 +7,7 @@ from scrape import scrape_london, scrape_boston
 
 
 def get_age_group(age, location):
-    """
-    Get age group label depending on marathon location.
-    """
+    """Get age group label depending on marathon location."""
     location = location.lower()
     if location == "london":
         groups = [
