@@ -17,6 +17,23 @@ HEADERS = {
     )
 }
 
+def _get(url, retries=3, backoff=1.5, timeout=15):
+    last_e = None
+    for attempt in range(1, retries + 1):
+        try:
+            resp = requests.get(url, headers=HEADERS, timeout=timeout)
+            resp.raise_for_status()
+            return resp
+        except requests.RequestException as e:
+            last_e = e
+            if attempt < retries:
+                sleep_s = backoff ** attempt
+                logger.warning(f"GET {url} failed ({e}), retrying in {sleep_s:.1f}s.")
+                time.sleep(sleep_s)
+    logger.error(f"Failed to fetch {url}: {last_e}")
+    raise last_e
+
+
 def scrape_london():
     """
     Scrape the London Marathon qualifying info and times.
