@@ -35,6 +35,7 @@ def _add_column_if_missing(cursor, table, column, definition):
         WHERE object_id = OBJECT_ID(?) AND name = ?
     """, (f"dbo.{table}", column))
     if cursor.fetchone() is None:
+        logger.info(f"Adding column {column} to {table}.")
         cursor.execute(f"ALTER TABLE dbo.{table} ADD {column} {definition}")
 
 
