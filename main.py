@@ -109,6 +109,9 @@ def run_pipeline(runner_age, runner_gender):
     except ValueError as e:
         print(f"! Error fetching top times: {e}")
 
+    if pb:
+        print_pb_margin(cursor, location, age_group, runner_gender, pb)
+
     cursor.close()
     conn.close()
 
