@@ -6,7 +6,7 @@ Work in progress. Hobby project for marathon qualifying details, by age, gender 
 
 - Database in Azure to store data scraped from the project.
 - Configuration details on the database in Azure.
-- Setup with the correctt firewall configurations for Azure database.
+- Setup with the correct firewall configurations for Azure database.
 
 ## Configuration
 
