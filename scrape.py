@@ -38,7 +38,10 @@ def _get(url, retries=3, backoff=1.5, timeout=15):
 def _parse_time_to_seconds(txt):
     t = txt.strip().lower().replace("sub", "").strip()
     parts = t.split(":")
-    parts = [int(p) for p in parts]
+    try:
+        parts = [int(p) for p in parts]
+    except ValueError:
+        return None
     if len(parts) == 3:
         h, m, s = parts
     elif len(parts) == 2:
