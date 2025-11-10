@@ -35,6 +35,19 @@ def _get(url, retries=3, backoff=1.5, timeout=15):
     raise last_e
 
 
+def _parse_time_to_seconds(txt):
+    t = txt.strip().lower().replace("sub", "").strip()
+    parts = t.split(":")
+    parts = [int(p) for p in parts]
+    if len(parts) == 3:
+        h, m, s = parts
+    elif len(parts) == 2:
+        h, m, s = 0, parts[0], parts[1]
+    else:
+        return None
+    return h * 3600 + m * 60 + s
+
+
 def scrape_london():
     """
     Scrape the London Marathon qualifying info and times.
