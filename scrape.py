@@ -85,9 +85,7 @@ def scrape_london():
 
 
 def scrape_boston():
-    """
-    Scrape the Boston Marathon qualifying info and times.
-    """
+    """Scrape the Boston Marathon qualifying info and times."""
     url = "https://www.baa.org/races/boston-marathon/qualify"
     response = _get(url)
     soup = BeautifulSoup(response.content, "html.parser")
