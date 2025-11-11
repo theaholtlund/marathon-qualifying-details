@@ -37,6 +37,8 @@ def _get(url, retries=3, backoff=1.5, timeout=15):
 
 def _parse_time_to_seconds(txt):
     """Accepts values like '3:10:00', 'sub 3:10:00' and '3:10', returns seconds or None if not parseable."""
+    if not txt:
+        return None
     t = txt.strip().lower().replace("sub", "").strip()
     parts = t.split(":")
     try:
