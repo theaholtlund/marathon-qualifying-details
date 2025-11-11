@@ -66,6 +66,8 @@ def create_tables(cursor):
     ADD CONSTRAINT UQ_RaceData UNIQUE (RaceYear, Location);
     """)
 
+    _add_column_if_missing(cursor, "RaceData", "PageHash", "NVARCHAR(64) NULL")
+
     # Create the qualifying times table
     cursor.execute("""
     IF OBJECT_ID('dbo.QualifyingTimes', 'U') IS NULL
