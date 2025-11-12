@@ -117,6 +117,8 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Marathon Qualifying Time Checker")
     parser.add_argument("--age", type=int, default=RUNNER_AGE, help="Runner's age")
     parser.add_argument("--gender", type=str, default=RUNNER_GENDER, help="Runner's gender (Men/Women)")
+    parser.add_argument("--location", type=str, default=MARATHON_LOCATION, help="Override marathon location (London/Boston)")
+    parser.add_argument("--pb", type=str, default=PERSONAL_BEST, help="Runner personal best as H:MM:SS to compute margin vs standard")
     return parser.parse_args()
 
 
