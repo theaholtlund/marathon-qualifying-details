@@ -113,9 +113,7 @@ def run_pipeline(runner_age, runner_gender, override_location=None, pb=None):
 
 
 def parse_args():
-    """
-    Handle CLI arguments to override runner info.
-    """
+    """Handle CLI arguments to override runner info."""
     parser = argparse.ArgumentParser(description="Marathon Qualifying Time Checker")
     parser.add_argument("--age", type=int, default=RUNNER_AGE, help="Runner's age")
     parser.add_argument("--gender", type=str, default=RUNNER_GENDER, help="Runner's gender (Men/Women)")
