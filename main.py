@@ -78,10 +78,11 @@ def print_pb_margin(cursor, location, age_group, gender, pb_text):
     """, (location, age_group))
     row = cursor.fetchone()
     if not row or row[0] is None:
+        print("! No numeric qualifying standard available for this group.")
         return
 
     q_secs = row[0]
-    delta = pb_secs - q_secs
+    delta = pb_secs - q_secs  # Negative means faster than standard
     sign = "-" if delta < 0 else "+"
     print(f"* Personal best margin vs {location} standard: {sign}{abs(delta)} seconds ({pb_text} vs {age_group})")
 
