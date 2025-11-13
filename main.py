@@ -51,6 +51,21 @@ def display_runner_qualifying_times(cursor, age_group, gender):
         print(f"{location}: {time}")
 
 
+def parse_hhmmss_to_seconds(text):
+    t = text.strip().lower().replace("sub", "").strip()
+    parts = t.split(":")
+    try:
+        parts = [int(p) for p in parts]
+    except ValueError:
+        return None
+    if len(parts) == 3:
+        h, m, s = parts
+    elif len(parts) == 2:
+        h, m, s = 0, parts[0], parts[1]
+    else:
+        return None
+    return h * 3600 + m * 60 + s
+
 def run_pipeline(runner_age, runner_gender, override_location=None, pb=None):
     """Main end-to-end flow from scraping to database querying."""
     # Connect to database
@@ -124,7 +139,7 @@ def parse_args():
 
 def main():
     args = parse_args()
-    run_pipeline(args.age, args.gender)
+    run_pipeline(args.age, args.gender, override_location=args.location, pb=args.pb)
 
 
 if __name__ == "__main__":
