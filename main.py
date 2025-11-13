@@ -66,6 +66,26 @@ def parse_hhmmss_to_seconds(text):
         return None
     return h * 3600 + m * 60 + s
 
+
+def print_pb_margin(cursor, location, age_group, gender, pb_text):
+    pb_secs = parse_hhmmss_to_seconds(pb_text)
+
+    column_secs = "WomenSeconds" if gender.lower() == "women" else "MenSeconds"
+    cursor.execute(f"""
+        SELECT {column_secs}
+        FROM dbo.QualifyingTimes
+        WHERE Location = ? AND AgeGroup = ?
+    """, (location, age_group))
+    row = cursor.fetchone()
+    if not row or row[0] is None:
+        return
+
+    q_secs = row[0]
+    delta = pb_secs - q_secs
+    sign = "-" if delta < 0 else "+"
+    print(f"* Personal best margin vs {location} standard: {sign}{abs(delta)} seconds ({pb_text} vs {age_group})")
+
+
 def run_pipeline(runner_age, runner_gender, override_location=None, pb=None):
     """Main end-to-end flow from scraping to database querying."""
     # Connect to database
