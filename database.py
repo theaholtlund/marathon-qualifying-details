@@ -90,9 +90,7 @@ def create_tables(cursor):
     """)
 
 def insert_racedata(cursor, df, verbose=True):
-    """
-    Insert or update race metadata into the race data table.
-    """
+    """Insert or update race metadata into the race data table."""
     for _, row in df.iterrows():
         cursor.execute(
             "SELECT COUNT(*) FROM dbo.RaceData WHERE RaceYear=? AND Location=?",
