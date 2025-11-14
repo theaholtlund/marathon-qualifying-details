@@ -101,14 +101,16 @@ def insert_racedata(cursor, df, verbose=True):
         exists = cursor.fetchone()[0]
         if exists:
             cursor.execute(
-                "UPDATE dbo.RaceData SET QualifyingText=?,LinkText=?,LinkURL=?,ScrapeDate=? "
+                "UPDATE dbo.RaceData SET QualifyingText=?,LinkText=?,LinkURL=?,ScrapeDate=?,PageHash=? "
                 "WHERE RaceYear=? AND Location=?",
-                row.QualifyingText, row.LinkText, row.LinkURL, row.ScrapeDate, row.RaceYear, row.Location
+                row.QualifyingText, row.LinkText, row.LinkURL, row.ScrapeDate, row.get("PageHash", None),
+                row.RaceYear, row.Location
             )
         else:
             cursor.execute(
-                "INSERT INTO dbo.RaceData VALUES (?,?,?,?,?,?)",
-                row.RaceYear, row.Location, row.QualifyingText, row.LinkText, row.LinkURL, row.ScrapeDate
+                "INSERT INTO dbo.RaceData (RaceYear,Location,QualifyingText,LinkText,LinkURL,ScrapeDate,PageHash) "
+                "VALUES (?,?,?,?,?,?,?)",
+                row.RaceYear, row.Location, row.QualifyingText, row.LinkText, row.LinkURL, row.ScrapeDate, row.get("PageHash", None)
             )
 
 def insert_qualifying_times(cursor, df, verbose=True):
