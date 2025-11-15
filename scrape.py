@@ -55,9 +55,7 @@ def _parse_time_to_seconds(txt):
 
 
 def scrape_london():
-    """
-    Scrape the London Marathon qualifying info and times.
-    """
+    """Scrape the London Marathon qualifying info and times."""
     url = "https://www.londonmarathonevents.co.uk/london-marathon/good-age-entry"
     try:
         response = requests.get(url, headers=HEADERS, timeout=10)
