@@ -118,6 +118,9 @@ def insert_qualifying_times(cursor, df, verbose=True):
         age_group = row["Age Group"]
         location = row["Location"]
 
+        women_sec = time_to_seconds(row["Women"])
+        men_sec = time_to_seconds(row["Men"])
+
         cursor.execute(
             "SELECT COUNT(*) FROM dbo.QualifyingTimes WHERE AgeGroup=? AND Location=?",
             age_group, location
