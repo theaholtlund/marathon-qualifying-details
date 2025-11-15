@@ -125,13 +125,13 @@ def insert_qualifying_times(cursor, df, verbose=True):
         exists = cursor.fetchone()[0]
         if exists:
             cursor.execute(
-                "UPDATE dbo.QualifyingTimes SET Women=?, Men=? WHERE AgeGroup=? AND Location=?",
-                row["Women"], row["Men"], age_group, location
+                "UPDATE dbo.QualifyingTimes SET Women=?, Men=?, WomenSeconds=?, MenSeconds=? WHERE AgeGroup=? AND Location=?",
+                row["Women"], row["Men"], women_sec, men_sec, age_group, location
             )
         else:
             cursor.execute(
-                "INSERT INTO dbo.QualifyingTimes VALUES (?, ?, ?, ?)",
-                age_group, row["Women"], row["Men"], location
+                "INSERT INTO dbo.QualifyingTimes (AgeGroup, Women, Men, Location, WomenSeconds, MenSeconds) VALUES (?, ?, ?, ?, ?, ?)",
+                age_group, row["Women"], row["Men"], location, women_sec, men_sec
             )
 
 def query_top_times(cursor, location=None, age_group=None, gender=None, limit=5):
