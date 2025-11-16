@@ -68,6 +68,7 @@ def create_tables(cursor):
     ADD CONSTRAINT UQ_RaceData UNIQUE (RaceYear, Location);
     """)
 
+    # Lightweight schema migration
     _add_column_if_missing(cursor, "RaceData", "PageHash", "NVARCHAR(64) NULL")
 
     # Create the qualifying times table
@@ -113,6 +114,7 @@ def insert_racedata(cursor, df, verbose=True):
                 row.RaceYear, row.Location, row.QualifyingText, row.LinkText, row.LinkURL, row.ScrapeDate, row.get("PageHash", None)
             )
 
+
 def insert_qualifying_times(cursor, df, verbose=True):
     """Insert or update qualifying times into the qualifying times table, including numeric seconds."""
     for _, row in df.iterrows():
@@ -137,6 +139,7 @@ def insert_qualifying_times(cursor, df, verbose=True):
                 "INSERT INTO dbo.QualifyingTimes (AgeGroup, Women, Men, Location, WomenSeconds, MenSeconds) VALUES (?, ?, ?, ?, ?, ?)",
                 age_group, row["Women"], row["Men"], location, women_sec, men_sec
             )
+
 
 def query_top_times(cursor, location=None, age_group=None, gender=None, limit=5):
     """Query qualifying time by location, age group and gender. Order by numeric seconds if available."""
