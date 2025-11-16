@@ -30,6 +30,7 @@ def time_to_seconds(time_str):
 
 
 def _add_column_if_missing(cursor, table, column, definition):
+    """Add a column to a table if it is not already present."""
     cursor.execute("""
         SELECT 1
         FROM sys.columns
