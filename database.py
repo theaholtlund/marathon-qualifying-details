@@ -143,12 +143,15 @@ def query_top_times(cursor, location=None, age_group=None, gender=None, limit=5)
     if not location or not age_group or not gender:
         raise ValueError("location, age_group, and gender must be provided")
 
-    column = "Women" if gender.lower() == "women" else "Men"
+    is_women = gender.lower() == "women"
+    text_col = "Women" if is_women else "Men"
+    secs_col = "WomenSeconds" if is_women else "MenSeconds"
+
     cursor.execute(f"""
-        SELECT TOP (?) AgeGroup, {column}, Location
+        SELECT TOP (?) AgeGroup, {text_col}, Location
         FROM dbo.QualifyingTimes
         WHERE Location = ? AND AgeGroup = ?
-        ORDER BY AgeGroup
+        ORDER BY CASE WHEN {secs_col} IS NULL THEN 1 ELSE 0 END, {secs_col}
     """, (limit, location, age_group))
 
     return cursor.fetchall()
