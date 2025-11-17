@@ -52,6 +52,7 @@ def display_runner_qualifying_times(cursor, age_group, gender):
 
 
 def parse_hhmmss_to_seconds(text):
+    """Convert 'H:MM:SS' or 'M:SS' or 'sub 3:00:00' to seconds."""
     t = text.strip().lower().replace("sub", "").strip()
     parts = t.split(":")
     try:
