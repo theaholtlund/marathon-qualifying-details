@@ -53,6 +53,8 @@ def display_runner_qualifying_times(cursor, age_group, gender):
 
 def parse_hhmmss_to_seconds(text):
     """Convert 'H:MM:SS' or 'M:SS' or 'sub 3:00:00' to seconds."""
+    if not text:
+        return None
     t = text.strip().lower().replace("sub", "").strip()
     parts = t.split(":")
     try:
@@ -74,6 +76,7 @@ def print_pb_margin(cursor, location, age_group, gender, pb_text):
         print(f"! Could not parse personal best time '{pb_text}'. Expected H:MM:SS.")
         return
 
+    # Choose numeric column based on gender
     column_secs = "WomenSeconds" if gender.lower() == "women" else "MenSeconds"
     cursor.execute(f"""
         SELECT {column_secs}
