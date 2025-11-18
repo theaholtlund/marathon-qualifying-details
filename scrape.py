@@ -98,8 +98,12 @@ def scrape_london():
         for row in age_group_div.select("tbody tr") if len(row.select("td")) == 3
     ]
 
-    df_times = pd.DataFrame(london_age_rows, columns=["Age Group", "Women", "Men"])
+    df_times = pd.DataFrame(rows, columns=["Age Group", "Women", "Men"])
+
+    df_times["WomenSeconds"] = df_times["Women"].apply(_parse_time_to_seconds)
+    df_times["MenSeconds"] = df_times["Men"].apply(_parse_time_to_seconds)
     df_times["Location"] = "London"
+
     return df_racedata, df_times
 
 
