@@ -1,4 +1,6 @@
 # Import required libraries
+import time
+import hashlib
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
