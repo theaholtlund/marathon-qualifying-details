@@ -84,6 +84,7 @@ def scrape_london():
         "LinkText": link_text,
         "LinkURL": link_url,
         "ScrapeDate": datetime.now(timezone.utc),
+        "PageHash": page_hash,
     }])
 
     # Get qualifying details
