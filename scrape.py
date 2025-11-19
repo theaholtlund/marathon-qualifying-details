@@ -102,6 +102,7 @@ def scrape_london():
         london_table = age_group_div
 
     rows = []
+    # Detect header order for men and women based on first <tr> with th
     ths = [th.get_text(strip=True).lower() for th in london_table.find("tr").find_all("th")]
     women_idx, men_idx = 1, 2
     if ths:
@@ -118,6 +119,7 @@ def scrape_london():
 
     df_times = pd.DataFrame(rows, columns=["Age Group", "Women", "Men"])
 
+    # Convert to seconds using helper function
     df_times["WomenSeconds"] = df_times["Women"].apply(_parse_time_to_seconds)
     df_times["MenSeconds"] = df_times["Men"].apply(_parse_time_to_seconds)
     df_times["Location"] = "London"
