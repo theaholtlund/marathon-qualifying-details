@@ -58,14 +58,17 @@ def _parse_time_to_seconds(txt):
 
 def scrape_london():
     """Scrape the London Marathon qualifying info and times."""
+    import hashlib
+    from bs4 import BeautifulSoup
+    import pandas as pd
+    from datetime import datetime, timezone
+    import logging
+
+    logger = logging.getLogger(__name__)
     url = "https://www.londonmarathonevents.co.uk/london-marathon/good-age-entry"
-    try:
-        response = requests.get(url, headers=HEADERS, timeout=10)
-        response.raise_for_status()
-        soup = BeautifulSoup(response.content, "html.parser")
-    except requests.RequestException as e:
-        logger.error(f"Failed to fetch London Marathon page: {e}")
-        raise
+    response = _get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    page_hash = hashlib.sha256(response.content).hexdigest()
 
     # Get race data
     logger.info("Parsing London Marathon qualifying text and links")
