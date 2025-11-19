@@ -88,16 +88,30 @@ def scrape_london():
     }])
 
     # Get qualifying details
-    logger.info("Parsing age group qualifying times")
-    age_group_div = soup.select_one("body > div.dialog-off-canvas-main-canvas > div > main > section:nth-child(6) > div")
-    if not age_group_div:
-        logger.error("Failed to find age group section in London Marathon page.")
-        raise ValueError("Age group section missing")
+    london_table = None
+    for tbl in soup.find_all("table"):
+        headers = [th.get_text(strip=True).lower() for th in tbl.find_all("th")]
+        if any("age" in h for h in headers) and any("men" in h for h in headers) and any("women" in h for h in headers):
+            london_table = tbl
+            break
+    if london_table is None:
+        age_group_div = soup.select_one("section table")
+        london_table = age_group_div
 
-    london_age_rows = [
-        [td.get_text(strip=True) for td in row.select("td")]
-        for row in age_group_div.select("tbody tr") if len(row.select("td")) == 3
-    ]
+    rows = []
+    ths = [th.get_text(strip=True).lower() for th in london_table.find("tr").find_all("th")]
+    women_idx, men_idx = 1, 2
+    if ths:
+        if "men" in ths[1] and "women" in ths[2]:
+            women_idx, men_idx = 2, 1
+
+    for tr in london_table.find_all("tr"):
+        tds = [td.get_text(strip=True) for td in tr.find_all("td")]
+        if len(tds) >= 3:
+            age = tds[0]
+            women = tds[women_idx]
+            men = tds[men_idx]
+            rows.append((age, women, men))
 
     df_times = pd.DataFrame(rows, columns=["Age Group", "Women", "Men"])
 
