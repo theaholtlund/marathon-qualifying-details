@@ -92,6 +92,7 @@ def create_tables(cursor):
     ADD CONSTRAINT UQ_QualTimes UNIQUE (AgeGroup, Location);
     """)
 
+    # Lightweight schema migration, add numeric columns for comparisons or sorting
     _add_column_if_missing(cursor, "QualifyingTimes", "WomenSeconds", "INT NULL")
     _add_column_if_missing(cursor, "QualifyingTimes", "MenSeconds", "INT NULL")
 
@@ -148,7 +149,7 @@ def insert_qualifying_times(cursor, df, verbose=True):
 def query_top_times(cursor, location=None, age_group=None, gender=None, limit=5):
     """Query qualifying time by location, age group and gender. Order by numeric seconds if available."""
     if not location or not age_group or not gender:
-        raise ValueError("location, age_group, and gender must be provided")
+        raise ValueError("Location, age group and gender must be provided")
 
     is_women = gender.lower() == "women"
     text_col = "Women" if is_women else "Men"
