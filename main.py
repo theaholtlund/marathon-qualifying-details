@@ -71,6 +71,7 @@ def parse_hhmmss_to_seconds(text):
 
 
 def print_pb_margin(cursor, location, age_group, gender, pb_text):
+    """Print margin between runner personal best and qualifying standard, in seconds."""
     pb_secs = parse_hhmmss_to_seconds(pb_text)
     if pb_secs is None:
         print(f"! Could not parse personal best time '{pb_text}'. Expected H:MM:SS.")
