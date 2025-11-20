@@ -92,6 +92,10 @@ def create_tables(cursor):
     ADD CONSTRAINT UQ_QualTimes UNIQUE (AgeGroup, Location);
     """)
 
+    _add_column_if_missing(cursor, "QualifyingTimes", "WomenSeconds", "INT NULL")
+    _add_column_if_missing(cursor, "QualifyingTimes", "MenSeconds", "INT NULL")
+
+
 def insert_racedata(cursor, df, verbose=True):
     """Insert or update race metadata into the race data table."""
     for _, row in df.iterrows():
