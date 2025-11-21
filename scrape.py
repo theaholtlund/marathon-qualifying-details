@@ -112,6 +112,10 @@ def scrape_london():
         age_group_div = soup.select_one("section table")
         london_table = age_group_div
 
+    if not london_table:
+        logger.error("Failed to find age group table in London Marathon page.")
+        raise ValueError("Age group table missing (London)")
+
     rows = []
     
     # Detect header order for men and women based on first <tr> with th
