@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timezone
 import logging
 
-# Configure logging
+# Set up logging for information
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -101,6 +101,7 @@ def scrape_london():
     }])
 
     # Get qualifying details
+    logger.info("Parsing age group qualifying times for London.")
     london_table = None
     for tbl in soup.find_all("table"):
         headers = [th.get_text(strip=True).lower() for th in tbl.find_all("th")]
@@ -112,6 +113,7 @@ def scrape_london():
         london_table = age_group_div
 
     rows = []
+    
     # Detect header order for men and women based on first <tr> with th
     ths = [th.get_text(strip=True).lower() for th in london_table.find("tr").find_all("th")]
     women_idx, men_idx = 1, 2
