@@ -71,11 +71,21 @@ def scrape_london():
     page_hash = hashlib.sha256(response.content).hexdigest()
 
     # Get race data
-    logger.info("Parsing London Marathon qualifying text and links")
-    qualifying_period = soup.select_one("div.paragraph--type--inset-text div.col-md-start-7 p:nth-of-type(2)")
-    qualifying_text = qualifying_period.get_text(strip=True) if qualifying_period else "Not found"
+    logger.info("Parsing London Marathon qualifying text and links.")
+    qualifying_text = "Not found"
+    candidates = [
+        "div.paragraph--type--inset-text div.col-md-start-7 p:nth-of-type(2)",
+        "div.paragraph--type--inset-text p:nth-of-type(2)",
+        "main p:contains('qualifying period')",
+    ]
+    for sel in candidates:
+        el = soup.select_one(sel)
+        if el and el.get_text(strip=True):
+            qualifying_text = el.get_text(strip=True)
+            break
 
-    link_elem = soup.find("a", href=lambda href: href and "aims-worldrunning" in href)
+    # Link to AIMS/worldrunning
+    link_elem = soup.find("a", href=lambda href: href and ("aims-worldrunning" in href or "worldrunning" in href))
     link_text, link_url = (
         (link_elem.get_text(strip=True), link_elem['href']) if link_elem else ("Not found", "Not found")
     )
