@@ -21,8 +21,9 @@ def wake_database(cursor):
         raise RuntimeError(f"Failed to wake the database: {e}")
 
 
-def get_db_connection():
-    """Create and return a pyodbc connection using environment variables."""
+def get_db_connection() -> pyodbc.Connection:
+    """Create and return pyodbc connection, raise error if required variables are missing."""
+
     driver = os.getenv("SQL_DRIVER")
     server = os.getenv("SQL_SERVER")
     port = os.getenv("SQL_PORT")
@@ -46,6 +47,7 @@ def get_db_connection():
         f"Connection Timeout={timeout};"
     )
 
-    conn = pyodbc.connect(conn_str)
-    wake_database(conn.cursor())  # Wake the serverless Azure database
-    return conn
+    connection: pyodbc.Connection = pyodbc.connect(conn_str)
+    wake_database(connection.cursor())
+    return connection
+
