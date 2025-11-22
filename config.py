@@ -3,14 +3,7 @@ import os
 from dotenv import load_dotenv
 import pyodbc
 
-# Load environment variables from environment file
-load_dotenv()
 
-# Set runner profile
-RUNNER_AGE = int(os.getenv("RUNNER_AGE"))
-RUNNER_GENDER = os.getenv("RUNNER_GENDER")
-MARATHON_LOCATION = os.getenv("MARATHON_LOCATION")
-PERSONAL_BEST = os.getenv("PERSONAL_BEST")
 
 def wake_database(cursor):
     """Issue a lightweight query to wake the database if it is paused."""
@@ -51,3 +44,11 @@ def get_db_connection() -> pyodbc.Connection:
     wake_database(connection.cursor())
     return connection
 
+# Load environment variables from environment file
+load_dotenv()
+
+# Set runner profile
+RUNNER_AGE = os.getenv("RUNNER_AGE", 30)
+RUNNER_GENDER = os.getenv("RUNNER_GENDER", "Women")
+MARATHON_LOCATION = os.getenv("MARATHON_LOCATION", "Boston")
+PERSONAL_BEST = os.getenv("PERSONAL_BEST", "3:15:00")
