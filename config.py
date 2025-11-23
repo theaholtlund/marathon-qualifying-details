@@ -10,7 +10,7 @@ def _require_env_vars(names: Iterable[str]) -> None:
         raise ValueError(f"Missing required environment variables: {', '.join(missing)}")
 
 
-def wake_database(cursor):
+def wake_database(cursor) -> None:
     """Issue a lightweight query to wake the database if it is paused."""
     try:
         cursor.execute("SELECT 1")
