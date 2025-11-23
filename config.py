@@ -1,5 +1,7 @@
 # Import required libraries
 import os
+import logging
+import pyodbc
 from dotenv import load_dotenv
 from typing import Optional, Iterable, List
 
@@ -51,6 +53,12 @@ def get_db_connection() -> pyodbc.Connection:
 
 # Load environment variables from environment file
 load_dotenv()
+
+# Set up logging for information
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
+numeric_level = getattr(logging, LOG_LEVEL, logging.INFO)
+logging.basicConfig(level=numeric_level)
+logger = logging.getLogger(__name__)
 
 # Set runner profile
 RUNNER_AGE = os.getenv("RUNNER_AGE", 30)
