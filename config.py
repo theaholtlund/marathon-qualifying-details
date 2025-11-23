@@ -1,8 +1,13 @@
 # Import required libraries
 import os
 from dotenv import load_dotenv
-import pyodbc
+from typing import Optional, Iterable, List
 
+
+def _require_env_vars(names: Iterable[str]) -> None:
+    missing: List[str] = [name for name in names if not os.getenv(name)]
+    if missing:
+        raise ValueError(f"Missing required environment variables: {', '.join(missing)}")
 
 
 def wake_database(cursor):
