@@ -70,7 +70,7 @@ logging.basicConfig(level=numeric_level)
 logger = logging.getLogger(__name__)
 
 # Set runner profile
-RUNNER_AGE = os.getenv("RUNNER_AGE", 30)
+RUNNER_AGE = _get_int_env("RUNNER_AGE", 30)
 RUNNER_GENDER = os.getenv("RUNNER_GENDER", "Women")
 MARATHON_LOCATION = os.getenv("MARATHON_LOCATION", "Boston")
 PERSONAL_BEST = os.getenv("PERSONAL_BEST", "3:15:00")
