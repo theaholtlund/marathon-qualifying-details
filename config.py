@@ -6,6 +6,15 @@ from dotenv import load_dotenv
 from typing import Optional, Iterable, List
 
 
+def _get_int_env(name: str, default: Optional[int] = None) -> Optional[int]:
+    value = os.getenv(name)
+    try:
+        int_value = int(value)
+        return int_value
+    except ValueError:
+        raise ValueError(f"Environment variable {name} must be an integer, got '{value}'")
+
+
 def _require_env_vars(names: Iterable[str]) -> None:
     missing: List[str] = [name for name in names if not os.getenv(name)]
     if missing:
