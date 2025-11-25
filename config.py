@@ -25,7 +25,7 @@ def _require_env_vars(names: Iterable[str]) -> None:
 
 
 def wake_database(cursor) -> None:
-    """Issue a lightweight query to wake the database if it is paused."""
+    """Try waking database if it is paused by issuing a lightweight query."""
     try:
         cursor.execute("SELECT 1")
         cursor.fetchone()
