@@ -7,9 +7,8 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timezone
 import logging
 
-# Set up logging for information
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Import shared configuration and functions from other scripts
+from config import logger
 
 HEADERS = {
     "User-Agent": (
