@@ -9,6 +9,8 @@ from typing import Optional, Iterable, List
 def _get_int_env(name: str, default: Optional[int] = None) -> Optional[int]:
     """Retrieve an environment variable as an integer, returning default if not set."""
     value = os.getenv(name)
+    if value is None:
+        return default
     try:
         int_value = int(value)
         return int_value
