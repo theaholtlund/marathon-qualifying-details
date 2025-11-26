@@ -1,7 +1,10 @@
 # Import required libraries
 import argparse
 import pandas as pd
-from config import get_db_connection, RUNNER_AGE, RUNNER_GENDER, MARATHON_LOCATION, PERSONAL_BEST
+from typing import Optional
+
+# Import shared configuration and functions from other scripts
+from config import logger, get_db_connection, RUNNER_AGE, RUNNER_GENDER, MARATHON_LOCATION, PERSONAL_BEST
 from database import create_tables, insert_racedata, insert_qualifying_times, query_top_times
 from scrape import scrape_london, scrape_boston
 
