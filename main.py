@@ -102,7 +102,7 @@ def run_pipeline(runner_age, runner_gender, override_location=None, pb=None):
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    print("* Creating tables if they do not exist, migrating schema")
+    logger.info("Creating tables if they do not exist, migrating schema")
     create_tables(cursor)
     conn.commit()
 
