@@ -51,12 +51,13 @@ def display_runner_qualifying_times(cursor, age_group, gender):
         print(f"{location}: {time}")
 
 
-def parse_hhmmss_to_seconds(text):
+def parse_time_to_seconds(text: Optional[str]) -> Optional[int]:
     """Convert 'H:MM:SS' or 'M:SS' or 'sub 3:00:00' to seconds."""
     if not text:
         return None
     t = text.strip().lower().replace("sub", "").strip()
-    parts = t.split(":")
+    t = t.replace("hrs", ":").replace("hr", ":").replace("min", ":").replace("sec", "")
+    parts = [p for p in t.split(":") if p]
     try:
         parts = [int(p) for p in parts]
     except ValueError:
