@@ -36,6 +36,10 @@ def wake_database(cursor) -> None:
 
 def get_db_connection() -> pyodbc.Connection:
     """Create and return pyodbc connection, raise error if required variables are missing."""
+    _require_env_vars([
+        "SQL_DRIVER", "SQL_SERVER", "SQL_PORT", "SQL_DATABASE",
+        "SQL_ADMIN_USER", "SQL_ADMIN_PASSWORD"
+    ])
 
     driver = os.getenv("SQL_DRIVER")
     server = os.getenv("SQL_SERVER")
