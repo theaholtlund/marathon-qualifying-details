@@ -19,6 +19,7 @@ def _get_int_env(name: str, default: Optional[int] = None) -> Optional[int]:
 
 
 def _require_env_vars(names: Iterable[str]) -> None:
+    """Raise error if any required variables are missing."""
     missing: List[str] = [name for name in names if not os.getenv(name)]
     if missing:
         raise ValueError(f"Missing required environment variables: {', '.join(missing)}")
