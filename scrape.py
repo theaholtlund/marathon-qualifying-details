@@ -5,7 +5,7 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 from datetime import datetime, timezone
-import logging
+from typing import Optional, Tuple, List
 
 # Import shared configuration and functions from other scripts
 from config import logger
