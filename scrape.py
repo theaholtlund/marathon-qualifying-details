@@ -89,7 +89,7 @@ def scrape_london():
     # Link to AIMS/worldrunning
     link_elem = soup.find("a", href=lambda href: href and ("aims-worldrunning" in href or "worldrunning" in href))
     link_text, link_url = (
-        (link_elem.get_text(strip=True), link_elem['href']) if link_elem else ("Not found", "Not found")
+        (link_elem.get_text(strip=True), link_elem['href']) if link_elem else ("Not found", url)
     )
 
     df_racedata = pd.DataFrame([{
