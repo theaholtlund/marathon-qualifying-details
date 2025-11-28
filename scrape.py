@@ -55,7 +55,21 @@ def _parse_time_to_seconds(txt):
     return h * 3600 + m * 60 + s
 
 
-def scrape_london():
+def _normalise_table_rows(table: Optional[object]) -> List[List[str]]:
+    rows = []
+    if table is None:
+        return rows
+        
+    for tr in table.find_all("tr"):
+        if tr.find_all("th"):
+            continue
+        tds = [td.get_text(strip=True) for td in tr.find_all("td")]
+        if tds:
+            rows.append(tds)
+    return rows
+
+
+def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Scrape the London Marathon qualifying info and times."""
     import hashlib
     from bs4 import BeautifulSoup
