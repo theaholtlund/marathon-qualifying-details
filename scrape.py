@@ -30,7 +30,7 @@ def _get(url, retries=3, backoff=1.5, timeout=15):
             last_e = e
             if attempt < retries:
                 sleep_s = backoff ** attempt
-                logger.warning(f"GET {url} failed ({e}), retrying in {sleep_s:.1f}s.")
+                logger.warning(f"GET {url} failed ({e}); retrying in {sleep_s:.1f}s (attempt {attempt}/{retries}).")
                 time.sleep(sleep_s)
     logger.error(f"Failed to fetch {url}: {last_e}")
     raise last_e
@@ -70,13 +70,16 @@ def scrape_london():
     page_hash = hashlib.sha256(response.content).hexdigest()
 
     # Get race data
-    logger.info("Parsing London Marathon qualifying text and links.")
+    logger.info("Parsing London Marathon qualifying text and links")
     qualifying_text = "Not found"
+
+    # Conservative approach, try multiple selectors
     candidates = [
         "div.paragraph--type--inset-text div.col-md-start-7 p:nth-of-type(2)",
         "div.paragraph--type--inset-text p:nth-of-type(2)",
-        "main p:contains('qualifying period')",
+        "main p"
     ]
+
     for sel in candidates:
         el = soup.select_one(sel)
         if el and el.get_text(strip=True):
@@ -107,6 +110,7 @@ def scrape_london():
         if any("age" in h for h in headers) and any("men" in h for h in headers) and any("women" in h for h in headers):
             london_table = tbl
             break
+
     if london_table is None:
         age_group_div = soup.select_one("section table")
         london_table = age_group_div
