@@ -117,7 +117,7 @@ def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
     }])
 
     # Get qualifying details
-    logger.info("Parsing age group qualifying times for London.")
+    logger.info("Parsing age group qualifying times for London")
     london_table = None
     for tbl in soup.find_all("table"):
         headers = [th.get_text(strip=True).lower() for th in tbl.find_all("th")]

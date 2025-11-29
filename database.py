@@ -58,7 +58,7 @@ def create_tables(cursor):
     );
     """)
 
-    # Add unique constraint for table
+    # Add unique constraint for table if it is missing
     cursor.execute("""
     IF NOT EXISTS (
         SELECT * FROM sys.indexes 
