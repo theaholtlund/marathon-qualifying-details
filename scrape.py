@@ -18,7 +18,8 @@ HEADERS = {
     )
 }
 
-def _get(url, retries=3, backoff=1.5, timeout=15):
+
+def _get(url: str, retries: int = 3, backoff: float = 1.5, timeout: int = 15) -> requests.Response:
     """Definition for requests.get with simple retry and backoff."""
     last_e = None
     for attempt in range(1, retries + 1):
