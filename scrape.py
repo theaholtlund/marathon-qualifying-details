@@ -72,13 +72,6 @@ def _normalise_table_rows(table: Optional[object]) -> List[List[str]]:
 
 def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Scrape the London Marathon qualifying info and times."""
-    import hashlib
-    from bs4 import BeautifulSoup
-    import pandas as pd
-    from datetime import datetime, timezone
-    import logging
-
-    logger = logging.getLogger(__name__)
     url = "https://www.londonmarathonevents.co.uk/london-marathon/good-age-entry"
     response = _get(url)
     soup = BeautifulSoup(response.content, "html.parser")
