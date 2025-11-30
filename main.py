@@ -44,7 +44,7 @@ def display_runner_qualifying_times(cursor, age_group, gender):
     results = cursor.fetchall()
 
     if not results:
-        print(f"No qualifying times found for age group: {age_group}")
+        logger.warning(f"No qualifying times found for age group: {age_group}")
         return
     
     print(f"\nQualifying times for age group: {age_group} and gender: {gender}")
@@ -90,7 +90,7 @@ def print_pb_margin(cursor, location, age_group, gender, pb_text):
     """, (location, age_group))
     row = cursor.fetchone()
     if not row or row[0] is None:
-        print("! No numeric qualifying standard available for this group.")
+        logger.warning(f"No numeric qualifying standard available for {location} and age group {age_group}.")
         return
 
     q_secs = row[0]
@@ -121,7 +121,7 @@ def run_pipeline(runner_age, runner_gender, override_location=None, pb=None):
     all_data = pd.concat([london_data, boston_data], ignore_index=True)
     all_times = pd.concat([london_times, boston_times], ignore_index=True)
 
-    print("* Inserting data into database")
+    logger.info("Inserting data into database")
     insert_racedata(cursor, all_data)
     insert_qualifying_times(cursor, all_times)
     conn.commit()
