@@ -126,12 +126,12 @@ def run_pipeline(runner_age, runner_gender, override_location=None, pb=None):
     insert_qualifying_times(cursor, all_times)
     conn.commit()
 
-    print("\n* Sample data from race data table:")
+    print("\nSample data from race data table:")
     cursor.execute("SELECT TOP 5 * FROM dbo.RaceData;")
     for row in cursor.fetchall():
         print(row)
 
-    print("\n* Sample data from qualifying times table:")
+    print("\nSample data from qualifying times table:")
     cursor.execute("SELECT TOP 5 * FROM dbo.QualifyingTimes;")
     for row in cursor.fetchall():
         print(row)
