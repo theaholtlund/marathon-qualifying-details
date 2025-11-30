@@ -29,7 +29,7 @@ def get_age_group(age, location):
         ]
         for lower, upper in groups:
             if lower <= age <= upper:
-                return "80 and over" if lower == 80 else f"{lower}-{upper}"
+                return "80+" if lower == 80 else f"{lower}-{upper}"
     return "Unknown"
 
 
@@ -49,9 +49,9 @@ def display_runner_qualifying_times(cursor, age_group, gender):
     
     print(f"\nQualifying times for age group: {age_group} and gender: {gender}")
     for row in results:
-        loc = row[3]
+        location = row[3]
         time_text = row[1] if gender.lower() == "women" else row[2]
-        print(f"{loc}: {time_text}")
+        print(f"{location}: {time_text}")
 
 
 def parse_time_to_seconds(text: Optional[str]) -> Optional[int]:
