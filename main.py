@@ -139,20 +139,10 @@ def run_pipeline(runner_age, runner_gender, override_location=None, pb=None):
     location = override_location or MARATHON_LOCATION
     age_group = get_age_group(runner_age, location)
     display_runner_qualifying_times(cursor, age_group, runner_gender)
+    print(f"\nQualifying time for {location}, age group: {age_group}:")
 
-    print(f"\n* Qualifying time for {location}, age group: {age_group}:")
-    try:
-        for row in query_top_times(
-            cursor,
-            location=location,
-            age_group=age_group,
-            gender=runner_gender,
-            limit=1
-        ):
-            print(row)
-    except ValueError as e:
-        print(f"! Error fetching top times: {e}")
-
+    for row in query_top_times(cursor, location=location, age_group=age_group, gender=runner_gender, limit=1):
+        print(row)
     if pb:
         print_pb_margin(cursor, location, age_group, runner_gender, pb)
 
