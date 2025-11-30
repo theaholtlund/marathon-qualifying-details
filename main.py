@@ -49,9 +49,9 @@ def display_runner_qualifying_times(cursor, age_group, gender):
     
     print(f"\nQualifying times for age group: {age_group} and gender: {gender}")
     for row in results:
-        location = row[3]
-        time = row[1] if gender.lower() == "women" else row[2]
-        print(f"{location}: {time}")
+        loc = row[3]
+        time_text = row[1] if gender.lower() == "women" else row[2]
+        print(f"{loc}: {time_text}")
 
 
 def parse_time_to_seconds(text: Optional[str]) -> Optional[int]:
