@@ -171,7 +171,7 @@ def scrape_boston():
             boston_table = tbl
             break
 
-    if not boston_table:
+    if boston_table is None:
         logger.error("Failed to find Boston qualifying times table.")
         raise ValueError("Boston qualifying table missing")
 
@@ -202,8 +202,8 @@ def scrape_boston():
     df_times = df_times[["Age Group", "Women", "Men", "Location", "WomenSeconds", "MenSeconds"]]
 
     # Basic race info text, kept from page headline snippets
-    race_info = "Qualifier registration will be held within the B.A.A.’s online platform Athletes' Village between September 8–12, 2025"
-    qual_window = "The 2026 Boston Marathon qualifying window began on September 1, 2024, and will close at 5:00 p.m. ET on Friday, September 12"
+    race_info = "Qualifier registration information (B.A.A.)"
+    qual_window = "See B.A.A. site for qualifying window details."
 
     df_racedata = pd.DataFrame([{
         "RaceYear": 2026,
