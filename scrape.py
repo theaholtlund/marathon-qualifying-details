@@ -21,22 +21,26 @@ HEADERS = {
 
 def _get(url: str, retries: int = 3, backoff: float = 1.5, timeout: int = 15) -> requests.Response:
     """Definition for requests.get with simple retry and backoff."""
-    last_e = None
+    last_exception = None
     session = requests.Session()
     session.headers.update(HEADERS)
     for attempt in range(1, retries + 1):
         try:
-            resp = session.get(url, timeout=timeout)
-            resp.raise_for_status()
-            return resp
-        except requests.RequestException as e:
-            last_e = e
+            response = session.get(url, timeout=timeout)
+            response.raise_for_status()
+            return response
+        except requests.RequestException as exc:
+            last_exception = exc
             if attempt < retries:
-                sleep_s = backoff ** attempt
-                logger.warning(f"GET {url} failed ({e}); retrying in {sleep_s:.1f}s (attempt {attempt}/{retries}).")
-                time.sleep(sleep_s)
-    logger.error(f"Failed to fetch {url}: {last_e}")
-    raise last_e
+                sleep_seconds = backoff ** attempt
+                logger.warning(
+                    f"GET {url} failed ({exc}); retrying in {sleep_seconds:.1f}s "
+                    f"(attempt {attempt}/{retries})."
+                )
+                time.sleep(sleep_seconds)
+
+    logger.error(f"Failed to fetch {url}: {last_exception}")
+    raise last_exception
 
 
 def _parse_time_to_seconds(txt):
