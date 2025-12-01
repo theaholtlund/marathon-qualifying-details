@@ -29,14 +29,11 @@ def _get(url: str, retries: int = 3, backoff: float = 1.5, timeout: int = 15) ->
             response = session.get(url, timeout=timeout)
             response.raise_for_status()
             return response
-        except requests.RequestException as exc:
-            last_exception = exc
+        except requests.RequestException as exception:
+            last_exception = exception
             if attempt < retries:
                 sleep_seconds = backoff ** attempt
-                logger.warning(
-                    f"GET {url} failed ({exc}); retrying in {sleep_seconds:.1f}s "
-                    f"(attempt {attempt}/{retries})."
-                )
+                logger.warning(f"Failed to GET {url} ({exception}); retrying in {sleep_seconds:.1f}s (attempt {attempt}/{retries}).")
                 time.sleep(sleep_seconds)
 
     logger.error(f"Failed to fetch {url}: {last_exception}")
