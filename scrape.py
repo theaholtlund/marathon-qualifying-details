@@ -22,9 +22,11 @@ HEADERS = {
 def _get(url: str, retries: int = 3, backoff: float = 1.5, timeout: int = 15) -> requests.Response:
     """Definition for requests.get with simple retry and backoff."""
     last_e = None
+    session = requests.Session()
+    session.headers.update(HEADERS)
     for attempt in range(1, retries + 1):
         try:
-            resp = requests.get(url, headers=HEADERS, timeout=timeout)
+            resp = session.get(url, timeout=timeout)
             resp.raise_for_status()
             return resp
         except requests.RequestException as e:
