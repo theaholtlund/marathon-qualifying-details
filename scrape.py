@@ -60,6 +60,7 @@ def _parse_time_to_seconds(txt):
 
 
 def _normalise_table_rows(table: Optional[object]) -> List[List[str]]:
+    """Helper to get rows for different table structures safely."""
     rows = []
     if table is None:
         return rows
