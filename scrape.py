@@ -179,27 +179,31 @@ def scrape_boston():
         logger.error("Failed to find Boston qualifying times table.")
         raise ValueError("Boston qualifying table missing")
 
-    boston_data = []
-    header_order = [th.get_text(strip=True).lower() for th in boston_table.find_all("th")]
-    men_first = header_order and header_order.index("men") < header_order.index("women") if ("men" in header_order and "women" in header_order) else True
+    header_texts = [th.get_text(strip=True).lower() for th in boston_table.find_all("th")]
 
-    for row in boston_table.find_all("tr"):
-        cells = [td.get_text(strip=True) for td in row.find_all("td")]
-        if len(cells) >= 3:
-            age = cells[0]
-            if men_first:
-                men, women = cells[1], cells[2]
-            else:
-                women, men = cells[1], cells[2]
-            boston_data.append({
-                "Age Group": age,
-                "Women": women,
-                "Men": men
-            })
+    # Determine order of men and women
+    try:
+        men_index = header_texts.index("men")
+        women_index = header_texts.index("women")
+        men_first = men_index < women_index
+    except ValueError:
+        men_first = True
 
-    df_times = pd.DataFrame(boston_data)
+    rows = _normalise_table_rows(boston_table)
+    parsed = []
+    for cols in rows:
+        if len(cols) < 3:
+            continue
+        age = cols[0]
+        if men_first:
+            men = cols[1]
+            women = cols[2]
+        else:
+            women = cols[1]
+            men = cols[2]
+        parsed.append({"Age Group": age, "Women": women, "Men": men})
 
-    # Normalise to seconds for reliable comparisons
+    df_times = pd.DataFrame(parsed)
     df_times["WomenSeconds"] = df_times["Women"].apply(_parse_time_to_seconds)
     df_times["MenSeconds"] = df_times["Men"].apply(_parse_time_to_seconds)
     df_times["Location"] = "Boston"
