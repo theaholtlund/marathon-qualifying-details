@@ -140,17 +140,17 @@ def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
         if "men" in ths[1] and "women" in ths[2]:
             women_idx, men_idx = 2, 1
 
-    for tr in london_table.find_all("tr"):
-        tds = [td.get_text(strip=True) for td in tr.find_all("td")]
-        if len(tds) >= 3:
-            age = tds[0]
-            women = tds[women_idx]
-            men = tds[men_idx]
-            rows.append((age, women, men))
+    rows = _normalise_table_rows(london_table)
+    parsed = []
+    for cols in rows:
+        if len(cols) <= max(women_idx, men_idx):
+            continue
+        age = cols[0]
+        women = cols[women_idx]
+        men = cols[men_idx]
+        parsed.append((age, women, men))
 
-    df_times = pd.DataFrame(rows, columns=["Age Group", "Women", "Men"])
-
-    # Convert to seconds using helper function
+    df_times = pd.DataFrame(parsed, columns=["Age Group", "Women", "Men"])
     df_times["WomenSeconds"] = df_times["Women"].apply(_parse_time_to_seconds)
     df_times["MenSeconds"] = df_times["Men"].apply(_parse_time_to_seconds)
     df_times["Location"] = "London"
