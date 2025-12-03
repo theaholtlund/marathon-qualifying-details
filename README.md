@@ -4,6 +4,7 @@ Work in progress. Hobby project for marathon qualifying details, by age, gender 
 
 ## Prerequisites
 
+- Python 3.11.
 - Database in Azure to store data scraped from the project.
 - Configuration details on the database in Azure.
 - Setup with the correct firewall configurations for Azure database.
