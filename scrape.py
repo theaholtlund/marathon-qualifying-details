@@ -171,7 +171,7 @@ def scrape_boston():
     boston_table = None
     for tbl in soup.find_all("table"):
         headers = [th.get_text(strip=True).lower() for th in tbl.find_all("th")]
-        if any("age" in h for h in headers) and (("men" in headers and "women" in headers) or ("women" in headers and "men" in headers)):
+        if any("age" in h for h in headers) and ("men" in headers and "women" in headers):
             boston_table = tbl
             break
 
