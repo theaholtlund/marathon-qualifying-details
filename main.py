@@ -9,7 +9,7 @@ from database import create_tables, insert_racedata, insert_qualifying_times, qu
 from scrape import scrape_london, scrape_boston
 
 
-def get_age_group(age, location):
+def get_age_group(age: int, location: str) -> str:
     """Get age group label depending on marathon location."""
     location = (location or "").strip().lower()
     if location == "london":
