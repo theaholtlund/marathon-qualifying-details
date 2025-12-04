@@ -10,6 +10,7 @@ from scrape import scrape_london, scrape_boston
 
 
 def _format_time(seconds: int, signed: bool = False) -> str:
+    """Format a time in seconds as H:MM:SS, optionally showing sign for positive/negative values."""
     sign = ""
     if signed:
         sign = "-" if seconds < 0 else "+"
