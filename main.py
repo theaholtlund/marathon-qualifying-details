@@ -9,6 +9,17 @@ from database import create_tables, insert_racedata, insert_qualifying_times, qu
 from scrape import scrape_london, scrape_boston
 
 
+def _format_time(seconds: int, signed: bool = False) -> str:
+    sign = ""
+    if signed:
+        sign = "-" if seconds < 0 else "+"
+        seconds = abs(seconds)
+    hours = seconds // 3600
+    minutes = (seconds % 3600) // 60
+    secs = seconds % 60
+    return f"{sign}{hours}:{minutes:02d}:{secs:02d}"
+
+
 def get_age_group(age: int, location: str) -> str:
     """Get age group label depending on marathon location."""
     location = (location or "").strip().lower()
