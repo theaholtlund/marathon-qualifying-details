@@ -9,6 +9,8 @@ from config import logger
 
 def time_to_seconds(time_str: Optional[str]) -> Optional[int]:
     """Convert a time string to seconds. Supports 'sub H:MM', 'sub HH:MM', 'Hhrs Mmin Ssec' or 'HHhrs MMmin SSsec'."""
+    if not time_str:
+        return None
     time_str = time_str.lower().strip()
 
     # London format is for example "sub 3:38"
