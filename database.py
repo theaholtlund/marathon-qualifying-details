@@ -1,10 +1,10 @@
 # Import required libraries
 import re
-import logging
+import pandas as pd
+from typing import Optional, Iterable, Tuple
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Import shared configuration and functions from other scripts
+from config import logger
 
 
 def time_to_seconds(time_str):
