@@ -7,8 +7,8 @@ from typing import Optional, Iterable, Tuple
 from config import logger
 
 
-def time_to_seconds(time_str):
-    """Convert a time string to seconds. Supports 'sub HH:MM' and 'Hhrs Mmin Ssec' or 'HHhrs MMmin SSsec'."""
+def time_to_seconds(time_str: Optional[str]) -> Optional[int]:
+    """Convert a time string to seconds. Supports 'sub H:MM', 'sub HH:MM', 'Hhrs Mmin Ssec' or 'HHhrs MMmin SSsec'."""
     time_str = time_str.lower().strip()
 
     # London format is for example "sub 3:38"
