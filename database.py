@@ -111,7 +111,7 @@ def insert_racedata(cursor, df, verbose=True):
         exists = cursor.fetchone()[0]
         if exists:
             cursor.execute(
-                "UPDATE dbo.RaceData SET QualifyingText=?,LinkText=?,LinkURL=?,ScrapeDate=?,PageHash=? "
+                "UPDATE dbo.RaceData SET QualifyingText=?, LinkText=?, LinkURL=?, ScrapeDate=?, PageHash=? "
                 "WHERE RaceYear=? AND Location=?",
                 row.QualifyingText, row.LinkText, row.LinkURL, row.ScrapeDate, row.get("PageHash", None),
                 row.RaceYear, row.Location
