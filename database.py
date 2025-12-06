@@ -28,7 +28,7 @@ def time_to_seconds(time_str: Optional[str]) -> Optional[int]:
         h = int(h) if h else 0
         m = int(m) if m else 0
         s = int(s) if s else 0
-        return h * 3600 + m * 60 + s
+        return h*3600 + m*60 + s
 
     return None
 
