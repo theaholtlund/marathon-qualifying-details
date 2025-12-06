@@ -13,10 +13,13 @@ def time_to_seconds(time_str: Optional[str]) -> Optional[int]:
         return None
     time_str = time_str.lower().strip()
 
+    # London format is for example "sub 3:38"
     match = re.match(r"sub (\d+):(\d+)(?::(\d+))?", time_str)
     if match:
-        hours, minutes = map(int, match.groups())
-        return hours * 3600 + minutes * 60
+        h = int(match.group(1))
+        m = int(match.group(2))
+        s = int(match.group(3)) if match.group(3) else 0
+        return h*3600 + m*60 + s
 
     # Boston format is for example "3hrs 25min 00sec"
     match = re.match(r"(?:(\d+)hrs?)?\s*(?:(\d+)min)?\s*(?:(\d+)sec)?", time_str)
