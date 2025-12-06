@@ -75,9 +75,6 @@ def create_tables(cursor):
     END
     """)
 
-    # Lightweight schema migration
-    _add_column_if_missing(cursor, "RaceData", "PageHash", "NVARCHAR(64) NULL")
-
     # Create the qualifying times table
     cursor.execute("""
     IF OBJECT_ID('dbo.QualifyingTimes', 'U') IS NULL
