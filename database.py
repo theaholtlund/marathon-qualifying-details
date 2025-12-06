@@ -69,8 +69,10 @@ def create_tables(cursor):
         SELECT * FROM sys.indexes 
         WHERE name = 'UQ_RaceData' AND object_id = OBJECT_ID('dbo.RaceData')
     )
-    ALTER TABLE dbo.RaceData
-    ADD CONSTRAINT UQ_RaceData UNIQUE (RaceYear, Location);
+    BEGIN
+        ALTER TABLE dbo.RaceData
+        ADD CONSTRAINT UQ_RaceData UNIQUE (RaceYear, Location);
+    END
     """)
 
     # Lightweight schema migration
