@@ -100,8 +100,7 @@ def create_tables(cursor):
     _add_column_if_missing(cursor, "QualifyingTimes", "WomenSeconds", "INT NULL")
     _add_column_if_missing(cursor, "QualifyingTimes", "MenSeconds", "INT NULL")
 
-
-def insert_racedata(cursor, df, verbose=True):
+def insert_racedata(cursor, df: pd.DataFrame) -> None:
     """Insert or update race metadata into the race data table."""
     for _, row in df.iterrows():
         cursor.execute(
