@@ -149,8 +149,8 @@ def insert_qualifying_times(cursor, df, verbose=True):
             )
 
 
-def query_top_times(cursor, location=None, age_group=None, gender=None, limit=5):
-    """Query qualifying time by location, age group and gender. Order by numeric seconds if available."""
+def query_top_times(cursor, location: str, age_group: str, gender: str, limit: int = 5) -> Iterable[Tuple]:
+    """Query qualifying time by location, age group and gender."""
     if not location or not age_group or not gender:
         raise ValueError("Location, age group and gender must be provided")
 
