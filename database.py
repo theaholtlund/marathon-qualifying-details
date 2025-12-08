@@ -47,7 +47,7 @@ def _add_column_if_missing(cursor, table, column, definition):
 
 def create_tables(cursor):
     """Create tables if they do not already exist, and perform lightweight schema migrations."""
-    logger.info("Ensuring race data and qualifying times tables exist.")
+    logger.info("Ensuring race data and qualifying times tables exist")
 
     # Create the race data table
     cursor.execute("""
