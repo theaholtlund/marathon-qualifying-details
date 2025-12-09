@@ -24,6 +24,7 @@ def _get(url: str, retries: int = 3, backoff: float = 1.5, timeout: int = 15) ->
     last_exception = None
     session = requests.Session()
     session.headers.update(HEADERS)
+
     for attempt in range(1, retries + 1):
         try:
             response = session.get(url, timeout=timeout)
@@ -65,6 +66,7 @@ def _normalise_table_rows(table: Optional[object]) -> List[List[str]]:
     if table is None:
         return rows
         
+    # Some tables use <thead>/<tbody>, some do not
     for tr in table.find_all("tr"):
         if tr.find_all("th"):
             continue
