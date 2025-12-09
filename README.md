@@ -2,6 +2,12 @@
 
 Work in progress. Hobby project for marathon qualifying details, by age, gender and location.
 
+## Key features
+
+- Scrape qualifying standards for a variety of marathons.
+- Store race metadata and qualifying tables in an Azure SQL Database.
+- Compute margin between a personal best and the qualifying standard.
+
 ## Prerequisites
 
 - Python 3.11.
