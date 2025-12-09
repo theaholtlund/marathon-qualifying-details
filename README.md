@@ -51,6 +51,7 @@ python3.11 main.py
 
 ### Ideas for Future Enhancements
 
+- Add support for additional marathons, ideally all Abbott World Marathon Majors.
 - Add functionality for change tracking, to pull and alert on changes in the qualifying time for a given age group.
 
 ### Acknowledgements
