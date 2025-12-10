@@ -121,13 +121,9 @@ def run_pipeline(runner_age: int, runner_gender: str, override_location: Optiona
     create_tables(cursor)
     conn.commit()
 
-    print("* Scraping marathon data")
-    try:
-        london_data, london_times = scrape_london()
-        boston_data, boston_times = scrape_boston()
-    except Exception as e:
-        print(f"! Error during scraping: {e}")
-        return
+    logger.info("Scraping marathon data")
+    london_data, london_times = scrape_london()
+    boston_data, boston_times = scrape_boston()
 
     # Combine race data and qualifying times
     all_data = pd.concat([london_data, boston_data], ignore_index=True)
