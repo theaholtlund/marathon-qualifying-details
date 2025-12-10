@@ -111,7 +111,7 @@ def print_pb_margin(cursor, location: str, age_group: str, gender: str, pb_text:
     print(f"* Personal best margin vs {location} standard: {sign}{abs(delta)} seconds ({pb_text} vs {age_group})")
 
 
-def run_pipeline(runner_age, runner_gender, override_location=None, pb=None):
+def run_pipeline(runner_age: int, runner_gender: str, override_location: Optional[str] = None, pb: Optional[str] = None) -> None:
     """Main end-to-end flow from scraping to database querying."""
     # Connect to database
     conn = get_db_connection()
