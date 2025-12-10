@@ -126,15 +126,9 @@ def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
             break
 
     if london_table is None:
-        age_group_div = soup.select_one("section table")
-        london_table = age_group_div
-
-    if not london_table:
         logger.error("Failed to find age group table in London Marathon page.")
         raise ValueError("Age group table missing (London)")
 
-    rows = []
-    
     # Determine order for men and women columns
     header_texts = [th.get_text(strip=True).lower() for th in london_table.find_all("th")]
 
