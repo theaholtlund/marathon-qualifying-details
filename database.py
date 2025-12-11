@@ -122,7 +122,7 @@ def insert_racedata(cursor, df: pd.DataFrame) -> None:
             )
 
 
-def insert_qualifying_times(cursor, df, verbose=True):
+def insert_qualifying_times(cursor, df: pd.DataFrame) -> None:
     """Insert or update qualifying times into the qualifying times table, including numeric seconds."""
     for _, row in df.iterrows():
         age_group = row["Age Group"]
