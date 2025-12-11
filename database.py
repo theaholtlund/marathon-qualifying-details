@@ -96,9 +96,6 @@ def create_tables(cursor):
     ADD CONSTRAINT UQ_QualTimes UNIQUE (AgeGroup, Location);
     """)
 
-    # Lightweight schema migration, add numeric columns for comparisons or sorting
-    _add_column_if_missing(cursor, "QualifyingTimes", "WomenSeconds", "INT NULL")
-    _add_column_if_missing(cursor, "QualifyingTimes", "MenSeconds", "INT NULL")
 
 def insert_racedata(cursor, df: pd.DataFrame) -> None:
     """Insert or update race metadata into the race data table."""
