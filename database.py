@@ -92,8 +92,10 @@ def create_tables(cursor):
         SELECT * FROM sys.indexes 
         WHERE name = 'UQ_QualTimes' AND object_id = OBJECT_ID('dbo.QualifyingTimes')
     )
-    ALTER TABLE dbo.QualifyingTimes
-    ADD CONSTRAINT UQ_QualTimes UNIQUE (AgeGroup, Location);
+    BEGIN
+        ALTER TABLE dbo.QualifyingTimes
+        ADD CONSTRAINT UQ_QualTimes UNIQUE (AgeGroup, Location);
+    END
     """)
 
 
