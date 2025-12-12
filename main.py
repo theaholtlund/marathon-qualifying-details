@@ -95,11 +95,11 @@ def print_pb_margin(cursor, location: str, age_group: str, gender: str, pb_text:
 
     # Choose numeric column based on gender
     column_secs = "WomenSeconds" if gender.lower() == "women" else "MenSeconds"
-    cursor.execute(f"""
-        SELECT {column_secs}
-        FROM dbo.QualifyingTimes
-        WHERE Location = ? AND AgeGroup = ?
-    """, (location, age_group))
+    cursor.execute(
+        f"SELECT {column_secs} FROM dbo.QualifyingTimes WHERE Location = ? AND AgeGroup = ?", 
+        (location, age_group)
+    )
+
     row = cursor.fetchone()
     if not row or row[0] is None:
         logger.warning(f"No numeric qualifying standard available for {location} and age group {age_group}.")
