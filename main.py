@@ -90,7 +90,7 @@ def print_pb_margin(cursor, location: str, age_group: str, gender: str, pb_text:
     """Print margin between runner personal best and qualifying standard, in H:MM:SS format."""
     pb_secs = parse_time_to_seconds(pb_text)
     if pb_secs is None:
-        print(f"! Could not parse personal best time '{pb_text}'. Expected H:MM:SS.")
+        logger.error(f"Could not parse personal best time '{pb_text}'. Expected H:MM:SS.")
         return
 
     # Choose numeric column based on gender
