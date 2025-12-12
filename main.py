@@ -93,7 +93,6 @@ def print_pb_margin(cursor, location: str, age_group: str, gender: str, pb_text:
         logger.error(f"Could not parse personal best time '{pb_text}'. Expected H:MM:SS.")
         return
 
-    # Choose numeric column based on gender
     column_secs = "WomenSeconds" if gender.lower() == "women" else "MenSeconds"
     cursor.execute(
         f"SELECT {column_secs} FROM dbo.QualifyingTimes WHERE Location = ? AND AgeGroup = ?", 
