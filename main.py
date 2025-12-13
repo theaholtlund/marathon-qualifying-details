@@ -81,6 +81,8 @@ def parse_time_to_seconds(text: Optional[str]) -> Optional[int]:
         h, m, s = parts
     elif len(parts) == 2:
         h, m, s = 0, parts[0], parts[1]
+    elif len(parts) == 1:
+        h, m, s = 0, parts[0], 0
     else:
         return None
     return h * 3600 + m * 60 + s
