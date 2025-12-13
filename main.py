@@ -169,7 +169,8 @@ def parse_args():
     return parser.parse_args()
 
 
-def main():
+def main() -> None:
+    """Parse CLI arguments and run the marathon qualifying time pipeline."""
     args = parse_args()
     run_pipeline(args.age, args.gender, override_location=args.location, pb=args.pb)
 
