@@ -41,8 +41,8 @@ def _get(url: str, retries: int = 3, backoff: float = 1.5, timeout: int = 15) ->
     raise last_exception
 
 
-def _parse_time_to_seconds(txt):
-    """Accepts values like '3:10:00', 'sub 3:10:00' and '3:10', returns seconds or None if not parseable."""
+def _parse_time_to_seconds(txt: Optional[str]) -> Optional[int]:
+    """Accepts values like '3:10:00', 'sub 3:10:00' and '3:10', returns seconds or None."""
     if not txt:
         return None
     t = txt.strip().lower().replace("sub", "").strip()
