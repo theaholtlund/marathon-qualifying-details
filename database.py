@@ -70,7 +70,9 @@ def create_tables(cursor) -> None:
         AgeGroup NVARCHAR(20),
         Women NVARCHAR(20),
         Men NVARCHAR(20),
-        Location NVARCHAR(50)
+        Location NVARCHAR(50),
+        WomenSeconds INT NULL,
+        MenSeconds INT NULL
     );
     """)
 
