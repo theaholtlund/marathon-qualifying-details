@@ -129,12 +129,12 @@ def insert_qualifying_times(cursor, df: pd.DataFrame) -> None:
         if exists:
             cursor.execute(
                 "UPDATE dbo.QualifyingTimes SET Women=?, Men=?, WomenSeconds=?, MenSeconds=? WHERE AgeGroup=? AND Location=?",
-                row["Women"], row["Men"], women_sec, men_sec, age_group, location
+                row.get("Women"), row.get("Men"), women_sec, men_sec, age_group, location
             )
         else:
             cursor.execute(
                 "INSERT INTO dbo.QualifyingTimes (AgeGroup, Women, Men, Location, WomenSeconds, MenSeconds) VALUES (?, ?, ?, ?, ?, ?)",
-                age_group, row["Women"], row["Men"], location, women_sec, men_sec
+                age_group, row.get("Women"), row.get("Men"), location, women_sec, men_sec
             )
 
 
