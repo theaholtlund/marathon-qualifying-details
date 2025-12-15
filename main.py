@@ -153,7 +153,8 @@ def run_pipeline(runner_age: int, runner_gender: str, override_location: Optiona
     for row in query_top_times(cursor, location=location, age_group=age_group, gender=runner_gender, limit=1):
         print(row)
     if pb:
-        print_pb_margin(cursor, location, age_group, runner_gender, pb)
+        print("\nMargin between personal best time and qualifying time for all locations:")
+        display_pb_margin_for_all_locations(cursor, runner_age, runner_gender, pb)
 
     cursor.close()
     conn.close()
