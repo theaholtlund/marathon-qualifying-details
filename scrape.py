@@ -163,7 +163,7 @@ def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
     return df_racedata, df_times
 
 
-def scrape_boston():
+def scrape_boston() -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Scrape the Boston Marathon qualifying info and times."""
     url = "https://www.baa.org/races/boston-marathon/qualify"
     response = _get(url)
