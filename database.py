@@ -148,6 +148,9 @@ def query_top_times(cursor, location: str, age_group: str, gender: str, limit: i
     except (ValueError, TypeError):
         raise ValueError("Limit must be an integer")
 
+    if limit_int <= 0 or limit_int > 1000:
+        raise ValueError("Limit must be between 1 and 1000")
+
     is_women = gender.strip().lower() == "women"
     text_col = "Women" if is_women else "Men"
 
