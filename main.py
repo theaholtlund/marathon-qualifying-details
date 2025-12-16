@@ -107,9 +107,10 @@ def print_pb_margin(cursor, location: str, age_group: str, gender: str, pb_text:
         return
 
     q_secs = row[0]
-    delta = pb_secs - q_secs  # Negative means faster than standard
-    sign = "-" if delta < 0 else "+"
-    print(f"* Personal best margin vs {location} standard: {sign}{abs(delta)} seconds ({pb_text} vs {age_group})")
+    delta = pb_secs - q_secs # Negative time equals faster than standard
+
+    print(f"Personal best time vs {location} standard: {_format_time(delta, signed=True)} "
+          f"({pb_text} vs {_format_time(q_secs)})")
 
 
 def run_pipeline(runner_age: int, runner_gender: str, override_location: Optional[str] = None, pb: Optional[str] = None) -> None:
