@@ -45,14 +45,14 @@ def get_age_group(age: int, location: str) -> str:
     return "Unknown"
 
 
-def display_runner_qualifying_times(cursor, age_group, gender):
-    """Print qualifying times for the given age group and gender."""
-    cursor.execute("""
-        SELECT AgeGroup, Women, Men, Location
-        FROM dbo.QualifyingTimes
-        WHERE AgeGroup = ?
-    """, age_group)
-
+def display_runner_qualifying_times(cursor, age_group: str, gender: str, location: Optional[str] = None) -> None:
+    """Display qualifying times for the given age group and gender."""
+    sql = "SELECT AgeGroup, Women, Men, Location FROM dbo.QualifyingTimes WHERE AgeGroup = ?"
+    params = [age_group]
+    if location:
+        sql += " AND Location = ?"
+        params.append(location)
+    cursor.execute(sql, *params)
     results = cursor.fetchall()
 
     if not results:
