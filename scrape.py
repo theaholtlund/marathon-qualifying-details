@@ -229,3 +229,12 @@ def scrape_boston() -> Tuple[pd.DataFrame, pd.DataFrame]:
     }])
 
     return df_racedata, df_times
+
+
+def scrape_tokyo():
+    url = "https://www.marathon.tokyo/en/participants/run-as-one/"
+    response = _get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    page_hash = hashlib.sha256(response.content).hexdigest()
+
+    logger.info("Parsing qualifying text and links for Tokyo Marathon")
