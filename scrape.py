@@ -247,3 +247,13 @@ def scrape_new_york():
     page_hash = hashlib.sha256(response.content).hexdigest()
 
     logger.info("Parsing qualifying text and links for New York Marathon")
+
+def scrape_chicago():
+    url = "https://www.chicagomarathon.com/apply/"
+    response = _get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    page_hash = hashlib.sha256(response.content).hexdigest()
+
+    logger.info("Parsing qualifying text and links for Chicago Marathon")
+
+  
