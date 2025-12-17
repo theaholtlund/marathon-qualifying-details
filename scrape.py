@@ -238,3 +238,12 @@ def scrape_tokyo():
     page_hash = hashlib.sha256(response.content).hexdigest()
 
     logger.info("Parsing qualifying text and links for Tokyo Marathon")
+
+
+def scrape_new_york():
+    url = "https://www.nyrr.org/tcsnycmarathon/runners/marathon-time-qualifiers"
+    response = _get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    page_hash = hashlib.sha256(response.content).hexdigest()
+
+    logger.info("Parsing qualifying text and links for New York Marathon")
