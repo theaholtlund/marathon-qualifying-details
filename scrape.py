@@ -65,14 +65,14 @@ def _normalise_table_rows(table: Optional[object]) -> List[List[str]]:
     rows = []
     if table is None:
         return rows
-        
-    # Some tables use <thead>/<tbody>, some do not
+    
     for tr in table.find_all("tr"):
         if tr.find_all("th"):
             continue
         tds = [td.get_text(strip=True) for td in tr.find_all("td")]
         if tds:
             rows.append(tds)
+    
     return rows
 
 
@@ -84,10 +84,9 @@ def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
     page_hash = hashlib.sha256(response.content).hexdigest()
 
     # Get race data
-    logger.info("Parsing London Marathon qualifying text and links")
+    logger.info("Parsing qualifying text and links for London Marathon")
     qualifying_text = "Not found"
 
-    # Conservative approach, try multiple selectors
     candidates = [
         "div.paragraph--type--inset-text div.col-md-start-7 p:nth-of-type(2)",
         "div.paragraph--type--inset-text p:nth-of-type(2)",
