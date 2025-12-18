@@ -130,19 +130,8 @@ def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
 
     # Determine order for men and women columns
     header_texts = [th.get_text(strip=True).lower() for th in london_table.find_all("th")]
-
-    # Set default indices
-    women_idx = None
-    men_idx = None
-    for idx, h in enumerate(header_texts):
-        if "women" in h:
-            women_idx = idx
-        if "men" in h:
-            men_idx = idx
-
-    # Fallback defaults
-    if women_idx is None or men_idx is None:
-        women_idx, men_idx = 2, 1
+    women_idx = next((i for i, h in enumerate(header_texts) if "women" in h), 2)
+    men_idx = next((i for i, h in enumerate(header_texts) if "men" in h), 1)
 
     rows = _normalise_table_rows(london_table)
     parsed = []
