@@ -7,30 +7,40 @@ from typing import Optional, Iterable, Tuple
 from config import logger
 
 
-def time_to_seconds(time_str: Optional[str]) -> Optional[int]:
-    """Convert a time string to seconds. Supports 'sub H:MM', 'sub HH:MM', 'Hhrs Mmin Ssec' or 'HHhrs MMmin SSsec'."""
-    if not time_str:
-        return None
-    time_str = time_str.lower().strip()
+def normalise_time(text: Optional[str]) -> tuple[Optional[str], Optional[int]]:
+    if not text:
+        return None, None
 
-    # London format is for example "sub 3:38"
-    match = re.match(r"sub (\d+):(\d+)(?::(\d+))?", time_str)
-    if match:
-        h = int(match.group(1))
-        m = int(match.group(2))
-        s = int(match.group(3)) if match.group(3) else 0
-        return h*3600 + m*60 + s
+    t = (
+        text.lower()
+        .replace("sub", "")
+        .replace("under", "")
+        .replace("hrs", ":")
+        .replace("hr", ":")
+        .replace("min", ":")
+        .replace("sec", "")
+        .strip()
+    )
 
-    # Boston format is for example "3hrs 25min 00sec"
-    match = re.match(r"(?:(\d+)hrs?)?\s*(?:(\d+)min)?\s*(?:(\d+)sec)?", time_str)
-    if match:
-        h, m, s = match.groups()
-        h = int(h) if h else 0
-        m = int(m) if m else 0
-        s = int(s) if s else 0
-        return h*3600 + m*60 + s
+    parts = [p for p in t.split(":") if p.isdigit()]
+    if not parts:
+        return None, None
 
-    return None
+    parts = [int(p) for p in parts]
+
+    if len(parts) == 3:
+        h, m, s = parts
+    elif len(parts) == 2:
+        h, m = parts
+        s = 0
+    elif len(parts) == 1:
+        h = parts[0]
+        m = s = 0
+    else:
+        return None, None
+
+    seconds = h * 3600 + m * 60 + s
+    return f"{h}:{m:02d}:{s:02d}", seconds
 
 
 def create_tables(cursor) -> None:
@@ -118,8 +128,8 @@ def insert_qualifying_times(cursor, df: pd.DataFrame) -> None:
         age_group = row["Age Group"]
         location = row["Location"]
 
-        women_sec = time_to_seconds(row.get("Women"))
-        men_sec = time_to_seconds(row.get("Men"))
+        women_text, women_sec = normalise_time(row.get("Women"))
+        men_text, men_sec = normalise_time(row.get("Men"))
 
         cursor.execute(
             "SELECT COUNT(*) FROM dbo.QualifyingTimes WHERE AgeGroup=? AND Location=?",
