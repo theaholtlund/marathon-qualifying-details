@@ -131,7 +131,7 @@ def insert_racedata(cursor, df: pd.DataFrame) -> None:
 def insert_qualifying_times(cursor, df: pd.DataFrame) -> None:
     """Insert or update qualifying times into the qualifying times table, including numeric seconds."""
     for _, row in df.iterrows():
-        age_group = row["Age Group"]
+        age_group = normalise_age_group(row["Age Group"])
         location = row["Location"]
 
         women_text, women_sec = normalise_time(row.get("Women"))
