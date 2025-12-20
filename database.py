@@ -153,27 +153,3 @@ def insert_qualifying_times(cursor, df: pd.DataFrame) -> None:
                 age_group, row.get("Women"), row.get("Men"), location, women_sec, men_sec
             )
 
-
-def query_top_times(cursor, location: str, age_group: str, gender: str, limit: int = 5) -> Iterable[Tuple]:
-    """Query qualifying time by location, age group and gender."""
-    if not location or not age_group or not gender:
-        raise ValueError("Location, age group and gender must be provided")
-
-    try:
-        limit_int = int(limit)
-    except (ValueError, TypeError):
-        raise ValueError("Limit must be an integer")
-
-    if limit_int <= 0 or limit_int > 1000:
-        raise ValueError("Limit must be between 1 and 1000")
-
-    is_women = gender.strip().lower() == "women"
-    text_col = "Women" if is_women else "Men"
-
-    sql = f"""
-        SELECT TOP {limit_int} AgeGroup, {text_col}, Location
-        FROM dbo.QualifyingTimes
-        WHERE Location = ? AND AgeGroup = ?
-    """
-    cursor.execute(sql, location, age_group)
-    return cursor.fetchall()
