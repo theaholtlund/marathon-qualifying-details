@@ -43,6 +43,12 @@ def normalise_time(text: Optional[str]) -> tuple[Optional[str], Optional[int]]:
     return f"{h}:{m:02d}:{s:02d}", seconds
 
 
+def normalise_age_group(text: str) -> str:
+    if not text:
+        return text
+    return (text.replace("–", "-").replace("—", "-").replace("  ", " ").strip())
+
+
 def create_tables(cursor) -> None:
     """Create tables if they do not already exist, and perform lightweight schema migrations."""
     logger.info("Ensuring race data and qualifying times tables exist")
