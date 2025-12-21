@@ -244,4 +244,30 @@ def scrape_chicago():
 
     logger.info("Parsing qualifying text and links for Chicago Marathon")
 
-  
+def scrape_berlin() -> Tuple[pd.DataFrame, pd.DataFrame]:
+    url = "https://www.bmw-berlin-marathon.com/en/registration/lottery"
+    response = _get(url)
+    page_hash = hashlib.sha256(response.content).hexdigest()
+
+    data = [
+        ("18–44", "3:10:00", "2:45:00"),
+        ("45–59", "3:30:00", "2:55:00"),
+        ("60+", "4:20:00", "3:25:00"),
+    ]
+
+    df_times = pd.DataFrame(data, columns=["Age Group", "Women", "Men"])
+    df_times["Location"] = "Berlin"
+
+    df_racedata = pd.DataFrame([{
+        "RaceYear": datetime.now().year + 1,
+        "Location": "Berlin",
+        "QualifyingText": "Qualifying standards",
+        "LinkText": "Berlin Marathon",
+        "LinkURL": url,
+        "ScrapeDate": datetime.now(timezone.utc),
+        "PageHash": page_hash,
+    }])
+
+    print("Berlin qualifying times: ", df_times)
+
+    return df_racedata, df_times
