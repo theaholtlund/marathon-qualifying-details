@@ -116,7 +116,6 @@ def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
     }])
 
     # Get qualifying details
-    logger.info("Parsing age group qualifying times for London")
     london_table = None
     for tbl in soup.find_all("table"):
         headers = [th.get_text(strip=True).lower() for th in tbl.find_all("th")]
@@ -185,24 +184,18 @@ def scrape_boston() -> Tuple[pd.DataFrame, pd.DataFrame]:
     rows = _normalise_table_rows(boston_table)
     parsed = []
     for cols in rows:
-        if len(cols) < 3:
+        if len(cols) <= max(age_idx, men_idx, women_idx):
             continue
-        age = cols[0]
-        if men_first:
-            men = cols[1]
-            women = cols[2]
-        else:
-            women = cols[1]
-            men = cols[2]
-        parsed.append({"Age Group": age, "Women": women, "Men": men})
 
-    df_times = pd.DataFrame(parsed)
-    df_times["WomenSeconds"] = df_times["Women"].apply(_parse_time_to_seconds)
-    df_times["MenSeconds"] = df_times["Men"].apply(_parse_time_to_seconds)
-    df_times["Location"] = "Boston"
-    df_times = df_times[["Age Group", "Women", "Men", "Location", "WomenSeconds", "MenSeconds"]]
+        records.append({
+            "Age Group": cols[age_idx],
+            "Women": cols[women_idx],
+            "Men": cols[men_idx],
+            "Location": "Boston"
+        })
 
-    # Basic race info text, kept from page headline snippets
+    df_times = pd.DataFrame(records)
+
     race_info = "Qualifier registration information (B.A.A.)"
     qual_window = "See B.A.A. site for qualifying window details."
 
