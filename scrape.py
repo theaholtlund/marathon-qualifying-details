@@ -229,6 +229,20 @@ def scrape_new_york():
 
     logger.info("Parsing qualifying text and links for New York Marathon")
 
+    tables = soup.find_all("table")
+
+    men_rows = _normalise_table_rows(tables[0])
+    women_rows = _normalise_table_rows(tables[1])
+
+    records = []
+    for m, w in zip(men_rows, women_rows):
+        records.append({
+            "Age Group": m[0],
+            "Women": w[1],
+            "Men": m[1],
+        })
+
+
 def scrape_chicago():
     url = "https://www.chicagomarathon.com/apply/"
     response = _get(url)
