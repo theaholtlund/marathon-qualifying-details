@@ -240,10 +240,25 @@ def scrape_new_york():
             "Age Group": m[0],
             "Women": w[1],
             "Men": m[1],
+            "Location": "New York"
         })
 
+    df_times = pd.DataFrame(records)
 
-def scrape_chicago():
+    df_racedata = pd.DataFrame([{
+        "RaceYear": datetime.now().year + 1,
+        "Location": "New York",
+        "QualifyingText": "Time qualifiers",
+        "LinkText": "NYRR",
+        "LinkURL": url,
+        "ScrapeDate": datetime.now(timezone.utc),
+        "PageHash": page_hash,
+    }])
+
+    return df_racedata, df_times
+
+
+def scrape_chicago() -> Tuple[pd.DataFrame, pd.DataFrame]:
     url = "https://www.chicagomarathon.com/apply/"
     response = _get(url)
     soup = BeautifulSoup(response.content, "html.parser")
