@@ -143,8 +143,6 @@ def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
         parsed.append((age, women, men))
 
     df_times = pd.DataFrame(parsed, columns=["Age Group", "Women", "Men"])
-    df_times["WomenSeconds"] = df_times["Women"].apply(_parse_time_to_seconds)
-    df_times["MenSeconds"] = df_times["Men"].apply(_parse_time_to_seconds)
     df_times["Location"] = "London"
 
     return df_racedata, df_times
