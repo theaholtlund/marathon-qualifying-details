@@ -209,6 +209,8 @@ def scrape_boston() -> Tuple[pd.DataFrame, pd.DataFrame]:
         "PageHash": page_hash
     }])
 
+    print("Boston qualifying times: ", df_times)
+
     return df_racedata, df_times
 
 
@@ -254,6 +256,8 @@ def scrape_new_york():
         "ScrapeDate": datetime.now(timezone.utc),
         "PageHash": page_hash,
     }])
+
+    print("New York qualifying times: ", df_times)
 
     return df_racedata, df_times
 
