@@ -1,7 +1,6 @@
 # Import required libraries
-import re
 import pandas as pd
-from typing import Optional, Iterable, Tuple
+from typing import Optional
 
 # Import shared configuration and functions from other scripts
 from config import logger
