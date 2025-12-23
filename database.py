@@ -148,8 +148,8 @@ def insert_qualifying_times(cursor, df: pd.DataFrame) -> None:
                 row.get("Women"), row.get("Men"), women_sec, men_sec, age_group, location
             )
         else:
-            cursor.execute(
-                "INSERT INTO dbo.QualifyingTimes (AgeGroup, Women, Men, Location, WomenSeconds, MenSeconds) VALUES (?, ?, ?, ?, ?, ?)",
-                age_group, row.get("Women"), row.get("Men"), location, women_sec, men_sec
-            )
-
+            cursor.execute("""
+                INSERT INTO dbo.QualifyingTimes
+                (AgeGroup, Women, Men, Location, WomenSeconds, MenSeconds)
+                VALUES (?, ?, ?, ?, ?, ?)
+            """, age_group, women_text, men_text, location, women_sec, men_sec)
