@@ -236,6 +236,9 @@ def scrape_new_york():
 
     records = []
     for m, w in zip(men_rows, women_rows):
+        # Skip headers
+        if "age" in m[0].lower():
+            continue
         records.append({
             "Age Group": m[0],
             "Women": w[1],
