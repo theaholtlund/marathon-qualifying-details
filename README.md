@@ -46,7 +46,7 @@ cp .env.template .env
 ### 6. Run main script
 
 ```bash
-python3.11 main.py
+python main.py
 ```
 
 ### Ideas for Future Enhancements
