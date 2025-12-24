@@ -230,6 +230,8 @@ def scrape_new_york():
     logger.info("Parsing qualifying text and links for New York Marathon")
 
     tables = soup.find_all("table")
+    if len(tables) < 2:
+        raise ValueError("Unexpected NYC Marathon table structure")
 
     men_rows = _normalise_table_rows(tables[0])
     women_rows = _normalise_table_rows(tables[1])
