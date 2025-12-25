@@ -41,25 +41,6 @@ def _get(url: str, retries: int = 3, backoff: float = 1.5, timeout: int = 15) ->
     raise last_exception
 
 
-def _parse_time_to_seconds(txt: Optional[str]) -> Optional[int]:
-    """Accepts values like '3:10:00', 'sub 3:10:00' and '3:10', returns seconds or None."""
-    if not txt:
-        return None
-    t = txt.strip().lower().replace("sub", "").strip()
-    parts = t.split(":")
-    try:
-        parts = [int(p) for p in parts]
-    except ValueError:
-        return None
-    if len(parts) == 3:
-        h, m, s = parts
-    elif len(parts) == 2:
-        h, m, s = 0, parts[0], parts[1]
-    else:
-        return None
-    return h * 3600 + m * 60 + s
-
-
 def _normalise_table_rows(table: Optional[object]) -> List[List[str]]:
     """Helper to get rows for different table structures safely."""
     rows = []
