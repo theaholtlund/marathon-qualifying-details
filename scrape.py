@@ -58,7 +58,7 @@ def _normalise_table_rows(table: Optional[object]) -> List[List[str]]:
 
 
 def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
-    """Scrape the London Marathon qualifying info and times."""
+    """Scrape website data regarding race information and qualifying times for London Marathon."""
     url = "https://www.londonmarathonevents.co.uk/london-marathon/good-age-entry"
     response = _get(url)
     soup = BeautifulSoup(response.content, "html.parser")
