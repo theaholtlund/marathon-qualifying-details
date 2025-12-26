@@ -201,6 +201,64 @@ def scrape_tokyo():
 
     logger.info("Parsing qualifying text and links for Tokyo Marathon")
 
+    men_time = None
+    women_time = None
+
+    for tr in soup.find_all("tr"):
+        tds = tr.find_all("td")
+        if len(tds) != 2:
+            continue
+
+        header = tds[0].get_text(strip=True).lower()
+        if "qualifying times" not in header:
+            continue
+
+        body_lines = tds[1].get_text("\n", strip=True).splitlines()
+
+        for line in body_lines:
+            l = line.lower()
+            line_clean = (
+                l.replace("under", "")
+                 .replace("hrs", ":")
+                 .replace("hr", ":")
+                 .replace("min", ":")
+                 .replace("sec", "")
+            )
+
+            parts = [p.strip() for p in line_clean.split(":") if p.strip().isdigit()]
+            if len(parts) == 3:
+                time_str = f"{int(parts[0]):02d}:{int(parts[1]):02d}:{int(parts[2]):02d}"
+
+                if "men" in l and not men_time:
+                    men_time = time_str
+                elif "women" in l and not women_time:
+                    women_time = time_str
+
+                break
+
+    df_times = pd.DataFrame([
+        {
+            "Age Group": "18+",
+            "Women": women_time,
+            "Men": men_time,
+            "Location": "Tokyo"
+        }
+    ])
+
+    df_racedata = pd.DataFrame([
+        {
+            "RaceYear": datetime.now().year + 1,
+            "Location": "Tokyo",
+            "QualifyingText": "Elite qualifying standards (Run as One)",
+            "LinkText": "Tokyo Marathon – Run as One",
+            "LinkURL": url,
+            "ScrapeDate": datetime.now(timezone.utc),
+            "PageHash": page_hash,
+        }
+    ])
+
+    return df_racedata, df_times
+
 
 def scrape_new_york():
     url = "https://www.nyrr.org/tcsnycmarathon/runners/marathon-time-qualifiers"
