@@ -254,6 +254,28 @@ def scrape_chicago() -> Tuple[pd.DataFrame, pd.DataFrame]:
 
     logger.info("Parsing qualifying text and links for Chicago Marathon")
 
+    table = soup.find("table")
+    rows = _normalise_table_rows(table)
+    records = []
+    for cols in rows:
+        records.append({ 
+            "Age Group": cols[0],
+            "Women": cols[2],
+            "Men": cols[1],
+            "Location": "Chicago"})
+        
+        df_times = pd.DataFrame(records)
+        df_racedata = pd.DataFrame([{ 
+            "RaceYear": datetime.now().year + 1, 
+            "Location": "Chicago", 
+            "QualifyingText": "Time qualifier standards", 
+            "LinkText": "Chicago Marathon", 
+            "LinkURL": url, 
+            "ScrapeDate": datetime.now(timezone.utc), 
+            "PageHash": page_hash, }]) 
+        
+        return df_racedata, df_times
+
 def scrape_berlin() -> Tuple[pd.DataFrame, pd.DataFrame]:
     url = "https://www.bmw-berlin-marathon.com/en/registration/lottery"
     response = _get(url)
