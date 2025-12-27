@@ -45,6 +45,9 @@ def age_in_group(age: int, group: str) -> bool:
 def get_age_group(age: int, location: str) -> str:
     """Get age group label depending on marathon location."""
     location = (location or "").strip().lower()
+
+    boston_style = {"boston", "chicago", "new york"}
+
     if location == "london":
         groups = [
             (18, 39), (40, 44), (45, 49), (50, 54),
@@ -54,7 +57,8 @@ def get_age_group(age: int, location: str) -> str:
         for lower, upper in groups:
             if lower <= age <= upper:
                 return f"{lower}-{upper}" if upper < 90 else "90+"
-    elif location == "boston":
+
+    elif location in boston_style:
         groups = [
             (18, 34), (35, 39), (40, 44), (45, 49), (50, 54),
             (55, 59), (60, 64), (65, 69), (70, 74), (75, 79),
