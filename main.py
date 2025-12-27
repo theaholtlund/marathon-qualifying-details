@@ -1,4 +1,5 @@
 # Import required libraries
+import re
 import argparse
 import pandas as pd
 from typing import Optional
@@ -19,6 +20,26 @@ def _format_time(seconds: int, signed: bool = False) -> str:
     minutes = (seconds % 3600) // 60
     secs = seconds % 60
     return f"{sign}{hours}:{minutes:02d}:{secs:02d}"
+
+
+def age_in_group(age: int, group: str) -> bool:
+    age_group = group.lower().replace("–", "-").replace(" ", "")
+
+    if age_group.endswith("+"):
+        return age >= int(age_group[:-1])
+
+    if "andover" in age_group:
+        nums = re.findall(r"\d+", age_group)
+        return bool(nums) and age >= int(nums[0])
+
+    nums = list(map(int, re.findall(r"\d+", age_group)))
+    if len(nums) == 2:
+        return nums[0] <= age <= nums[1]
+
+    if len(nums) == 1:
+        return age == nums[0]
+    
+    return False
 
 
 def get_age_group(age: int, location: str) -> str:
