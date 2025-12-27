@@ -6,7 +6,7 @@ from typing import Optional
 
 # Import shared configuration and functions from other scripts
 from config import logger, get_db_connection, RUNNER_AGE, RUNNER_GENDER, MARATHON_LOCATION, PERSONAL_BEST
-from database import create_tables, insert_racedata, insert_qualifying_times, query_top_times
+from database import create_tables, insert_racedata, insert_qualifying_times
 from scrape import scrape_london, scrape_boston
 
 
@@ -184,8 +184,6 @@ def run_pipeline(runner_age: int, runner_gender: str, override_location: Optiona
     display_runner_qualifying_times(cursor, age_group, runner_gender)
     print(f"\nQualifying time for {location}, age group: {age_group}:")
 
-    for row in query_top_times(cursor, location=location, age_group=age_group, gender=runner_gender, limit=1):
-        print(row)
     if pb:
         print("\nMargin between personal best time and qualifying time for all locations:")
         display_pb_margin_for_all_locations(cursor, runner_age, runner_gender, pb)
