@@ -118,10 +118,7 @@ def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
     for cols in rows:
         if len(cols) <= max(women_idx, men_idx):
             continue
-        age = cols[0]
-        women = cols[women_idx]
-        men = cols[men_idx]
-        parsed.append((age, women, men))
+        parsed.append((cols[0], cols[women_idx], cols[men_idx]))
 
     df_times = pd.DataFrame(parsed, columns=["Age Group", "Women", "Men"])
     df_times["Location"] = "London"
