@@ -176,7 +176,7 @@ def scrape_boston() -> Tuple[pd.DataFrame, pd.DataFrame]:
     qual_window = "See B.A.A. site for qualifying window details."
 
     df_racedata = pd.DataFrame([{
-        "RaceYear": datetime.now().year + 1 if datetime.now().month < 9 else datetime.now().year + 1,
+        "RaceYear": datetime.now().year + 1,
         "Location": "Boston",
         "QualifyingText": qual_window,
         "LinkText": race_info,
