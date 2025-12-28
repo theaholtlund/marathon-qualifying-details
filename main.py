@@ -7,7 +7,7 @@ from typing import Optional
 # Import shared configuration and functions from other scripts
 from config import logger, get_db_connection, RUNNER_AGE, RUNNER_GENDER, MARATHON_LOCATION, PERSONAL_BEST
 from database import create_tables, insert_racedata, insert_qualifying_times
-from scrape import scrape_london, scrape_boston
+from scrape import scrape_london, scrape_boston, scrape_tokyo, scrape_berlin, scrape_chicago, scrape_new_york
 
 
 def _format_time(seconds: int, signed: bool = False) -> str:
