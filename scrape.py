@@ -298,6 +298,7 @@ def scrape_new_york():
 
 
 def scrape_chicago() -> Tuple[pd.DataFrame, pd.DataFrame]:
+    """Scrape website data regarding race information and qualifying times for Chicago Marathon."""
     url = "https://www.chicagomarathon.com/apply/"
     response = _get(url)
     soup = BeautifulSoup(response.content, "html.parser")
