@@ -124,10 +124,10 @@ def print_pb_margin(cursor, location: str, age_group: str, gender: str, pb_text:
         logger.error(f"Could not parse personal best time '{pb_text}'. Expected H:MM:SS.")
         return
 
-    secs_col = "WomenSeconds" if gender.lower() == "women" else "MenSeconds"
+    seconds_column = "WomenSeconds" if gender.lower() == "women" else "MenSeconds"
 
     cursor.execute(f"""
-        SELECT TOP 1 AgeGroup, {secs_col}
+        SELECT TOP 1 AgeGroup, {seconds_column}
         FROM dbo.QualifyingTimes
         WHERE Location = ?
           AND (
@@ -150,11 +150,14 @@ def print_pb_margin(cursor, location: str, age_group: str, gender: str, pb_text:
         logger.warning(f"No qualifying standard found for {location}, age {runner_age}.")
         return
 
-    q_secs = row[0]
-    delta = pb_secs - q_secs # Negative time equals faster than standard
+    age_group, q_secs = matched
+    delta = pb_secs - q_secs
 
-    print(f"Personal best time vs {location} standard: {_format_time(delta, signed=True)} "
-          f"({pb_text} vs {_format_time(q_secs)})")
+    print(
+        f"{location} ({age_group}): "
+        f"{_format_time(delta, signed=True)} "
+        f"({pb_text} vs {_format_time(q_secs)})"
+    )
 
 
 def display_pb_margin_for_all_locations(cursor, runner_age: int, gender: str, pb_text: str) -> None:
