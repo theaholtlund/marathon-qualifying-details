@@ -117,10 +117,10 @@ def parse_time_to_seconds(text: Optional[str]) -> Optional[int]:
     return h * 3600 + m * 60 + s
 
 
-def print_pb_margin(cursor, location: str, age_group: str, gender: str, pb_text: str) -> None:
-    """Print margin between runner personal best and qualifying standard, in H:MM:SS format."""
-    pb_secs = parse_time_to_seconds(pb_text)
-    if pb_secs is None:
+def print_pb_margin(cursor, location: str, runner_age: int, gender: str, pb_text: str) -> None:
+    """Print margin between runner personal best and qualifying standard (signed H:MM:SS)."""
+    pb_seconds = parse_time_to_seconds(pb_text)
+    if pb_seconds is None:
         logger.error(f"Could not parse personal best time '{pb_text}'. Expected H:MM:SS.")
         return
 
@@ -139,24 +139,24 @@ def print_pb_margin(cursor, location: str, age_group: str, gender: str, pb_text:
     rows = cursor.fetchall()
 
     matched = None
-    for age_group, q_secs in rows:
-        if q_secs is None:
+    for age_group, qualifying_seconds in rows:
+        if qualifying_seconds is None:
             continue
         if age_in_group(runner_age, age_group):
-            matched = (age_group, q_secs)
+            matched = (age_group, qualifying_seconds)
             break
 
     if not matched:
         logger.warning(f"No qualifying standard found for {location}, age {runner_age}.")
         return
 
-    age_group, q_secs = matched
-    delta = pb_secs - q_secs
+    age_group, qualifying_seconds = matched
+    delta = pb_seconds - qualifying_seconds
 
     print(
         f"{location} ({age_group}): "
         f"{_format_time(delta, signed=True)} "
-        f"({pb_text} vs {_format_time(q_secs)})"
+        f"({pb_text} vs {_format_time(qualifying_seconds)})"
     )
 
 
