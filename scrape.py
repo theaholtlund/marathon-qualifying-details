@@ -147,26 +147,22 @@ def scrape_boston() -> Tuple[pd.DataFrame, pd.DataFrame]:
         logger.error("Failed to find Boston qualifying times table.")
         raise ValueError("Boston qualifying table missing")
 
-    header_texts = [th.get_text(strip=True).lower() for th in boston_table.find_all("th")]
+    headers = [th.get_text(strip=True).lower() for th in boston_table.find_all("th")]
 
-    # Determine order of men and women
-    try:
-        men_index = header_texts.index("men")
-        women_index = header_texts.index("women")
-        men_first = men_index < women_index
-    except ValueError:
-        men_first = True
+    age_index = next(i for i, h in enumerate(headers) if "age" in h)
+    men_index = next(i for i, h in enumerate(headers) if "men" in h)
+    women_index = next(i for i, h in enumerate(headers) if "women" in h)
 
     rows = _normalise_table_rows(boston_table)
     parsed = []
     for cols in rows:
-        if len(cols) <= max(age_idx, men_idx, women_idx):
+        if len(cols) <= max(age_index, men_index, women_index):
             continue
 
         records.append({
-            "Age Group": cols[age_idx],
-            "Women": cols[women_idx],
-            "Men": cols[men_idx],
+            "Age Group": cols[age_index],
+            "Women": cols[women_index],
+            "Men": cols[men_index],
             "Location": "Boston"
         })
 
