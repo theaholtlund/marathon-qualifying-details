@@ -28,17 +28,21 @@ def age_in_group(age: int, group: str) -> bool:
     if age_group.endswith("+"):
         return age >= int(age_group[:-1])
 
+    # Open-ended format, like "80andover"
     if "andover" in age_group:
         nums = re.findall(r"\d+", age_group)
         return bool(nums) and age >= int(nums[0])
 
+    # Closed range, like "18-39"
     nums = list(map(int, re.findall(r"\d+", age_group)))
     if len(nums) == 2:
         return nums[0] <= age <= nums[1]
 
+    # Exact age, e.g. "18"
     if len(nums) == 1:
         return age == nums[0]
-    
+
+    # Unrecognised or unparsable age-group format
     return False
 
 
@@ -120,15 +124,30 @@ def print_pb_margin(cursor, location: str, age_group: str, gender: str, pb_text:
         logger.error(f"Could not parse personal best time '{pb_text}'. Expected H:MM:SS.")
         return
 
-    column_secs = "WomenSeconds" if gender.lower() == "women" else "MenSeconds"
-    cursor.execute(
-        f"SELECT {column_secs} FROM dbo.QualifyingTimes WHERE Location = ? AND AgeGroup = ?", 
-        (location, age_group)
-    )
+    secs_col = "WomenSeconds" if gender.lower() == "women" else "MenSeconds"
 
-    row = cursor.fetchone()
-    if not row or row[0] is None:
-        logger.warning(f"No numeric qualifying standard available for {location} and age group {age_group}.")
+    cursor.execute(f"""
+        SELECT TOP 1 AgeGroup, {secs_col}
+        FROM dbo.QualifyingTimes
+        WHERE Location = ?
+          AND (
+                AgeGroup LIKE '%and over%'
+             OR AgeGroup NOT LIKE '%and over%'
+          )
+    """, location)
+
+    rows = cursor.fetchall()
+
+    matched = None
+    for age_group, q_secs in rows:
+        if q_secs is None:
+            continue
+        if age_in_group(runner_age, age_group):
+            matched = (age_group, q_secs)
+            break
+
+    if not matched:
+        logger.warning(f"No qualifying standard found for {location}, age {runner_age}.")
         return
 
     q_secs = row[0]
