@@ -123,6 +123,8 @@ def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
     df_times = pd.DataFrame(parsed, columns=["Age Group", "Women", "Men"])
     df_times["Location"] = "London"
 
+    print("London qualifying times: ", df_times)
+
     return df_racedata, df_times
 
 
@@ -250,6 +252,8 @@ def scrape_tokyo():
         }
     ])
 
+    print("Tokyo qualifying times: ", df_times)
+    
     return df_racedata, df_times
 
 
@@ -327,6 +331,8 @@ def scrape_chicago() -> Tuple[pd.DataFrame, pd.DataFrame]:
             "LinkURL": url, 
             "ScrapeDate": datetime.now(timezone.utc), 
             "PageHash": page_hash, }]) 
+        
+        print("Chicago qualifying times: ", df_times) 
         
         return df_racedata, df_times
 
