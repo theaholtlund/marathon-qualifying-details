@@ -71,6 +71,14 @@ def get_age_group(age: int, location: str) -> str:
         for lower, upper in groups:
             if lower <= age <= upper:
                 return "80+" if lower == 80 else f"{lower}-{upper}"
+
+    elif location in {"tokyo", "berlin"}:
+        lower = (age // 5) * 5
+        upper = lower + 4
+        if age >= 80:
+            return "80+"
+        return f"{lower}-{upper}"
+
     return "Unknown"
 
 
