@@ -206,7 +206,7 @@ def scrape_tokyo() -> Tuple[pd.DataFrame, pd.DataFrame]:
 
     for tr in soup.find_all("tr"):
         tds = tr.find_all("td")
-        if len(tds) != 2:
+        if len(tds) < 2:
             continue
 
         header = tds[0].get_text(strip=True).lower()
@@ -316,11 +316,14 @@ def scrape_chicago() -> Tuple[pd.DataFrame, pd.DataFrame]:
     table = soup.find("table")
     rows = _normalise_table_rows(table)
     records = []
-    for cols in rows: # Skip rows that are likely headers or incomplete
+
+    for cols in rows:
         if len(cols) < 3 or "age" in cols[0].lower():
             continue
-        records.append({ 
+
+        records.append({
             "Age Group": cols[0],
+            "Men": cols[1],
             "Women": cols[2],
             "Location": "Chicago"
         })
