@@ -53,6 +53,7 @@ python main.py
 
 - Add support for additional marathons, ideally all Abbott World Marathon Majors.
 - Add functionality for change tracking, to pull and alert on changes in the qualifying time for a given age group.
+- Add logic to account for deadlines and qualifying windows, ideally with type of alerting when a race the user is qualified for is accepting applications.
 
 ### Acknowledgements
 

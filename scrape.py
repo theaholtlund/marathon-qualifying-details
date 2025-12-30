@@ -330,24 +330,27 @@ def scrape_berlin() -> Tuple[pd.DataFrame, pd.DataFrame]:
     # Parse race times
     data = []
 
-    # Extract age range
-    for male, female in zip(male_times, female_times):
-        age_match = re.search(r"up to (\d{2}) years|over (\d{2}) years", male)
-        if age_match:
-            age_group = ""
-            if age_match.group(1):
-                age_group = f"0–{age_match.group(1)}"
-            elif age_match.group(2):
-                age_group = f"{age_match.group(2)}+"
-        else:
-            age_group = "Unknown"
+    # Parse each age group and time
+    for i in range(len(male_lines)):
+        male_line = male_lines[i]
+        female_line = female_lines[i]
 
-        # Extract male and female times
-        male_time_match = re.search(r"under (\d{1,2}:\d{2}) hours|under (\d{1,2}) hours", male)
-        female_time_match = re.search(r"under (\d{1,2}:\d{2}) hours|under (\d{1,2}) hours", female)
+        # Parse male age group
+        male_age_match = re.search(r"up to (\d+) years|(\d+) years and older", male_line)
+        if "up to 44" in male_line:
+            age_group = "0–44"
+        elif "up to 59" in male_line:
+            age_group = "45–59"
+        elif "60 years" in male_line or "older" in male_line:
+            age_group = "60+"
 
-        male_time = male_time_match.group(1) if male_time_match and male_time_match.group(1) else male_time_match.group(2) + ":00"
-        female_time = female_time_match.group(1) if female_time_match and female_time_match.group(1) else female_time_match.group(2) + ":00"
+        # Parse male times
+        male_time_match = re.search(r"under (\d{1,2}:\d{2})|under (\d{1,2})", male_line)
+        male_time = male_time_match.group(1) if male_time_match.group(1) else f"{male_time_match.group(2)}:00"
+
+        # Parse female times
+        female_time_match = re.search(r"under (\d{1,2}:\d{2})|under (\d{1,2})", female_line)
+        female_time = female_time_match.group(1) if female_time_match.group(1) else f"{female_time_match.group(2)}:00"
 
         data.append((age_group, female_time, male_time))
 
