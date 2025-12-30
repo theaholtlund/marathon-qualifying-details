@@ -303,59 +303,67 @@ def scrape_berlin() -> Tuple[pd.DataFrame, pd.DataFrame]:
     soup = BeautifulSoup(response.content, "html.parser")
     page_hash = hashlib.sha256(response.content).hexdigest()
 
-    # Find the qualifying times section
-    qualifying_section = None
-    for h in soup.find_all("strong"):
-        if "Qualifying times" in h.get_text():
-            parent = h.find_parent("div")
-            if parent:
-                qualifying_section = parent
-                break
+    logger.info("Parsing qualifying text and links for Berlin Marathon")
 
-    if qualifying_section is None:
+    # Begin scraping the qualifying times
+    ul_tags = soup.find_all("ul", class_="list-normal")
+
+    # Find the male and female times
+    target_ul = None
+    for ul in ul_tags:
+        text = ul.get_text(separator="\n").strip()
+        if "Male" in text and "Female" in text:
+            target_ul = ul
+            break
+
+    # Extract lines containing qualifying times
+    li_tags = target_ul.find_all("li")
+    male_lines, female_lines = [], []
+    for br_or_text in li_tags[0].children:
+        if hasattr(br_or_text, "get_text"):
+            text = br_or_text.get_text(strip=True)
+        elif isinstance(br_or_text, str):
+            text = br_or_text.strip()
+        else:
+            continue
+        if re.search(r"under:?\s*\d+", text, re.IGNORECASE):
+            male_lines.append(text)
+
+    for br_or_text in li_tags[1].children:
+        if hasattr(br_or_text, "get_text"):
+            text = br_or_text.get_text(strip=True)
+        elif isinstance(br_or_text, str):
+            text = br_or_text.strip()
+        else:
+            continue
+        if re.search(r"under:?\s*\d+", text, re.IGNORECASE):
+            female_lines.append(text)
+
+    # Parse times manually
+    def parse_line_to_time(line):
+        match = re.search(r"under:?\s*(\d+):(\d{2})", line)
+        if match:
+            hours, minutes = int(match.group(1)), int(match.group(2))
+        else:
+            match = re.search(r"under:?\s*(\d+)\s*hours", line, re.IGNORECASE)
+            if match:
+                hours, minutes = int(match.group(1)), 0
+            else:
+                raise ValueError(f"Could not parse time from: {line}")
+        return f"{hours:02d}:{minutes:02d}:00"
+
+    male_times = [parse_line_to_time(line) for line in male_lines]
+    female_times = [parse_line_to_time(line) for line in female_lines]
+
+    if len(male_times) != 3 or len(female_times) != 3:
         logger.error("Failed to find age group table for Berlin Marathon")
         raise ValueError("Berlin age group table missing")
 
-    # Extract age groups and times
-    male_times = []
-    female_times = []
-
-    for li in qualifying_section.find_all("li"):
-        text = li.get_text(" ", strip=True)
-        if text.lower().startswith("male") or text.lower().startswith("runners"):
-            male_times.append(text)
-        elif text.lower().startswith("female"):
-            female_times.append(text)
-
-    # Parse race times
-    data = []
-
-    # Parse each age group and time
-    for i in range(len(male_lines)):
-        male_line = male_lines[i]
-        female_line = female_lines[i]
-
-        # Parse male age group
-        male_age_match = re.search(r"up to (\d+) years|(\d+) years and older", male_line)
-        if "up to 44" in male_line:
-            age_group = "0–44"
-        elif "up to 59" in male_line:
-            age_group = "45–59"
-        elif "60 years" in male_line or "older" in male_line:
-            age_group = "60+"
-
-        # Parse male times
-        male_time_match = re.search(r"under (\d{1,2}:\d{2})|under (\d{1,2})", male_line)
-        male_time = male_time_match.group(1) if male_time_match.group(1) else f"{male_time_match.group(2)}:00"
-
-        # Parse female times
-        female_time_match = re.search(r"under (\d{1,2}:\d{2})|under (\d{1,2})", female_line)
-        female_time = female_time_match.group(1) if female_time_match.group(1) else f"{female_time_match.group(2)}:00"
-
-        data.append((age_group, female_time, male_time))
-
-    df_times = pd.DataFrame(data, columns=["Age Group", "Women", "Men"])
-    df_times["Location"] = "Berlin"
+    age_groups = ["0–44", "45–59", "60+"]
+    df_times = pd.DataFrame([
+        {"Age Group": age_groups[i], "Women": female_times[i], "Men": male_times[i], "Location": "Berlin"}
+        for i in range(3)
+    ])
 
     # Prepare race metadata
     df_racedata = pd.DataFrame([{
