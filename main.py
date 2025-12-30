@@ -185,8 +185,7 @@ def run_pipeline(runner_age: int, runner_gender: str, override_location: Optiona
     conn.commit()
 
     logger.info("Scraping marathon data")
-    london_data, london_times = scrape_london()
-    boston_data, boston_times = scrape_boston()
+    datasets = [scrape_london(), scrape_boston(), scrape_tokyo(), scrape_berlin(), scrape_chicago(), scrape_new_york()]
 
     # Combine race data and qualifying times
     all_data = pd.concat([london_data, boston_data], ignore_index=True)
