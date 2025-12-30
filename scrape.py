@@ -135,15 +135,17 @@ def scrape_boston() -> Tuple[pd.DataFrame, pd.DataFrame]:
     soup = BeautifulSoup(response.content, "html.parser")
     page_hash = hashlib.sha256(response.content).hexdigest()
 
-    logger.info("Parsing Boston Marathon qualifying table")
+    logger.info("Parsing qualifying text and links for Boston Marathon")
 
-    # Identify the table with age group, men and women headers
-    boston_table = None
-    for tbl in soup.find_all("table"):
-        headers = [th.get_text(strip=True).lower() for th in tbl.find_all("th")]
-        if any("age" in h for h in headers) and ("men" in headers and "women" in headers):
-            boston_table = tbl
-            break
+    boston_table = next(
+        (
+            tbl for tbl in soup.find_all("table")
+            if any("age" in th.get_text(strip=True).lower() for th in tbl.find_all("th"))
+            and any("men" in th.get_text(strip=True).lower() for th in tbl.find_all("th"))
+            and any("women" in th.get_text(strip=True).lower() for th in tbl.find_all("th"))
+        ),
+        None
+    )
 
     if boston_table is None:
         logger.error("Failed to find Boston qualifying times table.")
@@ -156,7 +158,8 @@ def scrape_boston() -> Tuple[pd.DataFrame, pd.DataFrame]:
     women_index = next(i for i, h in enumerate(headers) if "women" in h)
 
     rows = _normalise_table_rows(boston_table)
-    parsed = []
+
+    records = []
     for cols in rows:
         if len(cols) <= max(age_index, men_index, women_index):
             continue
