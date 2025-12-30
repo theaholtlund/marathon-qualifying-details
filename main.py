@@ -170,10 +170,8 @@ def print_pb_margin(cursor, location: str, runner_age: int, gender: str, pb_text
 
 def display_pb_margin_for_all_locations(cursor, runner_age: int, gender: str, pb_text: str) -> None:
     cursor.execute("SELECT DISTINCT Location FROM dbo.QualifyingTimes")
-    locations = [row[0] for row in cursor.fetchall()]
-    for loc in locations:
-        age_group = get_age_group(runner_age, loc)
-        print_pb_margin(cursor, loc, age_group, gender, pb_text)
+    for (loc,) in cursor.fetchall():
+        print_pb_margin(cursor, loc, runner_age, gender, pb_text)
 
 
 def run_pipeline(runner_age: int, runner_gender: str, override_location: Optional[str] = None, pb: Optional[str] = None) -> None:
