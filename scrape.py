@@ -93,7 +93,7 @@ def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
         "QualifyingText": qualifying_text,
         "LinkText": link_text,
         "LinkURL": link_url,
-        "ScrapeDate": datetime.now(timezone.utc),
+        "ScrapeDate": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "PageHash": page_hash,
     }])
 
@@ -183,7 +183,7 @@ def scrape_boston() -> Tuple[pd.DataFrame, pd.DataFrame]:
         "QualifyingText": qual_window,
         "LinkText": race_info,
         "LinkURL": url,
-        "ScrapeDate": datetime.now(timezone.utc),
+        "ScrapeDate": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "PageHash": page_hash
     }])
 
@@ -250,7 +250,7 @@ def scrape_tokyo() -> Tuple[pd.DataFrame, pd.DataFrame]:
             "QualifyingText": "Elite qualifying standards (Run as One)",
             "LinkText": "Tokyo Marathon – Run as One",
             "LinkURL": url,
-            "ScrapeDate": datetime.now(timezone.utc),
+            "ScrapeDate": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "PageHash": page_hash,
         }
     ])
@@ -295,7 +295,7 @@ def scrape_new_york():
         "QualifyingText": "Time qualifiers",
         "LinkText": "NYRR",
         "LinkURL": url,
-        "ScrapeDate": datetime.now(timezone.utc),
+        "ScrapeDate": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "PageHash": page_hash,
     }])
 
@@ -336,7 +336,7 @@ def scrape_chicago() -> Tuple[pd.DataFrame, pd.DataFrame]:
         "QualifyingText": "Time qualifier standards",
         "LinkText": "Chicago Marathon",
         "LinkURL": url,
-        "ScrapeDate": datetime.now(timezone.utc),
+        "ScrapeDate": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "PageHash": page_hash,
     }])
 
@@ -365,7 +365,7 @@ def scrape_berlin() -> Tuple[pd.DataFrame, pd.DataFrame]:
         "QualifyingText": "Qualifying standards",
         "LinkText": "Berlin Marathon",
         "LinkURL": url,
-        "ScrapeDate": datetime.now(timezone.utc),
+        "ScrapeDate": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "PageHash": page_hash,
     }])
 
