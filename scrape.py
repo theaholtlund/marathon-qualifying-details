@@ -231,6 +231,10 @@ def scrape_tokyo():
 
                 break
 
+    if not men_time or not women_time:
+        logger.error("Failed to extract Tokyo qualifying times")
+        raise ValueError("Tokyo qualifying times missing")
+
     df_times = pd.DataFrame([
         {
             "Age Group": "18+",
