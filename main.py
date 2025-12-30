@@ -207,11 +207,11 @@ def run_pipeline(runner_age: int, runner_gender: str, override_location: Optiona
 
     location = override_location or MARATHON_LOCATION
     age_group = get_age_group(runner_age, location)
-    display_runner_qualifying_times(cursor, age_group, runner_gender)
-    print(f"\nQualifying time for {location}, age group: {age_group}:")
+
+    display_runner_qualifying_times(cursor, age_group, runner_gender, location)
 
     if pb:
-        print("\nMargin between personal best time and qualifying time for all locations:")
+        print("\nPersonal best margin vs qualifying standard:")
         display_pb_margin_for_all_locations(cursor, runner_age, runner_gender, pb)
 
     cursor.close()
