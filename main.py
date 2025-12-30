@@ -197,16 +197,6 @@ def run_pipeline(runner_age: int, runner_gender: str, override_location: Optiona
     insert_qualifying_times(cursor, all_times)
     conn.commit()
 
-    print("\nSample data from race data table:")
-    cursor.execute("SELECT TOP 5 * FROM dbo.RaceData;")
-    for row in cursor.fetchall():
-        print(row)
-
-    print("\nSample data from qualifying times table:")
-    cursor.execute("SELECT TOP 5 * FROM dbo.QualifyingTimes;")
-    for row in cursor.fetchall():
-        print(row)
-
     location = override_location or MARATHON_LOCATION
     age_group = get_age_group(runner_age, location)
     display_runner_qualifying_times(cursor, age_group, runner_gender)
