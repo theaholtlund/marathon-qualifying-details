@@ -160,7 +160,7 @@ def scrape_boston() -> Tuple[pd.DataFrame, pd.DataFrame]:
 
     df_times = pd.DataFrame(records)
 
-    # Race metadata
+    # Prepare race metadata
     df_racedata = pd.DataFrame([{
         "RaceYear": datetime.now().year + 1,
         "Location": "Boston",
@@ -210,6 +210,8 @@ def scrape_tokyo() -> Tuple[pd.DataFrame, pd.DataFrame]:
         raise ValueError("Tokyo age group table missing")
 
     df_times = pd.DataFrame([{"Age Group": "18+", "Women": women_time, "Men": men_time, "Location": "Tokyo"}])
+
+    # Prepare race metadata
     df_racedata = pd.DataFrame([{
         "RaceYear": datetime.now().year + 1,
         "Location": "Tokyo",
@@ -246,6 +248,7 @@ def scrape_new_york() -> Tuple[pd.DataFrame, pd.DataFrame]:
 
     df_times = pd.DataFrame(records)
 
+    # Prepare race metadata
     df_racedata = pd.DataFrame([{
         "RaceYear": datetime.now().year + 1,
         "Location": "New York",
@@ -278,6 +281,7 @@ def scrape_chicago() -> Tuple[pd.DataFrame, pd.DataFrame]:
 
     df_times = pd.DataFrame(records)
 
+    # Prepare race metadata
     df_racedata = pd.DataFrame([{
         "RaceYear": datetime.now().year + 1,
         "Location": "Chicago",
@@ -307,6 +311,7 @@ def scrape_berlin() -> Tuple[pd.DataFrame, pd.DataFrame]:
     df_times = pd.DataFrame(data, columns=["Age Group", "Women", "Men"])
     df_times["Location"] = "Berlin"
 
+    # Prepare race metadata
     df_racedata = pd.DataFrame([{
         "RaceYear": datetime.now().year + 1,
         "Location": "Berlin",
