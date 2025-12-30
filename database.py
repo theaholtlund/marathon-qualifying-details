@@ -146,10 +146,12 @@ def insert_qualifying_times(cursor, df: pd.DataFrame) -> None:
         exists = cursor.fetchone()[0]
 
         if exists:
-            cursor.execute(
-                "UPDATE dbo.QualifyingTimes SET Women=?, Men=?, WomenSeconds=?, MenSeconds=? WHERE AgeGroup=? AND Location=?",
-                row.get("Women"), row.get("Men"), women_sec, men_sec, age_group, location
-            )
+            cursor.execute("""
+                UPDATE dbo.QualifyingTimes
+                SET Women=?, Men=?, WomenSeconds=?, MenSeconds=?
+                WHERE AgeGroup=? AND Location=?
+
+            """, women_text, men_text, women_sec, men_sec, age_group, location)
         else:
             cursor.execute("""
                 INSERT INTO dbo.QualifyingTimes

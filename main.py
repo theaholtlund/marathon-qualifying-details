@@ -25,6 +25,7 @@ def _format_time(seconds: int, signed: bool = False) -> str:
 def age_in_group(age: int, group: str) -> bool:
     age_group = group.lower().replace("–", "-").replace(" ", "")
 
+    # Open-ended lower bound, like "18+"
     if age_group.endswith("+"):
         return age >= int(age_group[:-1])
 
@@ -231,7 +232,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     """Parse CLI arguments and run the marathon qualifying time pipeline."""
     args = parse_args()
-    run_pipeline(args.age, args.gender, override_location=args.location, pb=args.pb)
+    run_pipeline(args.age, args.gender, args.location, args.pb)
 
 
 if __name__ == "__main__":
