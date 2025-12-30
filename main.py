@@ -187,9 +187,18 @@ def run_pipeline(runner_age: int, runner_gender: str, override_location: Optiona
     logger.info("Scraping marathon data")
     datasets = [scrape_london(), scrape_boston(), scrape_tokyo(), scrape_berlin(), scrape_chicago(), scrape_new_york()]
 
-    # Combine race data and qualifying times
-    all_data = pd.concat([london_data, boston_data], ignore_index=True)
-    all_times = pd.concat([london_times, boston_times], ignore_index=True)
+    race_frames = []
+    time_frames = []
+    for race_df, time_df in datasets:
+        race_frames.append(race_df)
+        time_frames.append(time_df)
+
+    all_data = pd.concat(race_frames, ignore_index=True)
+    cleaned_frames = [df.dropna(axis=1, how='all') for df in time_frames]
+
+    cleaned_frames = [df for df in cleaned_frames if not df.empty]
+
+    all_times = pd.concat(cleaned_frames, ignore_index=True)
 
     logger.info("Inserting data into database")
     insert_racedata(cursor, all_data)
