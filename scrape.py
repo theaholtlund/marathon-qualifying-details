@@ -143,7 +143,6 @@ def scrape_boston() -> Tuple[pd.DataFrame, pd.DataFrame]:
     if boston_table is None:
         logger.error("Failed to find age group table for Boston Marathon")
         raise ValueError("Boston age group table missing")
-    
 
     # Identify column indices
     headers = [th.get_text(strip=True).lower() for th in boston_table.find_all("th")]
@@ -301,12 +300,56 @@ def scrape_berlin() -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Scrape website data regarding race information and qualifying times for Berlin Marathon."""
     url = "https://www.bmw-berlin-marathon.com/en/registration/lottery"
     response = _get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
     page_hash = hashlib.sha256(response.content).hexdigest()
 
-    # Static qualifying data
-    data = [("18–44", "3:10:00", "2:45:00"),
-            ("45–59", "3:30:00", "2:55:00"),
-            ("60+", "4:20:00", "3:25:00")]
+    # Find the qualifying times section
+    qualifying_section = None
+    for h in soup.find_all("strong"):
+        if "Qualifying times" in h.get_text():
+            parent = h.find_parent("div")
+            if parent:
+                qualifying_section = parent
+                break
+
+    if qualifying_section is None:
+        logger.error("Failed to find age group table for Berlin Marathon")
+        raise ValueError("Berlin age group table missing")
+
+    # Extract age groups and times
+    male_times = []
+    female_times = []
+
+    for li in qualifying_section.find_all("li"):
+        text = li.get_text(" ", strip=True)
+        if text.lower().startswith("male") or text.lower().startswith("runners"):
+            male_times.append(text)
+        elif text.lower().startswith("female"):
+            female_times.append(text)
+
+    # Parse race times
+    data = []
+
+    # Extract age range
+    for male, female in zip(male_times, female_times):
+        age_match = re.search(r"up to (\d{2}) years|over (\d{2}) years", male)
+        if age_match:
+            age_group = ""
+            if age_match.group(1):
+                age_group = f"0–{age_match.group(1)}"
+            elif age_match.group(2):
+                age_group = f"{age_match.group(2)}+"
+        else:
+            age_group = "Unknown"
+
+        # Extract male and female times
+        male_time_match = re.search(r"under (\d{1,2}:\d{2}) hours|under (\d{1,2}) hours", male)
+        female_time_match = re.search(r"under (\d{1,2}:\d{2}) hours|under (\d{1,2}) hours", female)
+
+        male_time = male_time_match.group(1) if male_time_match and male_time_match.group(1) else male_time_match.group(2) + ":00"
+        female_time = female_time_match.group(1) if female_time_match and female_time_match.group(1) else female_time_match.group(2) + ":00"
+
+        data.append((age_group, female_time, male_time))
 
     df_times = pd.DataFrame(data, columns=["Age Group", "Women", "Men"])
     df_times["Location"] = "Berlin"
@@ -315,7 +358,7 @@ def scrape_berlin() -> Tuple[pd.DataFrame, pd.DataFrame]:
     df_racedata = pd.DataFrame([{
         "RaceYear": datetime.now().year + 1,
         "Location": "Berlin",
-        "QualifyingText": "Qualifying standards",
+        "QualifyingText": "Official Berlin Marathon qualifying standards",
         "LinkText": "Berlin Marathon",
         "LinkURL": url,
         "ScrapeDate": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
