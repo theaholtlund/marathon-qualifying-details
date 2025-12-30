@@ -1,4 +1,5 @@
 # Import required libraries
+import re
 import time
 import hashlib
 import requests
@@ -129,7 +130,7 @@ def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
 
 
 def scrape_boston() -> Tuple[pd.DataFrame, pd.DataFrame]:
-    """Scrape the Boston Marathon qualifying info and times."""
+    """Scrape website data regarding race information and qualifying times for Boston Marathon."""
     url = "https://www.baa.org/races/boston-marathon/qualify"
     response = _get(url)
     soup = BeautifulSoup(response.content, "html.parser")
@@ -212,28 +213,22 @@ def scrape_tokyo() -> Tuple[pd.DataFrame, pd.DataFrame]:
         if "qualifying times" not in header:
             continue
 
-        body_lines = tds[1].get_text("\n", strip=True).splitlines()
+        text = tds[1].get_text(" ", strip=True)  # join all content
 
-        for line in body_lines:
-            l = line.lower()
-            line_clean = (
-                l.replace("under", "")
-                 .replace("hrs", ":")
-                 .replace("hr", ":")
-                 .replace("min", ":")
-                 .replace("sec", "")
-            )
+        men_match = re.search(
+            r"men.*?(\d{1,2})hrs (\d{1,2})min (\d{2})sec", text, re.IGNORECASE
+        )
+        women_match = re.search(
+            r"women.*?(\d{1,2})hrs (\d{1,2})min (\d{2})sec", text, re.IGNORECASE
+        )
 
-            parts = [p.strip() for p in line_clean.split(":") if p.strip().isdigit()]
-            if len(parts) == 3:
-                time_str = f"{int(parts[0]):02d}:{int(parts[1]):02d}:{int(parts[2]):02d}"
+        if men_match:
+            men_time = f"{int(men_match[1]):02d}:{int(men_match[2]):02d}:{int(men_match[3]):02d}"
+        if women_match:
+            women_time = f"{int(women_match[1]):02d}:{int(women_match[2]):02d}:{int(women_match[3]):02d}"
 
-                if "men" in l and not men_time:
-                    men_time = time_str
-                elif "women" in l and not women_time:
-                    women_time = time_str
-
-                break
+        if men_time and women_time:
+            break
 
     if not men_time or not women_time:
         logger.error("Failed to extract Tokyo qualifying times")
@@ -261,7 +256,7 @@ def scrape_tokyo() -> Tuple[pd.DataFrame, pd.DataFrame]:
     ])
 
     print("Tokyo qualifying times: ", df_times)
-    
+
     return df_racedata, df_times
 
 
@@ -345,6 +340,7 @@ def scrape_chicago() -> Tuple[pd.DataFrame, pd.DataFrame]:
     print("Chicago qualifying times: ", df_times)
 
     return df_racedata, df_times
+
 
 def scrape_berlin() -> Tuple[pd.DataFrame, pd.DataFrame]:
     url = "https://www.bmw-berlin-marathon.com/en/registration/lottery"
