@@ -23,6 +23,7 @@ def _format_time(seconds: int, signed: bool = False) -> str:
 
 
 def age_in_group(age: int, group: str) -> bool:
+    """Return standardised age value if the given age falls within the age-group string."""
     age_group = group.lower().replace("–", "-").replace(" ", "")
 
     # Open-ended lower bound, like "18+"
