@@ -105,7 +105,7 @@ def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
 
     if london_table is None:
         logger.error("Failed to find age group table for London Marathon")
-        raise ValueError("London age group table missing")
+        raise ValueError("Could not get data from age group table for London Marathon")
 
     # Determine order for men and women columns
     header_texts = [th.get_text(strip=True).lower() for th in london_table.find_all("th")]
@@ -142,7 +142,7 @@ def scrape_boston() -> Tuple[pd.DataFrame, pd.DataFrame]:
 
     if boston_table is None:
         logger.error("Failed to find age group table for Boston Marathon")
-        raise ValueError("Boston age group table missing")
+        raise ValueError("Could not get data from age group table for Boston Marathon")
 
     # Identify column indices
     headers = [th.get_text(strip=True).lower() for th in boston_table.find_all("th")]
@@ -206,7 +206,7 @@ def scrape_tokyo() -> Tuple[pd.DataFrame, pd.DataFrame]:
 
     if not men_time or not women_time:
         logger.error("Failed to find age group table for Tokyo Marathon")
-        raise ValueError("Tokyo age group table missing")
+        raise ValueError("Could not get data from age group table for Tokyo Marathon")
 
     df_times = pd.DataFrame([{"Age Group": "18+", "Women": women_time, "Men": men_time, "Location": "Tokyo"}])
 
@@ -357,7 +357,7 @@ def scrape_berlin() -> Tuple[pd.DataFrame, pd.DataFrame]:
 
     if len(male_times) != 3 or len(female_times) != 3:
         logger.error("Failed to find age group table for Berlin Marathon")
-        raise ValueError("Berlin age group table missing")
+        raise ValueError("Could not get data from age group table for Berlin Marathon")
 
     age_groups = ["0–44", "45–59", "60+"]
     df_times = pd.DataFrame([
