@@ -28,7 +28,10 @@ def age_in_group(age: int, group: str) -> bool:
 
     # Open-ended lower bound, like "18+"
     if age_group.endswith("+"):
-        return age >= int(age_group[:-1])
+        try:
+            return age >= int(age_group[:-1])
+        except ValueError:
+            return False
 
     # Open-ended format, like "80andover"
     if "andover" in age_group:
