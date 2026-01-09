@@ -12,7 +12,8 @@ def normalise_time(text: Optional[str]) -> tuple[Optional[str], Optional[int]]:
         return None, None
 
     t = (
-        text.lower()
+        str(text)
+        .lower()
         .replace("sub", "")
         .replace("under", "")
         .replace("hrs", ":")
