@@ -6,8 +6,8 @@ from typing import Optional
 from config import logger
 
 
-def normalise_time(text: Optional[str]) -> tuple[Optional[str], Optional[int]]:
-    """Normalise marathon qualifying times."""
+def normalise_time(text: Optional[str]) -> Tuple[Optional[str], Optional[int]]:
+    """Normalise marathon qualifying times to H:MM:SS and total seconds."""
     if not text:
         return None, None
 
