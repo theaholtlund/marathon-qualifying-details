@@ -11,6 +11,7 @@ def normalise_time(text: Optional[str]) -> Tuple[Optional[str], Optional[int]]:
     if not text:
         return None, None
 
+    # Convert time phrases into colon-separated format for consistent parsing
     t = (
         str(text)
         .lower()
@@ -27,6 +28,7 @@ def normalise_time(text: Optional[str]) -> Tuple[Optional[str], Optional[int]]:
     if not parts:
         return None, None
 
+    # Keep only numeric components to avoid issues with stray text or symbols
     parts = [int(p) for p in parts]
 
     if len(parts) == 3:
