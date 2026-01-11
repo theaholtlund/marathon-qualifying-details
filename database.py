@@ -1,6 +1,6 @@
 # Import required libraries
 import pandas as pd
-from typing import Optional
+from typing import Optional, Tuple
 
 # Import shared configuration and functions from other scripts
 from config import logger
