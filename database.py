@@ -50,7 +50,7 @@ def normalise_age_group(text: str) -> str:
     """Normalise age group text by standardising dashes, spacing and trimming whitespace."""
     if not text:
         return text
-    return (text.replace("–", "-").replace("—", "-").replace("  ", " ").strip())
+    return (str(text).replace("–", "-").replace("—", "-").replace("  ", " ").strip())
 
 
 def create_tables(cursor) -> None:
