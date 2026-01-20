@@ -54,7 +54,7 @@ def normalise_age_group(text: Optional[str]) -> Optional[str]:
 
 
 def create_tables(cursor) -> None:
-    """Create tables if they do not already exist, and perform lightweight schema migrations."""
+    """Create tables if they do not already exist and perform lightweight schema migrations."""
     logger.info("Ensuring race data and qualifying times tables exist")
 
     # Create the race data table
@@ -133,7 +133,7 @@ def insert_racedata(cursor, df: pd.DataFrame) -> None:
 
 
 def insert_qualifying_times(cursor, df: pd.DataFrame) -> None:
-    """Insert or update qualifying times into the qualifying times table, including numeric seconds."""
+    """Insert or update qualifying times into the qualifying times table, including qualifying time in seconds."""
     for _, row in df.iterrows():
         age_group = normalise_age_group(row.get("Age Group"))
         location = row.get("Location")
