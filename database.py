@@ -46,8 +46,8 @@ def normalise_time(text: Optional[str]) -> Tuple[Optional[str], Optional[int]]:
     return f"{h}:{m:02d}:{s:02d}", seconds
 
 
-def normalise_age_group(text: str) -> str:
-    """Normalise age group text by standardising dashes, spacing and trimming whitespace."""
+def normalise_age_group(text: Optional[str]) -> Optional[str]:
+    """Normalise age group text by standardising dashes and whitespace."""
     if not text:
         return text
     return (str(text).replace("–", "-").replace("—", "-").replace("  ", " ").strip())
