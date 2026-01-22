@@ -121,7 +121,7 @@ def insert_racedata(cursor, df: pd.DataFrame) -> None:
             cursor.execute(
                 "UPDATE dbo.RaceData SET QualifyingText=?, LinkText=?, LinkURL=?, ScrapeDate=?, PageHash=? "
                 "WHERE RaceYear=? AND Location=?",
-                row.QualifyingText, row.LinkText, row.LinkURL, row.ScrapeDate, row.get("PageHash", None),
+                row.QualifyingText, row.LinkText, row.LinkURL, row.ScrapeDate, row.get("PageHash"),
                 row.RaceYear, row.Location
             )
         else:
