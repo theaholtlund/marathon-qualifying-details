@@ -24,7 +24,7 @@ def normalise_time(text: Optional[str]) -> Tuple[Optional[str], Optional[int]]:
         .strip()
     )
 
-    parts = [p for p in t.split(":") if p.isdigit()]
+    parts = [p for p in t.split(":") if p.strip().isdigit()]
     if not parts:
         return None, None
 
