@@ -80,7 +80,7 @@ def scrape_london() -> Tuple[pd.DataFrame, pd.DataFrame]:
             qualifying_text = el.get_text(strip=True)
             break
 
-    # Fint link for AIMS website
+    # Find link for AIMS website
     link_elem = soup.find("a", href=lambda href: href and ("aims-worldrunning" in href or "worldrunning" in href))
     link_text, link_url = (link_elem.get_text(strip=True), link_elem['href']) if link_elem else ("Not found", url)
 
