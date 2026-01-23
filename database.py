@@ -34,8 +34,8 @@ def normalise_time(text: Optional[str]) -> Tuple[Optional[str], Optional[int]]:
     if len(parts) == 3:
         h, m, s = parts
     elif len(parts) == 2:
-        h, m = parts
-        s = 0
+        h, m = 0, parts[0]
+        s = parts[1]
     elif len(parts) == 1:
         h, m, s = parts[0], 0, 0
     else:
