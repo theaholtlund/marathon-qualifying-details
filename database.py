@@ -127,7 +127,7 @@ def insert_racedata(cursor, df: pd.DataFrame) -> None:
             cursor.execute(
                 "INSERT INTO dbo.RaceData (RaceYear,Location,QualifyingText,LinkText,LinkURL,ScrapeDate,PageHash) "
                 "VALUES (?,?,?,?,?,?,?)",
-                row.RaceYear, row.Location, row.QualifyingText, row.LinkText, row.LinkURL, row.ScrapeDate, row.get("PageHash", None)
+                row.RaceYear, row.Location, row.QualifyingText, row.LinkText, row.LinkURL, row.ScrapeDate, row.get("PageHash")
             )
 
 
